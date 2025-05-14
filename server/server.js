@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 
 
 
-app.use("/api/rmaRouter", rmaRouter);
+app.use("/api/rma", rmaRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');

@@ -1,15 +1,14 @@
 import { useSidebar } from './../../context/SidebarContext';
-import { ChevronLeft, ChevronRight, Home, Settings, Users, FileText, BarChart2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Settings, Users, FileText, BarChart2,PcCase,ArchiveRestore,Ticket } from 'lucide-react';
 import { cn } from './../../lib/utils';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 
 const sidebarItems = [
   { icon: Home, title: 'Dashboard', path: '/' },
-  { icon: Users, title: 'Users', path: '/users' },
-  { icon: FileText, title: 'Documents', path: '/documents' },
-  { icon: BarChart2, title: 'Analytics', path: '/analytics' },
-  { icon: Settings, title: 'Settings', path: '/settings' },
+  { icon: Ticket, title: 'Tickets', path: '/tickets' },
+  { icon: ArchiveRestore, title: 'RMA', path: '/rma' },
+  { icon: PcCase, title: 'Devices', path: '/devices' },
 ];
 
 export function Sidebar() {
@@ -23,7 +22,8 @@ export function Sidebar() {
         collapsed ? "w-16" : "w-64"
       )}
     >
-      <div className="flex items-center justify-end p-4">
+      <div className="flex items-center justify-between p-4 ">
+        <h1 className='text-2xl font-bold'>IT Tools</h1>
         <Button 
           variant="ghost" 
           size="icon" 

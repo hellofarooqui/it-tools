@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout } from './layouts/RootLayout';
+import Dashboard from './pages/Dashboard';
+import Tickets from './pages/Tickets';
+import RMA from './pages/RMA';
+import Devices from './pages/Devices';
 
 // Example page components
-const Dashboard = () => <div className="text-2xl font-bold">Dashboard Page</div>;
-const Users = () => <div className="text-2xl font-bold">Users Page</div>;
-const Documents = () => <div className="text-2xl font-bold">Documents Page</div>;
-const Analytics = () => <div className="text-2xl font-bold">Analytics Page</div>;
-const Settings = () => <div className="text-2xl font-bold">Settings Page</div>;
+
 
 function App() {
   return (
@@ -14,10 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="users" element={<Users />} />
-          <Route path="documents" element={<Documents />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="tickets" element={<Tickets />} />
+          <Route path="rma" element={<RMA />} />
+          <Route path="devices" element={<Devices />} />
         </Route>
       </Routes>
     </BrowserRouter>
