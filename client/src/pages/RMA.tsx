@@ -4,14 +4,16 @@ import { Button } from '../components/ui/button'
 
 import {rmaData} from '../data/dummydata.js'
 import RMACard from '../components/custom/RMACard.js'
+import { useNavigate } from 'react-router-dom'
 
 
 const RMA = () => {
+  const navigate = useNavigate()
   return (
     <div>
         <div className="flex justify-between items-center">
             <h2 className='font-bold text-2xl'>RMA</h2>
-            <Button>Create New</Button>
+            <Button onClick={()=>navigate("new")}>Create New</Button>
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>

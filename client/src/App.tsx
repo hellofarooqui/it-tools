@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Tickets from './pages/Tickets';
 import RMA from './pages/RMA';
 import Devices from './pages/Devices';
+import NewRMA from './pages/NewRMA';
 
 // Example page components
 
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="tickets" element={<Tickets />} />
           <Route path="rma" element={<RMA />} />
+          <Route path="rma/new" element={<NewRMA />} />
           <Route path="devices" element={<Devices />} />
         </Route>
       </Routes>
