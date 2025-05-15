@@ -36,10 +36,10 @@ export const getAllRMATickets = async (req, res) => {
   }
 }
 
-export const getRMATicketById = async (req, res) => {
+export const getRMAbyNumber = async (req, res) => {
   try {
-    const { id } = req.params;
-    const ticket = await RMATicket.findById(id);
+    const { rmanumber } = req.params;
+    const ticket = await RMATicket.findOne({ rmaNumber: rmanumber });
 
     if (!ticket) {
       return res.status(404).json({ error: "RMA ticket not found" });
@@ -54,13 +54,13 @@ export const getRMATicketById = async (req, res) => {
 
 export const updateRMATicket = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { rmanumber } = req.params;
 
-    if (!id) {
+    if (!rmanumber) {
       return res.status(400).json({ error: "Ticket not found" });
     }
 
-    const updatedTicket = await RMATicket.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedTicket = await RMATicket.findOneAndUpdate({rmaNumber:rmanumber}, req.body, { new: true });
 
     if (!updatedTicket) {
       return res.status(404).json({ error: "RMA ticket not found" });
@@ -88,3 +88,19 @@ export const deleteRMATicket = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+// const getRMATicketById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const ticket = await RMATicket.findById(id);
+
+//     if (!ticket) {
+//       return res.status(404).json({ error: "RMA ticket not found" });
+//     }
+
+//     res.status(200).json(ticket);
+//   } catch (error) {
+//     console.error("Error fetching RMA ticket:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// }

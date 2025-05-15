@@ -7,8 +7,9 @@ const apiUrl = `${serverUrl}/api/rma`
 const useRMA = () => {
 
     const createRMA = async (data) => {
+        console.log(data)
         try {
-            const response = await axios.post(apiUrl, data)
+            const response = await axios.post(`${apiUrl}/new`, data)
             if(response.status !== 201) {
                 throw new Error('Failed to create RMA')
             }
@@ -21,10 +22,11 @@ const useRMA = () => {
 
     const getAllRMAs = async () => {
         try {
-            const response = await axios.get('/api/rma')
+            const response = await axios.get(apiUrl)
             if(response.status !== 200) {
                 throw new Error('Failed to fetch RMAs')
             }
+            console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error fetching RMAs:', error)
@@ -32,9 +34,9 @@ const useRMA = () => {
         }
     }
 
-    const getRMADetails = async (rmaId) => {
+    const getRMADetails = async (rmanumber) => {
         try {
-            const response = await axios.get(`/api/rma/${rmaId}`)
+            const response = await axios.get(`${apiUrl}/${rmanumber}`)
             if(response.status !== 200) {
                 throw new Error('Failed to fetch RMA details')
             }   
@@ -44,9 +46,10 @@ const useRMA = () => {
             throw error
         }
     }
-    const updateRMA = async (rmaId, data) => {
+    const updateRMA = async (rmanumber, data) => {
+        console.log(data)
         try {
-            const response = await axios.put(`/api/rma/${rmaId}`, data)
+            const response = await axios.put(`${apiUrl}/update/${rmanumber}`, data)
             if(response.status !== 200) {
                 throw new Error('Failed to update RMA')
             }

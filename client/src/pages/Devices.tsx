@@ -1,5 +1,5 @@
 import React from 'react'
-import {deviceData} from './../data/dummydata.js'
+import {deviceData} from '../data/dummydata.js'
 import DeviceCard from '../components/custom/DeviceCard.js'
 import {
   Card,

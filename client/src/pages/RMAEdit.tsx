@@ -1,61 +1,90 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import useRMA from '../hooks/useRMA'
 import { Button } from '../components/ui/button'
-import useRMA from './../hooks/useRMA'
-import { useNavigate } from 'react-router-dom';
-import { rmaData } from './../data/dummydata'
 
-// rmaNumber
-// deviceName
-// deviceSerialNumber
-// status
-// reason
+const RMAEdit = () => {
+    const params = useParams()
+    const navigate = useNavigate()
+    const rmaNumber = params.rmanumber
+    
 
-interface RMA {
-  rmaNumber: string;
-  deviceName: string;
-  deviceSerialNumber: string;
-  status: string;
-  reason: string;
-}
+    const { getRMADetails,updateRMA } = useRMA()
 
-const defaultRMA = {
-  rmaNumber: "",
-  deviceName: "",
-  deviceSerialNumber: "",
-  status: "New",
-  reason: ""
-}
+    const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState("")
 
-const NewRMA = () => {
+    const [rma, setRMA] = React.useState({
+        rmaNumber: "",
+        deviceName: "",
+        deviceSerialNumber: "",
+        status: "New",
+        reason: ""
+    })
 
-  const [rma, setRMA] = React.useState<RMA>(defaultRMA)
-  const { createRMA } = useRMA()
-  const navigate = useNavigate()
+    useEffect(() => {
+        const fetchRMA = async () => {
+            const response = await getRMADetails(rmaNumber)
+            if (response) {
+                console.log(response)
+                setLoading(false)
+                setError("")
+                setRMA(response)
+            } else {
+                console.error("Error fetching RMA details")
+                setError("Error fetching RMA details")
+            }
+        }
+        fetchRMA()
+    }, [rmaNumber])
 
-  const handleRmaFormSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await createRMA(rma)
-      console.log(response)
-      if (response) {
-        setRMA(defaultRMA)
-        navigate(-1)
-      }
 
+    if(loading) {
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <h2 className='font-bold text-2xl'>Loading...</h2>
+            </div>
+        )
     }
-    catch (error) {
-      console.error("Error creating RMA:", error)
+
+    if(error) {
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <h2 className='font-bold text-2xl'>Error: {error}</h2>
+            </div>
+        )
     }
-  }
+    const handleRmaUpdateSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await updateRMA(rma.rmaNumber, rma)
+            console.log(response)
+            if (response) {
+                setRMA({
+                    rmaNumber: "",
+                    deviceName: "",
+                    deviceSerialNumber: "",
+                    status: "New",
+                    reason: ""
+                })
+                navigate(-2)
+            }
+        }
+        catch (error) {
+            console.error("Error updating RMA:", error)
+        }
+    }
+
+
 
   return (
     <div>
-      <div>
-        <h2 className='font-bold text-slate-800 text-2xl'>Add New RMA</h2>
-      </div>
+        <div className='w-full flex justify-between items-center'>
+            <h2 className='font-bold text-2xl'>Edit RMA</h2>
+        </div>
 
-      <div className='bg-white px-4 py-8 rounded-lg mt-4 shadow-md w-[720px]'>
-        <form onSubmit={handleRmaFormSubmit} className='flex flex-col gap-y-4'>
+        <div className='bg-white px-4 py-8 rounded-lg mt-4 shadow-md w-[720px]'>
+        <form onSubmit={handleRmaUpdateSubmit} className='flex flex-col gap-y-4'>
           <div className='flex w-full gap-x-4 items-center'>
             <label className='font-semibold text-slate-700' htmlFor="rmaNumber">RMA Number</label>
             <input
@@ -114,4 +143,4 @@ const NewRMA = () => {
   )
 }
 
-export default NewRMA
+export default RMAEdit
