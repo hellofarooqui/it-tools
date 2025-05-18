@@ -9,6 +9,7 @@ import RMADetails from './pages/RMADetails';
 import RMAEdit from './pages/RMAEdit';
 import NewDevice from './pages/NewDevice';
 import EditDevice from './pages/EditDevice';
+import DeviceDetails from './pages/DeviceDetails';
 
 // Example page components
 
@@ -27,7 +28,7 @@ function App() {
 
           <Route path="devices" element={<Devices />} />
           <Route path="devices/new" element={<NewDevice />} />
-          <Route path="devices/:deviceId" element={<NewDevice />} />
+          <Route path="devices/:deviceId" element={<DeviceDetails />} />
           <Route path="devices/:deviceId/edit" element={<EditDevice />} />
 
 

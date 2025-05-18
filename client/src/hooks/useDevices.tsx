@@ -56,6 +56,10 @@ const useDevices = () => {
 
     const updateDevice = async (deviceId, data) => {
         try {
+            console.log("data",data)
+            console.log("deviceId",deviceId)
+
+
             const response = await axios.put(`${apiUrl}/update/${deviceId}`, data)
             if(response.status !== 200) {
                 throw new Error('Failed to update device')

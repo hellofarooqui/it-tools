@@ -1,38 +1,51 @@
 import React, { use, useEffect } from 'react'
 import useDevices from '../hooks/useDevices'
-import { Form, useLocation, useNavigate } from 'react-router-dom'
+import { Form, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../components/ui/button'
-import { set } from 'react-hook-form'
 
 
 const EditDevice = () => {
 
-
-    const location = useLocation()
-    const deviceData = location.state.data
-    console.log(location, "Location")
-    console.log(deviceData, "Device data")
-
     const [loading, setLoading] = React.useState(true)  
     const [error, setError] = React.useState("")
+    const [device, setDevice] = React.useState(null)
 
-    const [device, setDevice] = React.useState(deviceData)
+    const [imageUpdated,setImageUpdated] = React.useState(false)    
+
     const [imagePreview, setImagePreview] = React.useState("")
 
-    const { addDevice } = useDevices()
+    const { getDeviceDetails,updateDevice } = useDevices()
+    const params = useParams()
+    const deviceId = params.deviceId
+    console.log("deviceId", deviceId)
     const navigate = useNavigate()
 
-    //   useEffect(() => {
-    //     if(deviceData){
-    //         setDevice(deviceData)
-    //         console.log(deviceData, "Device data")
-    //         setLoading(false)
-    //         setError("")
-    //     }
-    // }, [])
+      useEffect(() => {
+        const fetchDevice = async () => {
+            try{
+                const response = await getDeviceDetails(deviceId)
+                if (response) {
+                    console.log(response)
+                    setDevice(response)
+                    setLoading(false)
+                    setError("")
+                } else {
+                    console.error("Error fetching device details")
+                    setError("Error fetching device details")
+                }   
+            }
+            catch (error) {
+                console.error("Error fetching device details", error)
+                setError("Error fetching device details")
+            }
+        }
+        fetchDevice()
+    }, [deviceId])
+
 
 
     const handleFileInputChange = (e) => {
+        setImageUpdated(true)
         const file = e.target.files[0]
         if (file) {
             setDevice({ ...device, deviceImage: file })
@@ -46,15 +59,33 @@ const EditDevice = () => {
 
     const handleUpdateDeviceSubmit = async (e) => {
         e.preventDefault()
-        try {
+
+        if(imageUpdated){
             const submitData = new FormData()
             for(const key in device) {
                 submitData.append(key, device[key])
             }
-            const response = await addDevice(submitData)
+            console.log("submitData",submitData)
+            try {
+                const response = await updateDevice(device._id,submitData)
+                console.log(response)
+                if (response) {
+                    //setDevice(defaultDevice)
+                    navigate(-1)
+                    return
+                }
+            } catch (error) {
+                console.error("Error creating device:", error)
+            }
+        }
+
+        try {
+            console.log("data",device)
+          
+            const response = await updateDevice(device._id,device)
             console.log(response)
             if (response) {
-                setDevice(defaultDevice)
+                //setDevice(defaultDevice)
                 navigate(-1)
             }
         } catch (error) {
@@ -63,21 +94,19 @@ const EditDevice = () => {
     }
 
 
-    // if(loading) {  
-    //     return (
-    //         <div className='flex justify-center items-center h-screen'>
-    //             <h1 className='text-2xl font-bold text-slate-800'>Loading...</h1>
-    //         </div>
-    //     )
-    // }
-    // if(error) {
-    //     <div>
-    //         <h1 className='text-2xl font-bold text-slate-800'>Error: {error}</h1>   
-    //     </div>
-    // }
+    if(loading) {  
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <h1 className='text-2xl font-bold text-slate-800'>Loading...</h1>
+            </div>
+        )
+    }
+    if(error) {
+        <div>
+            <h1 className='text-2xl font-bold text-slate-800'>Error: {error}</h1>   
+        </div>
+    }
 
-    setLoading(false)
-    setError("")
     return (
         <div>
             <div>

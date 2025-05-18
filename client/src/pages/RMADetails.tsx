@@ -45,8 +45,9 @@ const RMADetails = () => {
             <div className='w-full flex justify-between items-center'>
                 <h2 className='font-bold text-2xl'>{rma.rmaNumber}</h2>
                 <div className='flex gap-x-4'>
-                    <Button onClick={handleDelete} className='px-8 bg-red-400'>Delete</Button>
-                    <Button onClick={() => navigate(`edit`)} className='px-8'>Edit</Button>
+                    
+                    <Button variant="outline" onClick={() => navigate(`edit`)} className='px-8'>Edit</Button>
+                    <Button onClick={handleDelete} className='px-8'>Delete</Button>
                 </div>
             </div>
 
