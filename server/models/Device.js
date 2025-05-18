@@ -8,8 +8,23 @@ const DeviceSchema = new mongoose.Schema({
   deviceSerialNumber: {
     type: String,
     required: true,
+  },
+  notes: {
+    type: String,
+    
+  },
+  image:{
+    type: String,
+  },
+  addedOn:{
+    type: Date,
+    default: Date.now,
   }
-});
+},{timestamps:true});
+
+DeviceSchema.index({ deviceName: 1, deviceSerialNumber: '1' });
+
+
 
 const Device = mongoose.model('Device', DeviceSchema);
 export default Device;

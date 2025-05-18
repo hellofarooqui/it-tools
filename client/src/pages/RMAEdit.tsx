@@ -26,7 +26,7 @@ const RMAEdit = () => {
         const fetchRMA = async () => {
             const response = await getRMADetails(rmaNumber)
             if (response) {
-                console.log(response)
+          
                 setLoading(false)
                 setError("")
                 setRMA(response)
@@ -136,7 +136,10 @@ const RMAEdit = () => {
               className='flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none h-32'
             ></textarea>
           </div>
-          <Button type='submit' className=' self-end px-8'>Save</Button>
+          <div className='flex justify-end gap-x-4'>
+          <Button variant="outline" type='button' onClick={()=>navigate(-1)} className='px-8'>Cancel</Button>
+          <Button type='submit' className=' px-8'>Save</Button>
+          </div>
         </form>
       </div>
     </div>

@@ -1,8 +1,9 @@
-import React from 'react'
 import axios from 'axios'
 
 const serverUrl = import.meta.env.VITE_SERVER_URL
 const apiUrl = `${serverUrl}/api/rma`
+
+
 
 const useRMA = () => {
 
@@ -26,7 +27,6 @@ const useRMA = () => {
             if(response.status !== 200) {
                 throw new Error('Failed to fetch RMAs')
             }
-            console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error fetching RMAs:', error)
@@ -46,8 +46,7 @@ const useRMA = () => {
             throw error
         }
     }
-    const updateRMA = async (rmanumber, data) => {
-        console.log(data)
+    const updateRMA = async (rmanumber , data) => {
         try {
             const response = await axios.put(`${apiUrl}/update/${rmanumber}`, data)
             if(response.status !== 200) {
@@ -61,10 +60,11 @@ const useRMA = () => {
     }   
     const deleteRMA = async (rmaId) => {
         try {
-            const response = await axios.delete(`/api/rma/${rmaId}`)
+            const response = await axios.delete(`${apiUrl}/delete/${rmaId}`)
             if(response.status !== 200) {
                 throw new Error('Failed to delete RMA')
-            }   
+            }
+            console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error deleting RMA:', error)

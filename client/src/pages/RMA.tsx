@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button } from '../components/ui/button'
+import { Loader2 } from "lucide-react"
 
 
 import {rmaData} from '../data/dummydata.js'
@@ -32,7 +33,7 @@ const RMA = () => {
   if(loading) {
     return (
       <div className='flex justify-center items-center h-screen'>
-        <h2 className='font-bold text-2xl'>Loading...</h2>
+        <h2 className='font-bold text-2xl'><Loader2 className='animate-spin text-4xl' /></h2>
       </div>
     )
   }
@@ -53,7 +54,7 @@ const RMA = () => {
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>
-            {allRMA && allRMA.map((rma) => (<RMACard rma={rma} />))}
+            {allRMA && allRMA.map((rma) => (<RMACard key={rma._id} rma={rma} />))}
         </div>
 
     </div>
