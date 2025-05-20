@@ -1,5 +1,5 @@
 import express from 'express';
-import { createRMATicket, deleteRMATicket, getAllRMATickets, getRMAbyNumber, updateRMATicket } from '../controllers/rmaController.js';
+import { createRMATicket, editRMATicket,deleteRMATicket, getAllRMATickets, getRMAbyNumber, updateRMAStatus } from '../controllers/rmaController.js';
 
 const router = express.Router();
 
@@ -9,7 +9,8 @@ router.get('/:rmanumber', getRMAbyNumber)
 
 router.post('/new', createRMATicket);
 
-router.put('/update/:rmanumber', updateRMATicket )
+router.put('/updateStatus/:rmanumber', updateRMAStatus )
+router.put('/edit/:rmanumber', editRMATicket);
 
 router.delete('/delete/:id', deleteRMATicket);
 

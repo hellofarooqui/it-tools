@@ -9,7 +9,7 @@ const RMAEdit = () => {
     const rmaNumber = params.rmanumber
     
 
-    const { getRMADetails,updateRMA } = useRMA()
+    const { getRMADetails,editRMA } = useRMA()
 
     const [loading, setLoading] = React.useState(true)
     const [error, setError] = React.useState("")
@@ -57,7 +57,7 @@ const RMAEdit = () => {
     const handleRmaUpdateSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await updateRMA(rma.rmaNumber, rma)
+            const response = await editRMA(rma.rmaNumber, rma)
             console.log(response)
             if (response) {
                 setRMA({

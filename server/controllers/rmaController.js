@@ -52,7 +52,33 @@ export const getRMAbyNumber = async (req, res) => {
   }
 }
 
-export const updateRMATicket = async (req, res) => {
+export const updateRMAStatus = async (req, res) => {
+  try {
+    const { rmanumber } = req.params;
+    const { status } = req.body;
+
+    if (!rmanumber || !status) {
+      return res.status(400).json({ error: "RMA number and status are required" });
+    }
+
+    const updatedTicket = await RMATicket.findOneAndUpdate(
+      { rmaNumber: rmanumber },
+      { status },
+      { new: true }
+    );
+
+    if (!updatedTicket) {
+      return res.status(404).json({ error: "RMA ticket not found" });
+    }
+
+    res.status(200).json({ message: "RMA ticket status updated successfully", updatedTicket });
+  } catch (error) {
+    console.error("Error updating RMA ticket status:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export const editRMATicket = async (req, res) => {
   try {
     const { rmanumber } = req.params;
 

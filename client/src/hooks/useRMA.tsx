@@ -46,9 +46,9 @@ const useRMA = () => {
             throw error
         }
     }
-    const updateRMA = async (rmanumber , data) => {
+    const editRMA = async (rmanumber , data) => {
         try {
-            const response = await axios.put(`${apiUrl}/update/${rmanumber}`, data)
+            const response = await axios.put(`${apiUrl}/edit/${rmanumber}`, data)
             if(response.status !== 200) {
                 throw new Error('Failed to update RMA')
             }
@@ -58,6 +58,19 @@ const useRMA = () => {
             throw error
         }
     }   
+
+    const updateRMAStatus = async (rmaNumber, status) => {
+        try {
+            const response = await axios.put(`${apiUrl}/updateStatus/${rmaNumber}`, { status })
+            if(response.status !== 200) {
+                throw new Error('Failed to update RMA status')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error updating RMA status:', error)
+            throw error
+        }
+    }
     const deleteRMA = async (rmaId) => {
         try {
             const response = await axios.delete(`${apiUrl}/delete/${rmaId}`)
@@ -77,7 +90,8 @@ const useRMA = () => {
     createRMA,
     getAllRMAs,
     getRMADetails,
-    updateRMA,
+    updateRMAStatus,
+    editRMA,
     deleteRMA
   }
 }
