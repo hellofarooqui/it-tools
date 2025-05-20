@@ -114,7 +114,7 @@ const Devices = () => {
               <TableCell className="text-gray-700">
                 {device.image && (
                   <img
-                    src={`${storageLocation}${device.image}`}
+                    src={`${storageLocation}/${device.image}`}
                     className="w-32 h-12"
                   />
                 )}
