@@ -32,7 +32,7 @@ const RMACard = ({ rma }: { rma: RMACardProps }) => {
       <Card className="gap-4">
         <CardHeader>
           <CardTitle className="text-lg font-bold bg-slate-200  p-2 mb-2 rounded-md">{rma.rmaNumber}</CardTitle>
-          <Badge className={`${rma.status === 'New' ? "bg-indigo-500" : rma.status === "Pending" ? "bg-yellow-500" : rma.status === "Approved" ? "bg-green-500" : "bg-red-500"}`}>{rma.status}</Badge>
+          <Badge className="bg-gray-600">{rma.status}</Badge>
         </CardHeader>
         <CardContent>
           <p className='text-sm truncate line-clamp-1'>{rma.reason}</p>

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../components/ui/button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useRMA from "../hooks/useRMA";
 
 import { Loader2 } from "lucide-react";
@@ -20,37 +20,76 @@ const RMADetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const rma = location.state.rma;
+  const params = useParams()
+  const rmanumber = params.rmanumber;
 
-  const [rmaDetails, setRmaDetails] = React.useState(rma);
+  const [rmaDetails, setRmaDetails] = React.useState(null);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(true);
+
+  const [newStatus, setNewStatus] = React.useState("");
+  const [nextStatus, setNextStatus] = React.useState([]);
+
   const [statusLoading, setStatusLoading] = React.useState(false);
   const [statusChanged, setStatusChanged] = React.useState(false);
-  const [rmaStatus, setRmaStatus] = React.useState(rma.status);
-  const nextStatusItems = RMAStatusOptions.findIndex((status) => status === rmaDetails.status) + 1
-  const nextStatus = rmaStatus === "Return delivered" ? Array.of(RMAStatusOptions[nextStatusItems], RMAStatusOptions[nextStatusItems+1]) : Array.of(RMAStatusOptions[nextStatusItems]);
+  //const [rmaStatus, setRmaStatus] = React.useState(rma.status);
 
-  const { deleteRMA, updateRMAStatus } = useRMA();
-  
+  const { getRMADetails,deleteRMA, updateRMAStatus } = useRMA();
+
+    useEffect(() => {
+    const fetchRMA = async () => {
+      try {
+        const response = await getRMADetails(rmanumber);
+        if (response) {
+          setRmaDetails(response);
+          setLoading(false);
+        } else {
+          console.error("Error fetching RMA");
+          setError("Error fetching RMA");
+        }
+      } catch (error) {
+        console.error("Error fetching RMA", error);
+        setError("Error fetching RMA");
+      }
+    };
+    fetchRMA();
+  }, []);
+
+  useEffect(() => {
+if(rmaDetails){
+      console.log("RMA Details", rmaDetails);
+  const nextStatusIndex = RMAStatusOptions.findIndex((status) => status === rmaDetails.status) + 1
+  console.log("nextStatusIndex", nextStatusIndex, "Next Status", RMAStatusOptions[nextStatusIndex])
+
+  const nextStatus = rmaDetails.status === "Return Delivered" ? Array.of(RMAStatusOptions[nextStatusIndex], RMAStatusOptions[nextStatusIndex+1]) : Array.of(RMAStatusOptions[nextStatusIndex]);
+  setNextStatus(nextStatus)
+}
+  }, [rmaDetails]);
+
+
 
   const handleStatusChange = (e) => {
     e.preventDefault();
     setStatusChanged(true);
-    setRmaStatus(e.target.value);
+    setNewStatus(e.target.value);
+    //setRmaStatus(e.target.value);
   };
 
   const handleStatusUpdate = (e) => {
     e.preventDefault();
     setStatusLoading(true);
-    setLoading(true);
+    //setLoading(true);
 
     try {
-      const response = updateRMAStatus(rmaDetails.rmaNumber, rmaStatus);
+      const response = updateRMAStatus(rmaDetails.rmaNumber, newStatus);
       if (response) {
-        setLoading(false);
+        //setLoading(false);
+        console.log("New Status", newStatus);
         setError(null);
         setStatusChanged(false);
-        console.log(response)
+        //console.log(rmaDetails)
+        setRmaDetails({...rmaDetails, status: newStatus });
+        setNewStatus("");
         
       } else {
         console.error("Error updating RMA status");
@@ -85,6 +124,14 @@ const RMADetails = () => {
       setError("Error deleting RMA");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
 
   if (error) {
     setTimeout(() => {
@@ -155,12 +202,13 @@ const RMADetails = () => {
             </p> */}
             <form>
               <select
-                defaultValue={rmaDetails.status}
+              disabled={rmaDetails.status === "Completed" || rmaDetails.status === "Rejected"}
+                value={statusChanged ? newStatus : rmaDetails.status}
                 onChange={handleStatusChange}
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+                className={`flex-1 border border-slate-300 rounded-sm px-2 py-1 ${rmaDetails.status === "Completed" || rmaDetails.status === "Rejected" ? "bg-gray-200" : ""}`}
               >
-                <option value={rmaDetails.status} disabled>
-                  {rma.status}
+                <option value={rmaDetails.status}>
+                  {rmaDetails.status}
                 </option>
                 {nextStatus.map((status, index) => (
                   <option value={status} key={index}>
