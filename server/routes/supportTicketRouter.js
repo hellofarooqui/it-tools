@@ -1,14 +1,29 @@
-import express from 'express';
-import { addCommentToSupportTicket, createSupportTicket, deleteSupportTicket, getAllSupportTickets, getSupportTicketById, updateSupportTicket } from '../controllers/supportTicketController.js';
-
+import express from "express";
+import {
+  addCommentToSupportTicket,
+  createSupportTicket,
+  deleteCommentFromSupportTicket,
+  deleteSupportTicket,
+  getAllSupportTickets,
+  getAllSupportTicketsList,
+  getCommentsByTicketId,
+  getSupportTicketById,
+  updateSupportTicket,
+  updateCommentInSupportTicket,
+} from "../controllers/supportTicketController.js";
 
 const router = express.Router();
 
-router.get('/', getAllSupportTickets);
-router.get('/:ticketId', getSupportTicketById);
-router.post('/', createSupportTicket);
-router.put('/:ticketId', updateSupportTicket);
-router.delete('/:ticketId', deleteSupportTicket);   
-router.post('/:ticketId/addComment', addCommentToSupportTicket);
+router.get("/", getAllSupportTickets);
+router.get("/list", getAllSupportTicketsList);
+router.get("/:ticketId", getSupportTicketById);
+router.post("/", createSupportTicket);
+router.put("/:ticketId", updateSupportTicket);
+router.delete("/:ticketId", deleteSupportTicket);
+
+router.get("/:ticketId/comments", getCommentsByTicketId);
+router.post("/:ticketId/comments", addCommentToSupportTicket);
+router.delete("/:ticketId/comments/:commentId", deleteCommentFromSupportTicket);
+router.put("/:ticketId/comments/:commentId", updateCommentInSupportTicket);
 
 export default router;

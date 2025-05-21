@@ -12,9 +12,8 @@ const supportTicketSchema = new mongoose.Schema({
   },
   comments : [
     {
-      user: { type: String, required: true },
-      comment: { type: String, required: true },
-      createdAt: { type: Date, default: Date.now },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
     },
   ],
   createdAt: { type: Date, default: Date.now },

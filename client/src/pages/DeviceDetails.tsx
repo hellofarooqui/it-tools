@@ -3,11 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import useDevices from "../hooks/useDevices";
 import { Button } from "../components/ui/button";
 
+
+interface Device {
+  _id: string | null;
+  deviceName: string | null;
+  deviceSerialNumber: string | null;
+  image: string | null;
+}
+
 const DeviceDetails = () => {
   const params = useParams();
   const deviceId = params.deviceId;
 
-  const [device, setDevice] = React.useState(null);
+  const [device, setDevice] = React.useState<Device | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
@@ -33,7 +41,7 @@ const DeviceDetails = () => {
     fetchDevice();
   }, [deviceId]);
 
-  const handleDeviceDelete = async (device) => {
+  const handleDeviceDelete = async (device: Device) => {
     const deviceId = device._id;
     try {
       const response = await deleteDevice(deviceId);

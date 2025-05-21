@@ -10,6 +10,8 @@ import RMAEdit from './pages/RMAEdit';
 import NewDevice from './pages/NewDevice';
 import EditDevice from './pages/EditDevice';
 import DeviceDetails from './pages/DeviceDetails';
+import ListTickets from './pages/SupportTicket/ListTickets';
+import NewSupportTicket from './pages/SupportTicket/NewSupportTicket';
 
 // Example page components
 
@@ -20,7 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="tickets" element={<Tickets />} />
           <Route path="rma" element={<RMA />} />
           <Route path="rma/new" element={<NewRMA />} />
           <Route path="rma/:rmanumber" element={<RMADetails />} />
@@ -30,6 +31,10 @@ function App() {
           <Route path="devices/new" element={<NewDevice />} />
           <Route path="devices/:deviceId" element={<DeviceDetails />} />
           <Route path="devices/:deviceId/edit" element={<EditDevice />} />
+
+          <Route path="support" element={<ListTickets />} />
+          <Route path="support/new" element={<NewSupportTicket />} />
+
 
 
         </Route>

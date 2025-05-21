@@ -1,13 +1,11 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "./../components/ui/table";
 
 import { Button } from "../components/ui/button";
 import { FilePenLine, FileText, Loader2, Trash2 } from "lucide-react";
@@ -18,8 +16,15 @@ import CustomTooltip from "../components/custom/CustomToolTip.js";
 
 const storageLocation = "http://localhost:3000";
 
+interface Device {
+  _id: string;
+  deviceName: string;
+  deviceSerialNumber: string;
+  image: string;
+}
+
 const Devices = () => {
-  const [devices, setDevices] = useState([]);
+  const [devices, setDevices] = useState<Device[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -47,13 +52,13 @@ const Devices = () => {
     fetchDevices();
   }, []);
 
-  const handleEditDevice = (device) => {
+  const handleEditDevice = (device: Device) => {
     console.log("edit device");
     //navigate({ pathname: `/devices/${device._id}/edit` , state: {data: device}})
     navigate(`/devices/${device._id}/edit`, { state: { data: device } });
   };
 
-  const handleDeleteDevice = async (device) => {
+  const handleDeleteDevice = async (device: Device) => {
     const deviceId = device._id;
     try {
       const response = await deleteDevice(deviceId);

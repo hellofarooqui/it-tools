@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const sidebarItems = [
   { icon: Home, title: 'Dashboard', path: '/' },
-  { icon: Ticket, title: 'Tickets', path: '/tickets' },
+  { icon: Ticket, title: 'Support Tickets', path: '/support' },
   { icon: ArchiveRestore, title: 'RMA', path: '/rma' },
   { icon: PcCase, title: 'Devices', path: '/devices' },
 ];
