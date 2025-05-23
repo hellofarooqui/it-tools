@@ -1,6 +1,7 @@
 import React, { use, useState } from "react";
 import { Button } from "../../components/ui/button";
 import useSupportTicket from "../../hooks/useSupportTicket";
+import { useNavigate } from "react-router-dom";
 
 interface SupportTicket {
   ticket_number: string;

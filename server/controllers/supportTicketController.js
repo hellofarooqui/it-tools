@@ -34,6 +34,26 @@ export const getSupportTicketById = async (req, res) => {
   }
 };
 
+export const getSupportTicketByNumber = async (req, res) => {
+  
+    try {
+      const {ticketNumber} = req.params
+      console.log("Ticket Number", ticketNumber)
+        
+        const ticket = await SupportTicket.findOne({ticket_number:ticketNumber});
+    
+        if (!ticket) {
+            return res.status(404).json({ error: "Support ticket not found" });
+        }
+    
+        res.json(ticket);
+    } catch (error) {
+        console.error("Error fetching comments for support ticket:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
 export const createSupportTicket = async (req, res) => {
   try {
     const { ticket_number, title, description } = req.body;
@@ -109,6 +129,7 @@ export const getCommentsByTicketId = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+
 
 export const addCommentToSupportTicket = async (req, res) => {
 

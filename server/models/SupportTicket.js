@@ -16,6 +16,10 @@ const supportTicketSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
+  vendor_details: {
+    name: {type: String},
+    tac_person: { type: String}
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

@@ -8,6 +8,7 @@ import {
   getAllSupportTicketsList,
   getCommentsByTicketId,
   getSupportTicketById,
+  getSupportTicketByNumber,
   updateSupportTicket,
   updateCommentInSupportTicket,
 } from "../controllers/supportTicketController.js";
@@ -17,6 +18,7 @@ const router = express.Router();
 router.get("/", getAllSupportTickets);
 router.get("/list", getAllSupportTicketsList);
 router.get("/:ticketId", getSupportTicketById);
+router.get("/number/:ticketNumber", getSupportTicketByNumber);
 router.post("/", createSupportTicket);
 router.put("/:ticketId", updateSupportTicket);
 router.delete("/:ticketId", deleteSupportTicket);

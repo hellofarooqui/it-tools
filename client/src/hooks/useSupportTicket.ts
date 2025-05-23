@@ -35,6 +35,16 @@ const useSupportTicket = () => {
         throw error;
         }
     };
+    const getSupportTicketByNumber = async (ticketNumber: {ticketNumber: string}) => {
+        try {
+            //console.log("Number:", ticketNumber)
+        const response = await axios.get(`${API_URL}/number/${ticketNumber}`);
+        return response.data;
+        } catch (error) {
+        console.error('Error fetching support ticket:', error);
+        throw error;
+        }
+    };
     const createSupportTicket = async (ticketData: NewSupportTicket) => {
         try {
             const response = await axios.post(`${API_URL}/`, ticketData);
@@ -102,6 +112,7 @@ const useSupportTicket = () => {
   return {
     getAllSupportTicketsList,
     getSupportTicketById,
+    getSupportTicketByNumber,
     createSupportTicket,
     updateSupportTicket,
     deleteSupportTicket,
