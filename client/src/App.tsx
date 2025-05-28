@@ -13,6 +13,7 @@ import DeviceDetails from './pages/DeviceDetails';
 import ListTickets from './pages/SupportTicket/ListTickets';
 import NewSupportTicket from './pages/SupportTicket/NewSupportTicket';
 import SupportTicketDetails from './pages/SupportTicket/SupportTicketDetails';
+import EditTicket from './pages/SupportTicket/EditTicket';
 
 // Example page components
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="support" element={<ListTickets />} />
           <Route path="support/new" element={<NewSupportTicket />} />
           <Route path="support/:ticketNumber" element={<SupportTicketDetails />} />
+          <Route path="support/:ticketNumber/edit" element={<EditTicket />} />
 
 
 

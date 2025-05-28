@@ -78,7 +78,7 @@ const SupportTicketDetails = () => {
         )
     }
     return (
-        <div className="h-full flex flex-col gap-y-8 justify-between">
+        <div className="h-full flex flex-col gap-y-8 justify-between p-4">
             <div className="flex flex-col gap-y-8">
             <div className="bg-white flex justify-between items-center p-4 rounded-md border border-gray-300">
                 <h2 className="text-xl font-bold text-gray-600">{ticket.ticket_number} - {ticket.title}</h2>
