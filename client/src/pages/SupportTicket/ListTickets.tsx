@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   Table,
@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
+
 import useSupportTicket from "../../hooks/useSupportTicket";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTooltip from "../../components/custom/CustomToolTip";
@@ -24,17 +25,20 @@ interface Ticket {
 
 const ListTickets = () => {
   const [tickets, setTickets] = React.useState<Ticket[]>([]);
+  const [filteredTickets,setFilteredTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = React.useState(true);
+  const [filter,setFilter] = useState("Open")
 
   const navigate = useNavigate();
 
-  const { getAllSupportTicketsList } = useSupportTicket();
+  const { getAllSupportTicketsList, deleteSupportTicket } = useSupportTicket();
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
         const response = await getAllSupportTicketsList();
         setTickets(response);
+        setFilteredTickets(response.filter(ticket=>ticket.status == "Open"))
       } catch (error) {
         console.error("Error fetching support tickets:", error);
       } finally {
@@ -45,20 +49,38 @@ const ListTickets = () => {
     fetchTickets();
   }, []);
 
+
+  const handleChangeFilter = (newFilter) => {
+    setFilter(newFilter)
+    setFilteredTickets(tickets.filter(ticket => ticket.status == newFilter))
+  }
+
   return (
     <div>
       <div>
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
           <h1 className="text-2xl font-bold">Support Tickets</h1>
           <Button
             variant="outline"
             onClick={() => navigate("new")}
-            className="mt-4"
+            className=""
           >
             New Ticket
           </Button>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 p-4 ">
+          <div className="flex bg-white rounded-t-md overflow-hidden shadow-md p-4 w-full justify-between">
+            <div className="flex  bg-gray-100 rounded-sm overflow-hidden p-1">
+              <button onClick={()=>handleChangeFilter("Open")} className={`rounded-sm px-4 py-1 cursor-pointer ${filter=="Open" ? "bg-white" :""}`}>Open</button>
+              <button onClick={()=>handleChangeFilter("In Progress")} className={`rounded-sm px-4 py-1 cursor-pointer ${filter=="In Progress" ? "bg-white" :""}`}>In Progress</button>
+              <button onClick={()=>handleChangeFilter("Closed")} className={`rounded-sm px-4 py-1 cursor-pointer ${filter=="Closed" ? "bg-white" :""}`}>Closed</button>
+
+            </div>
+            <div>
+              <p>Ticket Filters</p>
+            </div>
+          </div>
+
           <Table>
             <TableHeader className="bg-gray-800 ">
               <TableRow>
@@ -72,7 +94,7 @@ const ListTickets = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tickets.map((ticket) => (
+              {filteredTickets.map((ticket) => (
                 <TableRow
                   key={ticket._id}
                   className="h-16 bg-gray-50 hover:bg-gray-100 border"
@@ -104,15 +126,7 @@ const ListTickets = () => {
                         <FilePenLine />
                       </Button>
                     </CustomTooltip>
-                    <CustomTooltip content="Delete">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleDeleteDevice(device)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    </CustomTooltip>
+
                   </TableCell>
                 </TableRow>
               ))}

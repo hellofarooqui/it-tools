@@ -7,8 +7,8 @@ const supportTicketSchema = new mongoose.Schema({
   description: { type: String, required: true },
   status: {
     type: String,
-    enum: ["open", "in_progress", "closed"],
-    default: "open",
+    enum: ["Open", "In Progress", "Closed"],
+    default: "Open",
   },
   comments : [
     {

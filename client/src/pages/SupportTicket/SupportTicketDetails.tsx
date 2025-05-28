@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSupportTicket from "../../hooks/useSupportTicket";
+import { Button } from "../../components/ui/button";
+import { ChevronDown } from "lucide-react";
+
 
 const SupportTicketDetails = () => {
     const {ticketNumber} = useParams()
+    const navigate = useNavigate()
 
     const [ticket,setTicket] = useState(null)
     const [loading,setLoading] = useState(true)
     const [error,setError] = useState("")
+    const [editing,setEditing] = useState(false)
+    const [statusMenu,setStatusMenu] = useState(false)
+    const [newStatus,setNewStatus] = useState("")
 
-    const {getSupportTicketByNumber} = useSupportTicket()
+    const {getSupportTicketByNumber,updateSupportTicket} = useSupportTicket()
 
     useEffect(()=>{
         const fetchTicketDetails = async () => {
@@ -30,6 +37,33 @@ const SupportTicketDetails = () => {
         fetchTicketDetails()
     },[])
 
+    const handleStatusChange = (status:string) => {
+        setNewStatus(status)
+        setStatusMenu(false)
+        setTicket({...ticket, status:status})
+        setEditing(true)
+    }
+
+    const handleCancel = () => {
+        setEditing(false)
+        setNewStatus("")
+        navigate(-1)
+    }
+
+    const handleUpdate = async () => {
+        if(ticket){
+            const response = await updateSupportTicket(ticket._id,ticket)
+            if(response){
+                setEditing(false)
+                setNewStatus("")
+                navigate(-1)
+            }
+        }
+        else{
+            setError("Something went wrong")
+        }
+    }
+
     if(loading){
         return(<div className="w-screen h-screen flex justify-center items-center">
             <p>Loading...</p>
@@ -44,9 +78,23 @@ const SupportTicketDetails = () => {
         )
     }
     return (
-        <div className="flex flex-col gap-y-8">
-            <div className="bg-white p-4 rounded-md border border-gray-300">
+        <div className="h-full flex flex-col gap-y-8 justify-between">
+            <div className="flex flex-col gap-y-8">
+            <div className="bg-white flex justify-between items-center p-4 rounded-md border border-gray-300">
                 <h2 className="text-xl font-bold text-gray-600">{ticket.ticket_number} - {ticket.title}</h2>
+                <div className="relative">
+                    <Button variant="outline" onClick={()=>setStatusMenu(!statusMenu)} className="w-[125px] flex items-center gap-x-2 group " >
+                        <span className="pl-4">{ticket.status}</span> <ChevronDown className="group-hover:opacity-100 opacity-0 transition-all duration-300" />
+                    </Button>
+                    {statusMenu && <div className="absolute top-full left-0 bg-white shadow-md rounded-md">
+                        <ul className="flex flex-col gap-y-2">
+                            <li onClick={()=>handleStatusChange("Open")} className="px-4 py-2 hover:bg-gray-100 hover:cursor-pointer">Open</li>
+                            <li onClick={()=>handleStatusChange("Closed")} className="px-4 py-2 hover:bg-gray-100 hover:cursor-pointer">Closed</li>
+                            <li onClick={()=>handleStatusChange("In Progress")} className="px-4 py-2 hover:bg-gray-100 hover:cursor-pointer">In Progress</li>
+                        </ul>
+                        
+                    </div>}
+                </div>
             </div>
             <div className="bg-white p-4  border border-gray-300 rounded-sm">
                 <h4 className=" font-semibold mb-2">Description</h4>
@@ -60,6 +108,12 @@ const SupportTicketDetails = () => {
                 </div>
                 
             </div>
+            
+        </div>
+        {editing && <div className="flex gap-x-2 justify-end">
+                <Button onClick={handleCancel} variant="outline" className="bg-red-500 text-white px-8">Cancel</Button>
+                <Button onClick={handleUpdate} className=" px-8">Update</Button>
+            </div>}
         </div>
     );
 };
