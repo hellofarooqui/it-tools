@@ -36,6 +36,16 @@ export const getAllRMATickets = async (req, res) => {
   }
 }
 
+export const getActiveRMAs = async (req,res) => {
+  try {
+    const tickets = await RMATicket.find({status : {$nin : ["Rejected","Completed"]}});
+    res.status(200).json(tickets);
+  } catch (error) {
+    console.error("Error fetching RMA tickets:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export const getRMAbyNumber = async (req, res) => {
   try {
     const { rmanumber } = req.params;

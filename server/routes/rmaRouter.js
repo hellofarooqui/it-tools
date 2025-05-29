@@ -1,9 +1,10 @@
 import express from 'express';
-import { createRMATicket, editRMATicket,deleteRMATicket, getAllRMATickets, getRMAbyNumber, updateRMAStatus } from '../controllers/rmaController.js';
+import { createRMATicket,getActiveRMAs, editRMATicket,deleteRMATicket, getAllRMATickets, getRMAbyNumber, updateRMAStatus } from '../controllers/rmaController.js';
 
 const router = express.Router();
 
 router.get('/',getAllRMATickets);
+router.get('/active', getActiveRMAs)
 
 router.get('/:rmanumber', getRMAbyNumber)
 

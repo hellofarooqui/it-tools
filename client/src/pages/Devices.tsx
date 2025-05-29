@@ -96,7 +96,7 @@ const Devices = () => {
   }
 
   return (
-    <div>
+    <div className="p-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-bold text-2xl">Devices</h2>
         <Button onClick={() => navigate("new")}>Create New</Button>
@@ -119,7 +119,7 @@ const Devices = () => {
               <TableCell className="text-gray-700">
                 {device.image && (
                   <img
-                    src={`${storageLocation}/${device.image}`}
+                    src={`${storageLocation}${device.image}`}
                     className="w-32 h-12"
                   />
                 )}

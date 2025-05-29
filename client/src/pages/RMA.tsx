@@ -47,7 +47,7 @@ const RMA = () => {
   }
 
   return (
-    <div>
+    <div className="p-8">
         <div className="flex justify-between items-center">
             <h2 className='font-bold text-2xl'>RMA</h2>
             <Button onClick={()=>navigate("new")}>Create New</Button>

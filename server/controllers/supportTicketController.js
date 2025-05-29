@@ -13,8 +13,14 @@ export const getAllSupportTicketsList = async (req, res) => {
 
 export const getAllSupportTickets = async (req, res) => {
   try {
+    if(req.query){
+      const tickets = await SupportTicket.find({status : { $in : req.query.status}})
+      if(tickets){
+        return res.json(tickets)
+      }
+    }
     const tickets = await SupportTicket.find();
-    res.json(tickets);
+    return res.json(tickets);
   } catch (error) {
     console.error("Error fetching support tickets:", error);
     res.status(500).json({ error: "Internal server error" });
