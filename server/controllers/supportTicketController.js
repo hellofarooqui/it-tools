@@ -23,7 +23,7 @@ export const getAllSupportTickets = async (req, res) => {
 
 export const getSupportTicketById = async (req, res) => {
   try {
-    const ticket = await SupportTicket.findById(req.params.ticketId);
+    const ticket = await SupportTicket.findById(req.params.ticketId).populate("comments");
     if (!ticket) {
       return res.status(404).json({ error: "Support ticket not found" });
     }
@@ -40,7 +40,7 @@ export const getSupportTicketByNumber = async (req, res) => {
       const {ticketNumber} = req.params
       console.log("Ticket Number", ticketNumber)
         
-        const ticket = await SupportTicket.findOne({ticket_number:ticketNumber});
+        const ticket = await SupportTicket.findOne({ticket_number:ticketNumber}).populate("comments");
     
         if (!ticket) {
             return res.status(404).json({ error: "Support ticket not found" });
@@ -137,7 +137,11 @@ export const addCommentToSupportTicket = async (req, res) => {
         const { ticketId } = req.params;
         const { user, comment } = req.body;
 
-        if (!user || !comment) {
+        // if (!user || !comment) {
+        //     return res.status(400).json({ error: "User and comment are required" });
+        // }
+        
+        if ( !comment) {
             return res.status(400).json({ error: "User and comment are required" });
         }
 
