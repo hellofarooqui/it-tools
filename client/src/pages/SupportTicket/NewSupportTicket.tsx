@@ -15,38 +15,38 @@ const defaultTicket: SupportTicket = {
   description: "",
 };
 const NewSupportTicket = () => {
-    const navigate = useNavigate();
-    const [ticket, setTicket] =  useState<SupportTicket>(defaultTicket);
-    const [loading, setLoading] = React.useState(true);
+  const navigate = useNavigate();
+  const [ticket, setTicket] = useState<SupportTicket>(defaultTicket);
+  const [loading, setLoading] = React.useState(true);
 
-    const {createSupportTicket} = useSupportTicket();
+  const { createSupportTicket } = useSupportTicket();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setTicket({ ...ticket, [name]: value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTicket({ ...ticket, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await createSupportTicket(ticket);
+      console.log("Ticket created successfully:", response);
+      setTicket(defaultTicket); // Reset the form
+      navigate("/support");
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+    } finally {
+      setLoading(false);
     }
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await createSupportTicket(ticket);
-            console.log("Ticket created successfully:", response);
-            setTicket(defaultTicket); // Reset the form
-            navigate("/support");
-        } catch (error) {
-            console.error("Error creating ticket:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
+  };
 
   return (
     <div className="">
-     <div>
-        <h2 className="text-lg font-semibold">New Support Ticket</h2>
-
-     </div>
-     <div className="mt-4 bg-white p-4 rounded-md shadow">
+      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
+        <h2 className="font-bold text-slate-800 text-2xl">New Support Ticket</h2>
+      </div>
+      <div className="p-8">
+      <div className=" bg-white p-8 rounded-md shadow">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label htmlFor="ticket_number">Ticket Number</label>
@@ -82,9 +82,12 @@ const NewSupportTicket = () => {
               rows={4}
             />
           </div>
-          <Button type="submit" className="self-end">Submit</Button>
+          <Button type="submit" className="self-end">
+            Submit
+          </Button>
         </form>
-     </div>
+      </div>
+      </div>
     </div>
   );
 };

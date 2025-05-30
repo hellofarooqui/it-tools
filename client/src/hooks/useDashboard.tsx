@@ -4,38 +4,50 @@ import axios from "axios";
 
 const useDashboard = () => {
   const getActiveTickets = async () => {
+    const status1 = "Open";
+    const status2 = "In Progress";
     try {
-      const response = await axios.get(`${serverUrl}/api/support?status=open&&status=in_progress`);
-      if(response){
-        console.log(response.data)
-        return response.data
+      
+      const response = await axios.get(
+        `${serverUrl}/api/support`,
+        {
+          params: {
+            status: ["Open", "In Progress"],
+          },
+        }
+      );
+      if (response) {
+        console.log(response);
+        return response.data;
       }
     } catch (error) {
-      throw new Error
+      throw new Error();
     }
   };
 
   const getActiveRMA = async () => {
     try {
       const response = await axios.get(`${serverUrl}/api/rma/active`);
-       if(response){
-        console.log(response)
-        return response.data
+      if (response) {
+        console.log(response);
+        return response.data;
       }
     } catch (error) {
-      throw new Error
+      throw new Error();
     }
   };
 
   const getDeviceCount = async () => {
     try {
-      const response = await axios.get();
+      const response = await axios.get(`${serverUrl}/api/devices?q=count`);
+      console.log(response.data.deviceCount);
+      return response.data;
     } catch (error) {
-      throw new Error
+      throw new Error();
     }
   };
 
   return { getActiveTickets, getActiveRMA, getDeviceCount };
 };
 
-export default useDashboard
+export default useDashboard;

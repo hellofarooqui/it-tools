@@ -43,7 +43,7 @@ const RMACard = ({ rma }: { rma: RMACardProps }) => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center">
-          <p className='text-xs text-gray-600 italic mt-4'>Date: {dateformat(rma.requestedOn, "dddd, mmmm dS, yyyy, h:MM TT")}</p>
+          <p className='text-xs text-gray-600 italic mt-4'>Created: {dateformat(rma.requestedOn, "dddd, mmmm dS, yyyy, h:MM TT")}</p>
         </CardFooter>
       </Card>
     </Link>

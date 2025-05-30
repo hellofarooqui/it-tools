@@ -20,7 +20,7 @@ const RMADetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const rma = location.state.rma;
-  const params = useParams()
+  const params = useParams();
   const rmanumber = params.rmanumber;
 
   const [rmaDetails, setRmaDetails] = React.useState(null);
@@ -34,9 +34,9 @@ const RMADetails = () => {
   const [statusChanged, setStatusChanged] = React.useState(false);
   //const [rmaStatus, setRmaStatus] = React.useState(rma.status);
 
-  const { getRMADetails,deleteRMA, updateRMAStatus } = useRMA();
+  const { getRMADetails, deleteRMA, updateRMAStatus } = useRMA();
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchRMA = async () => {
       try {
         const response = await getRMADetails(rmanumber);
@@ -56,17 +56,28 @@ const RMADetails = () => {
   }, []);
 
   useEffect(() => {
-if(rmaDetails){
+    if (rmaDetails) {
       console.log("RMA Details", rmaDetails);
-  const nextStatusIndex = RMAStatusOptions.findIndex((status) => status === rmaDetails.status) + 1
-  console.log("nextStatusIndex", nextStatusIndex, "Next Status", RMAStatusOptions[nextStatusIndex])
+      const nextStatusIndex =
+        RMAStatusOptions.findIndex((status) => status === rmaDetails.status) +
+        1;
+      console.log(
+        "nextStatusIndex",
+        nextStatusIndex,
+        "Next Status",
+        RMAStatusOptions[nextStatusIndex]
+      );
 
-  const nextStatus = rmaDetails.status === "Return Delivered" ? Array.of(RMAStatusOptions[nextStatusIndex], RMAStatusOptions[nextStatusIndex+1]) : Array.of(RMAStatusOptions[nextStatusIndex]);
-  setNextStatus(nextStatus)
-}
+      const nextStatus =
+        rmaDetails.status === "Return Delivered"
+          ? Array.of(
+              RMAStatusOptions[nextStatusIndex],
+              RMAStatusOptions[nextStatusIndex + 1]
+            )
+          : Array.of(RMAStatusOptions[nextStatusIndex]);
+      setNextStatus(nextStatus);
+    }
   }, [rmaDetails]);
-
-
 
   const handleStatusChange = (e) => {
     e.preventDefault();
@@ -88,9 +99,8 @@ if(rmaDetails){
         setError(null);
         setStatusChanged(false);
         //console.log(rmaDetails)
-        setRmaDetails({...rmaDetails, status: newStatus });
+        setRmaDetails({ ...rmaDetails, status: newStatus });
         setNewStatus("");
-        
       } else {
         console.error("Error updating RMA status");
         setError("Error updating RMA status");
@@ -98,9 +108,8 @@ if(rmaDetails){
     } catch (error) {
       console.error("Error updating RMA status", error);
       setError("Error updating RMA status");
-    }
-    finally{
-        setStatusLoading(false)
+    } finally {
+      setStatusLoading(false);
     }
     // Call the updateRMAStatus function from useRMA
     // Pass the rmaNumber and the new status
@@ -145,7 +154,7 @@ if(rmaDetails){
   }
   return (
     <div>
-      <div className="w-full flex justify-between items-center">
+      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-2xl">{rmaDetails.rmaNumber}</h2>
         {!statusChanged && (
           <div className="flex gap-x-4">
@@ -163,8 +172,8 @@ if(rmaDetails){
         )}
       </div>
 
-      <div>
-        <div className="flex flex-col gap-y-4 mt-4 border border-slate-200 bg-white px-4 py-8 rounded-lg shadow-md w-[720px]">
+      <div className="p-8">
+        <div className="flex flex-col gap-y-4 border border-slate-200 bg-white px-4 py-8 rounded-lg shadow-md w-[720px]">
           <div className="flex w-full gap-x-4 items-center">
             <label
               className="font-semibold text-slate-700"
@@ -202,18 +211,23 @@ if(rmaDetails){
             </p> */}
             <form>
               <select
-              disabled={rmaDetails.status === "Completed" || rmaDetails.status === "Rejected"}
+                disabled={
+                  rmaDetails.status === "Completed" ||
+                  rmaDetails.status === "Rejected"
+                }
                 value={statusChanged ? newStatus : rmaDetails.status}
                 onChange={handleStatusChange}
-                className={`flex-1 border border-slate-300 rounded-sm px-2 py-1 ${rmaDetails.status === "Completed" || rmaDetails.status === "Rejected" ? "bg-gray-200" : ""}`}
+                className={`flex-1 border border-slate-300 rounded-sm px-2 py-1 ${
+                  rmaDetails.status === "Completed" ||
+                  rmaDetails.status === "Rejected"
+                    ? "bg-gray-200"
+                    : ""
+                }`}
               >
-                <option value={rmaDetails.status}>
-                  {rmaDetails.status}
-                </option>
+                <option value={rmaDetails.status}>{rmaDetails.status}</option>
                 {nextStatus.map((status, index) => (
                   <option value={status} key={index}>
                     {status}
-                    
                   </option>
                 ))}
               </select>

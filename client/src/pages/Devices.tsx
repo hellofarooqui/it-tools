@@ -96,14 +96,15 @@ const Devices = () => {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-4">
+    <div className="">
+      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-2xl">Devices</h2>
         <Button onClick={() => navigate("new")}>Create New</Button>
       </div>
 
       {/* Add your device management components here */}
 
+<div className="p-8">
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-800 hover:bg-gray-700">
@@ -115,7 +116,7 @@ const Devices = () => {
         </TableHeader>
         <TableBody>
           {devices.map((device) => (
-            <TableRow key={device._id} className=" h-16">
+            <TableRow key={device._id} className="h-16 bg-gray-50 hover:bg-gray-100 border">
               <TableCell className="text-gray-700">
                 {device.image && (
                   <img
@@ -132,39 +133,40 @@ const Devices = () => {
               </TableCell>
               <TableCell className="text-gray-700">
                 <CustomTooltip content="Details">
-                <Button variant="outline" size="icon">
-                  <Link
-                    to={`/devices/${device._id}`}
-                    state={{ data: device }}
-                    key={device._id}
-                  >
-                    <FileText />
-                  </Link>
-                </Button>
+                  <Button variant="outline" size="icon">
+                    <Link
+                      to={`/devices/${device._id}`}
+                      state={{ data: device }}
+                      key={device._id}
+                    >
+                      <FileText />
+                    </Link>
+                  </Button>
                 </CustomTooltip>
                 <CustomTooltip content="Edit">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleEditDevice(device)}
-                >
-                  <FilePenLine />
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleEditDevice(device)}
+                  >
+                    <FilePenLine />
+                  </Button>
                 </CustomTooltip>
                 <CustomTooltip content="Delete">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleDeleteDevice(device)}
-                >
-                  <Trash2 />
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleDeleteDevice(device)}
+                  >
+                    <Trash2 />
+                  </Button>
                 </CustomTooltip>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,11 @@ import Device from "../models/Device.js";
 
 export const getAllDevices = async (req, res) => {
     try {
+        const q = req.query.q
+        if(q == "count"){
+            const deviceCount = await Device.estimatedDocumentCount();
+            return res.status(200).json({deviceCount})
+        }
         const devices = await Device.find();
         res.status(200).json(devices);
     } catch (error) {

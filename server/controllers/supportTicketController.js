@@ -14,7 +14,8 @@ export const getAllSupportTicketsList = async (req, res) => {
 export const getAllSupportTickets = async (req, res) => {
   try {
     if(req.query){
-      const tickets = await SupportTicket.find({status : { $in : req.query.status}})
+      console.log("Req query", req.query.status)
+      const tickets = await SupportTicket.countDocuments({status : { $in : req.query.status}})
       if(tickets){
         return res.json(tickets)
       }

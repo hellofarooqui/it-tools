@@ -73,7 +73,7 @@ const ListTickets = () => {
             New Ticket
           </Button>
         </div>
-        <div className="mt-4 p-4  ">
+        <div className="p-8 ">
           <div className="flex bg-white rounded-t-md overflow-hidden shadow-md p-4 w-full justify-between items-center">
             <div className="flex  bg-gray-100 rounded-sm overflow-hidden p-1">
               <button onClick={()=>handleChangeFilter("Open")} className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${filter=="Open" ? "bg-white text-gray-700 font-semibold" :""}`}>Open</button>
