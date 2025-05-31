@@ -3,6 +3,7 @@ import cors from 'cors';
 import connectDB from './config/connectDB.js';
 import dotenv from 'dotenv';
 
+import authRouter from './routes/authRouter.js'
 import rmaRouter from './routes/rmaRouter.js';
 import devicesRouter from './routes/devicesRouter.js';
 import supportTicketRouter from './routes/supportTicketRouter.js';
@@ -38,6 +39,7 @@ connectDB();
 const PORT = process.env.PORT || 3000;
 
 // Routes
+app.use("/api/auth", authRouter)
 app.use("/api/rma", rmaRouter);
 app.use("/api/devices", devicesRouter);
 app.use("/api/support", supportTicketRouter);

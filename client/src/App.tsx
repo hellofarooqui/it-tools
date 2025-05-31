@@ -14,6 +14,8 @@ import ListTickets from './pages/SupportTicket/ListTickets';
 import NewSupportTicket from './pages/SupportTicket/NewSupportTicket';
 import SupportTicketDetails from './pages/SupportTicket/SupportTicketDetails';
 import EditTicket from './pages/SupportTicket/EditTicket';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
 
 // Example page components
 
@@ -42,6 +44,11 @@ function App() {
 
 
         </Route>
+      </Routes>
+      <Routes>
+        <Route path='login' element={<Login/>} />
+        <Route path='register' element={<Register/>} />
+
       </Routes>
     </BrowserRouter>
   );
