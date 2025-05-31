@@ -1,5 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET
 
 
 export const userRegister =  async (req, res) => {
@@ -12,12 +15,14 @@ export const userRegister =  async (req, res) => {
     const newUser = await User.create({ email, password: hashedPassword });
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: 'Server error' });
   }
 }
 
 export const userLogin =  async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
@@ -25,9 +30,10 @@ export const userLogin =  async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, "aksdajksdASdajh", { expiresIn: '1h' });
     res.json({ token });
-  } catch {
+  } catch(error) {
+    console.log(error)
     res.status(500).json({ error: 'Server error' });
   }
 }

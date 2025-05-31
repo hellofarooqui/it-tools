@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useDashboard from "../hooks/useDashboard";
 import { Loader2, LogOut, ReceiptText, Settings, User } from "lucide-react";
 import { Button } from "../components/ui/button";
+import useAuth from "../hooks/useAuth";
 
 interface Dashboard {
   activeTickets: number;
@@ -23,6 +24,7 @@ const Dashboard = () => {
   const [error, setError] = useState("");
 
   const { getActiveTickets, getActiveRMA, getDeviceCount } = useDashboard();
+  const {logoutUser} = useAuth()
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -117,7 +119,7 @@ const Dashboard = () => {
                 <ul className="w-full text-gray-600/90 flex flex-col gap-1 items-start">
                   <li className="w-full flex hover:bg-gray-100 items-center gap-x-4 px-8 py-2 "><ReceiptText/> View Profile</li>
                   <li className="w-full flex hover:bg-gray-100 items-center gap-x-4 px-8 py-2"><Settings/> Settings</li>
-                  <li className="w-full flex hover:bg-gray-100 items-center gap-x-4 px-8 py-2 mt-1"><LogOut/> Logout</li>
+                  <li onClick={logoutUser} className="w-full flex hover:bg-gray-100 items-center gap-x-4 px-8 py-2 mt-1"><LogOut/> Logout</li>
                 </ul>
               </div>
             )}
