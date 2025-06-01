@@ -68,7 +68,6 @@ const Register = () => {
                 name="email"
                 className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md"
                 type="text"
-                name="email"
                 id="email"
               />
             </div>
@@ -79,7 +78,7 @@ const Register = () => {
                 name="password"
                 className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md"
                 type="password"
-                name="password"
+                
                 id="password"
               />
             </div>

@@ -15,7 +15,7 @@ const useAuth = () => {
         }
     }
 
-    const loginUser = async (userData) => {
+    const signIn = async (userData) => {
         try{
 
             const response = await axios.post(`${serverUrl}/api/auth/login`, userData)
@@ -33,7 +33,24 @@ const useAuth = () => {
     const logoutUser = async () => {
         localStorage.removeItem("token")
     }
-    return {registerUser,loginUser, logoutUser}
+
+    const getUserDetailsWithToken = async (token) => {
+        console.log("Getting user details with token" , token)
+        try{
+            const response = await axios.get(`${serverUrl}/api/auth/user`,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            return response.data
+            
+        }
+        catch(error){
+            console.log("Error",error)
+        }
+    }
+
+    return {registerUser,signIn, logoutUser, getUserDetailsWithToken}
 }
 
 export default useAuth;

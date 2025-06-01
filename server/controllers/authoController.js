@@ -25,6 +25,7 @@ export const userLogin =  async (req, res) => {
   console.log(req.body)
   try {
     const user = await User.findOne({ email });
+    console.log(user)
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -49,4 +50,8 @@ export const userProfile = async (req, res) => {
   } catch {
     res.status(401).json({ error: 'Invalid token' });
   }
+}
+
+export const userDetails = async (req,res) => {
+  console.log(req)
 }

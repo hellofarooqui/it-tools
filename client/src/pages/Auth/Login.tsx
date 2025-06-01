@@ -2,6 +2,11 @@ import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import {useAuthContext} from './../../context/AuthContext'
+
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 
 interface UserType {
@@ -17,7 +22,8 @@ const defaultUser: User = {
 
 const Login = () => {
       const [user, setUser] = useState<UserType>(defaultUser);
-  const { loginUser } = useAuth();
+      const {signIn} = useAuth()
+  const { loginUser } = useAuthContext();
   const navigate = useNavigate()
 
   
@@ -29,7 +35,7 @@ const Login = () => {
     e.preventDefault();
     console.log(user);
     try {
-      const response = await loginUser(user);
+      const response = await signIn(user);
       if (response) {
         // toast("Registration is completed", {
         //   description: "You can now login.",
@@ -38,7 +44,8 @@ const Login = () => {
         //     onClick: () => navigate("/login"),
         //   },
         // });
-        window.alert("Login Successful")
+        //window.alert("Login Successful")
+        toast("Login Successful")
         setUser(defaultUser)
         navigate("/")
       }
@@ -62,11 +69,11 @@ const Login = () => {
         <form onSubmit={handleLoginSubmit} className="flex flex-col gap-y-2 mt-4">
           <div className="flex flex-col gap-y-1">
             <label htmlFor="email">Email</label>
-            <input onChange={handleInputChange} className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md" type="text" name="email" id="email" />
+            <input onChange={handleInputChange} className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md" type="text" name="email" />
           </div>
           <div className="flex flex-col gap-y-1">
             <label htmlFor="password">Password</label>
-            <input onChange={handleInputChange} className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md" type="password" name="password" id="password" />
+            <input onChange={handleInputChange} className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md" type="password" name="password"  />
           </div>
           <p className="mt-4 text-sm text-gray-600 hover:text-gray-700" >
             Don't have an account? <a href="/register" className="rounded-full bg-gray-100 hover:bg-gray-200 px-2">Regsiter here</a>
@@ -75,6 +82,7 @@ const Login = () => {
         </form>
         </div>
       </div>
+      
     </div>
   );
 };
