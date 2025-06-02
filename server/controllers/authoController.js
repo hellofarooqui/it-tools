@@ -54,4 +54,12 @@ export const userProfile = async (req, res) => {
 
 export const userDetails = async (req,res) => {
   console.log(req)
+  const userId = req.user
+  try{
+    const user = await User.findById(req.user)
+    return res.status(200).json(user)
+  }
+  catch(err){
+    return res.status(500).json({error:"Server Error"})
+  }
 }

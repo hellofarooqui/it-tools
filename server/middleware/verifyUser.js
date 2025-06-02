@@ -6,7 +6,10 @@ const verifyUser = (req,res,next) => {
     const user = jwt.verify(token,"aksdajksdASdajh")
     if(user){
         console.log("User",user)
+        req.user = user.id
+        next()
     }
+    else return res.status(403).json({msg:"Invalid Token"}) 
 }
 
 export default verifyUser
