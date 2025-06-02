@@ -4,28 +4,28 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 const useAuth = () => {
 
     const registerUser = async (userData) => {
-        try{
+        try {
             const response = await axios.post(`${serverUrl}/api/auth/register`, userData)
-            if(response){
+            if (response) {
                 return response
             }
         }
-        catch(error){
+        catch (error) {
             throw new Error()
         }
     }
 
     const signIn = async (userData) => {
-        try{
+        try {
 
             const response = await axios.post(`${serverUrl}/api/auth/login`, userData)
-             if(response){
+            if (response) {
                 console.log(response.data.token)
                 localStorage.setItem("token", response.data.token)
                 return response
             }
         }
-        catch(error){
+        catch (error) {
             console.log(error)
             throw new Error()
         }
@@ -35,22 +35,27 @@ const useAuth = () => {
     }
 
     const getUserDetailsWithToken = async (token) => {
-        console.log("Getting user details with token" , token)
-        try{
-            const response = await axios.get(`${serverUrl}/api/auth/user`,{
-                headers:{
-                    Authorization:`Bearer ${token}`
+        console.log("Getting user details with token", token)
+        try {
+            const response = await axios.get(`${serverUrl}/api/auth/user`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
             })
+            if(!response.status==200){
+                throw new Error("Invalid token")
+            }
+            console.log(response)
             return response.data
-            
         }
-        catch(error){
-            console.log("Error",error)
+        catch (error) {
+            console.log("Error", error)
+            throw new Error("User details not found")
+            
         }
     }
 
-    return {registerUser,signIn, logoutUser, getUserDetailsWithToken}
+    return { registerUser, signIn, logoutUser, getUserDetailsWithToken }
 }
 
 export default useAuth;

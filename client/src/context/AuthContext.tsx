@@ -6,30 +6,41 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
   const { getUserDetailsWithToken } = useAuth();
 
   useEffect(() => {
-    console.log("In UseEffect of AuthContext");
+    //console.log("In UseEffect of AuthContext");
     const fetchUserDetails = async () => {
-      try {
-        const userDetails = await getUserDetailsWithToken(token);
-        if (userDetails) {
-          setUser(userDetails);
+      if (token) {
+        try {
+          const userDetails = await getUserDetailsWithToken(token);
+          if (userDetails) {
+            console.log(userDetails);
+            setUser(userDetails);
+            setAuthLoading(false);
+          }
+        } catch (error) {
+          setUser(null);
+          setAuthLoading(false);
+          setAuthError("Invalid Token");
+          localStorage.removeItem("token")
         }
-      } catch (error) {
-        setUser(null);
+      }
+      else {
+        setAuthError(null)
+        setUser(null)
+        setAuthLoading(false)
       }
     };
-
-    if (token) {
-      console.log("Fetching user details");
-      fetchUserDetails();
-    }
+    fetchUserDetails();
   }, [token]);
 
   const logoutUser = () => {
     localStorage.removeItem("token");
+    setToken(null)
   };
 
   const loginUser = (userToken) => {
@@ -37,7 +48,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loginUser, logoutUser, user, token }}>
+    <AuthContext.Provider
+      value={{
+        loginUser,
+        logoutUser,
+        user,
+        token,
+        authError,
+        authLoading,
+        setToken,
+        isAuthenticated: !!user,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

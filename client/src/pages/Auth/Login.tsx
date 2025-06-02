@@ -45,6 +45,8 @@ const Login = () => {
         //   },
         // });
         //window.alert("Login Successful")
+        console.log(response.data.token)
+        loginUser(response.data.token)
         toast("Login Successful")
         setUser(defaultUser)
         navigate("/")
@@ -55,7 +57,7 @@ const Login = () => {
         //     action: "Retry",
         //     onClick : () => window.location.reload(true)
         // })
-        window.alert("There is some error")
+        toast("There is some error")
     }
   };
   return (

@@ -3,6 +3,7 @@ import useDashboard from "../hooks/useDashboard";
 import { Loader2, LogOut, ReceiptText, Settings, User } from "lucide-react";
 import { Button } from "../components/ui/button";
 import useAuth from "../hooks/useAuth";
+import { useAuthContext } from "../context/AuthContext";
 
 interface Dashboard {
   activeTickets: number;
@@ -24,7 +25,8 @@ const Dashboard = () => {
   const [error, setError] = useState("");
 
   const { getActiveTickets, getActiveRMA, getDeviceCount } = useDashboard();
-  const {logoutUser} = useAuth()
+  //const {logoutUser} = useAuth()
+  const {logoutUser} = useAuthContext()
 
   useEffect(() => {
     function handleClickOutside(event) {

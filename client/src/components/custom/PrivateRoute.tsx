@@ -1,12 +1,45 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import {useAuthContext} from './../../context/AuthContext'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { useAuthContext } from './../../context/AuthContext'
+import { Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
-const isAuthenticated = () => !!localStorage.getItem('token');
+//const isAuthenticated = () => !!localStorage.getItem('token');
 
 const PrivateRoute = () => {
-  const {user} = useAuthContext()
+  //const navigate = useNavigate()
+  const { token, authError, authLoading, isAuthenticated } = useAuthContext()
 
-  return user ? <Outlet /> : <Navigate to="/login" />;
+
+  
+  if(!token){
+    console.log("No token")
+    return <Navigate to="/login" />
+  }
+
+  if (authLoading) {
+    console.log("Auth Loading")
+    return (<div className='w-screen h-screen flex justify-center items-center'>
+      <Loader2 className='animate-spin' />
+    </div>)
+  }
+
+
+  if (authError) {
+    console.log("Auth Error")
+    toast("Authentication Error")
+  }
+
+
+  if(isAuthenticated){
+    return <Outlet/>
+  }
+
+  // else {
+  //   console.log("Error in navigating")
+  //   return user ? <Outlet /> : <Navigate to="/login" />;
+  // }
+
+
 };
 
 export default PrivateRoute;
