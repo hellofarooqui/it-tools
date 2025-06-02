@@ -75,7 +75,7 @@ const Dashboard = () => {
       } catch (error) {
         setError("Something went wrong");
       } finally {
-        console.log("Active Tickets LEngth", dashboard.activeTickets);
+        console.log("Active Tickets Length", dashboard.activeTickets);
         setLoading(false);
       }
     };
@@ -105,7 +105,7 @@ const Dashboard = () => {
         <div className="flex gap-x-4">
           <div className="rounded-md border flex items-center p-2 bg-gray-100">
             <input
-              className="placeholder-gray-400"
+              className="placeholder-gray-400 focus:outline-none"
               name="search"
               placeholder="Search device, ticket..."
             />
@@ -128,28 +128,28 @@ const Dashboard = () => {
           </Button>
         </div>
       </div>
-      <div className="p-8 grid grid-cols-3 gap-x-4">
-        <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 p-8 flex flex-col gap-y-2 rounded-[10px] border">
-          <p className="text-emerald-800 text-white text-medium font-semibold">
+      <div className="p-8 grid grid-cols-6 gap-x-4">
+        <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 p-8 flex flex-col gap-y-2 rounded-2xl shadow-sm">
+          <p className="text-emerald-800 text-white text-lg font-semibold">
             Active Tickets
           </p>
-          <p className="text-emerald-800 text-white text-2xl font-semibold">
+          <p className="text-emerald-800 text-white text-3xl font-bold">
             {dashboard.activeTickets}
           </p>
         </div>
-        <div className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-400 p-8 flex flex-col gap-y-2 rounded-[10px] border">
-          <p className="text-indigo-800 text-white text-medium font-semibold">
+        <div className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-400 p-8 flex flex-col gap-y-2 rounded-2xl shadow-sm">
+          <p className="text-indigo-800 text-white text-lg font-semibold">
             Active RMA
           </p>
-          <p className="text-indigo-800 text-white text-2xl font-semibold">
+          <p className="text-indigo-800 text-white text-3xl font-bold">
             {dashboard.activeRMA}
           </p>
         </div>
-        <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400 p-8 flex flex-col gap-y-2 rounded-[10px] border">
-          <p className="text-purple-800 text-white text-medium font-semibold">
+        <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400 p-8 flex flex-col gap-y-2 rounded-2xl shadow-sm">
+          <p className="text-purple-800 text-white text-lg font-semibold">
             Devices
           </p>
-          <p className="text-purple-800 text-white text-2xl font-semibold">
+          <p className="text-purple-800 text-white text-3xl font-bold">
             {dashboard.deviceCount}
           </p>
         </div>
