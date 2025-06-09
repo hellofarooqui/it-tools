@@ -99,12 +99,16 @@ const Devices = () => {
     <div className="">
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-2xl">Devices</h2>
-        <Button onClick={() => navigate("new")}>Create New</Button>
+        
       </div>
 
       {/* Add your device management components here */}
 
-<div className="p-8">
+<div className="p-4">
+<div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
+    <h2 className="font-bold text-xl">All Devices</h2>
+    <Button variant="outline" onClick={() => navigate("new")}>Create New</Button>
+  </div>
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-800 hover:bg-gray-700">

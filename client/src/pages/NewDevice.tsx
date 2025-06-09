@@ -43,6 +43,13 @@ const NewDevice = () => {
     }
   };
 
+  const handleCancel = () => {
+    setDevice(defaultDevice);
+    setImagePreview("");
+    navigate(-1);
+  };
+
+
   const handleAddDeviceSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -68,12 +75,13 @@ const NewDevice = () => {
       </div>
 
 <div className="p-8">
-      <div className="bg-white px-4 py-8 rounded-lg shadow-md w-[720px]">
+      <div className="bg-white px-6 py-6 rounded-lg shadow-md w-[720px]">
         <form
           onSubmit={handleAddDeviceSubmit}
-          className="flex flex-col gap-y-4"
+          onReset={handleCancel}
+          className="grid grid-cols-[200px_auto] gap-y-4 gap-x-6"
         >
-          <div className="flex w-full gap-x-4 items-center">
+         
             <label
               className="font-semibold text-slate-700"
               htmlFor="deviceName"
@@ -92,8 +100,8 @@ const NewDevice = () => {
               }
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
             />
-          </div>
-          <div className="flex w-full gap-x-4 items-center">
+          
+         
             <label
               className="font-semibold text-slate-700"
               htmlFor="deviceSerialNumber"
@@ -112,8 +120,8 @@ const NewDevice = () => {
               }
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
             />
-          </div>
-          <div className="flex w-full gap-x-4 items-start">
+          
+          
             <label className="font-semibold text-slate-700" htmlFor="notes">
               Notes
             </label>
@@ -126,8 +134,8 @@ const NewDevice = () => {
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none"
               rows={4}
             />
-          </div>
-          <div className="flex w-full gap-x-4 items-center">
+          
+         
             <label className="font-semibold text-slate-700" htmlFor="image">
               Image
             </label>
@@ -146,10 +154,16 @@ const NewDevice = () => {
                 className="mt-2 w-32 h-16 border rounded-md p-2 object-contain"
               />
             )}
-          </div>
+          <div></div>
+          <div className="flex w-full gap-x-4 items-center justify-end mt-4">
+          <Button variant="outline" type="reset" className=" self-end px-8">
+            Cancel
+          </Button>
           <Button type="submit" className=" self-end px-8">
             Save
           </Button>
+          </div>
+          
         </form>
       </div>
       </div>
