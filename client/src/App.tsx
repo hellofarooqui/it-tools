@@ -16,8 +16,9 @@ import SupportTicketDetails from "./pages/SupportTicket/SupportTicketDetails";
 import EditTicket from "./pages/SupportTicket/EditTicket";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
-import PrivateRoute from './components/custom/PrivateRoute'
-import Settings from "./pages/Settings";
+import PrivateRoute from "./components/custom/PrivateRoute";
+import Settings from "./pages/Settings/Settings";
+import NewDeviceType from "./pages/Settings/NewDeviceType";
 
 // Example page components
 
@@ -39,9 +40,13 @@ function App() {
             <Route path="devices/:deviceId/edit" element={<EditDevice />} />
 
             <Route path="settings" element={<Settings />} />
-
+            <Route
+              path="settings/device-type/new"
+              element={<NewDeviceType />}
+            />
             <Route path="support" element={<ListTickets />} />
             <Route path="support/new" element={<NewSupportTicket />} />
+
             <Route
               path="support/:ticketNumber"
               element={<SupportTicketDetails />}

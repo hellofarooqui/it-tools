@@ -28,5 +28,6 @@ deviceTypeSchema.pre('save', function(next) {
 });
 
 const DeviceType = mongoose.model('DeviceType', deviceTypeSchema);
+
 export default DeviceType;
 

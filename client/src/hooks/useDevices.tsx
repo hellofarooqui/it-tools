@@ -86,7 +86,7 @@ const useDevices = () => {
 
     const getAllDeviceTypes = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/types`)
+            const response = await axios.get(`${apiUrl}/type`)
             if(response.status !== 200) {
                 throw new Error('Failed to fetch device types')
             }

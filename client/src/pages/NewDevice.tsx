@@ -71,7 +71,7 @@ const NewDevice = () => {
   return (
     <div>
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">Add New Device</h2>
+        <h2 className="font-bold text-slate-800 text-2xl">New Device</h2>
       </div>
 
 <div className="p-8">
@@ -79,7 +79,7 @@ const NewDevice = () => {
         <form
           onSubmit={handleAddDeviceSubmit}
           onReset={handleCancel}
-          className="grid grid-cols-[200px_auto] gap-y-4 gap-x-6"
+          className="grid grid-cols-[150px_auto] gap-y-4 gap-x-6"
         >
          
             <label

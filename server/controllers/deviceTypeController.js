@@ -1,3 +1,5 @@
+import DeviceType from "../models/DeviceType.js";
+
 export const addDeviceType = async (req , res) => {
     const { name, description } = req.body;
 
