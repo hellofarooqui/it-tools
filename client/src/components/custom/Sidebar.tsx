@@ -9,6 +9,7 @@ const sidebarItems = [
   { icon: Ticket, title: 'Support Tickets', path: '/support' },
   { icon: ArchiveRestore, title: 'RMA', path: '/rma' },
   { icon: PcCase, title: 'Devices', path: '/devices' },
+  { icon: Settings, title: 'Settings', path: '/settings' },
 ];
 
 export function Sidebar() {

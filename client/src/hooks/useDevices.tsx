@@ -83,8 +83,42 @@ const useDevices = () => {
             throw error
         }
     }
+
+    const getAllDeviceTypes = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/types`)
+            if(response.status !== 200) {
+                throw new Error('Failed to fetch device types')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error fetching device types:', error)
+            throw error
+        }
+    }
+
+    const addNewDeviceType = async (data) => {
+        try {
+            const response = await axios.post(`${apiUrl}/type/new`, data)
+            if(response.status !== 201) {
+                throw new Error('Failed to create device type')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error creating device type:', error)
+            throw error
+        }
+    }
     
-  return { addDevice, getAllDevices, getDeviceDetails, updateDevice, deleteDevice }
+  return {
+    addDevice,
+    getAllDevices,
+    getDeviceDetails,
+    updateDevice,
+    deleteDevice,
+    getAllDeviceTypes,
+    addNewDeviceType,
+  };
 }
 
 export default useDevices

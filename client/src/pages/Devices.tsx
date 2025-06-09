@@ -99,77 +99,81 @@ const Devices = () => {
     <div className="">
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-2xl">Devices</h2>
-        
       </div>
 
       {/* Add your device management components here */}
 
-<div className="p-4">
-<div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
-    <h2 className="font-bold text-xl">All Devices</h2>
-    <Button variant="outline" onClick={() => navigate("new")}>Create New</Button>
-  </div>
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-gray-800 hover:bg-gray-700">
-            <TableHead className="text-white">Device</TableHead>
-            <TableHead className="text-white">Name</TableHead>
-            <TableHead className="text-white">Serial Number</TableHead>
-            <TableHead className="text-white">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {devices.map((device) => (
-            <TableRow key={device._id} className="h-16 bg-gray-50 hover:bg-gray-100 border">
-              <TableCell className="text-gray-700">
-                {device.image && (
-                  <img
-                    src={`${storageLocation}${device.image}`}
-                    className="w-32 h-12"
-                  />
-                )}
-              </TableCell>
-              <TableCell className="text-gray-700">
-                {device.deviceName}
-              </TableCell>
-              <TableCell className="text-gray-700 ">
-                {device.deviceSerialNumber}
-              </TableCell>
-              <TableCell className="text-gray-700">
-                <CustomTooltip content="Details">
-                  <Button variant="outline" size="icon">
-                    <Link
-                      to={`/devices/${device._id}`}
-                      state={{ data: device }}
-                      key={device._id}
-                    >
-                      <FileText />
-                    </Link>
-                  </Button>
-                </CustomTooltip>
-                <CustomTooltip content="Edit">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleEditDevice(device)}
-                  >
-                    <FilePenLine />
-                  </Button>
-                </CustomTooltip>
-                <CustomTooltip content="Delete">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleDeleteDevice(device)}
-                  >
-                    <Trash2 />
-                  </Button>
-                </CustomTooltip>
-              </TableCell>
+      <div className="p-4">
+        <div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
+          <h2 className="font-bold text-xl">All Devices</h2>
+          <Button variant="outline" onClick={() => navigate("new")}>
+            Create New
+          </Button>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-gray-800 hover:bg-gray-700">
+              <TableHead className="text-white">Device</TableHead>
+              <TableHead className="text-white">Name</TableHead>
+              <TableHead className="text-white">Serial Number</TableHead>
+              <TableHead className="text-white">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {devices.map((device) => (
+              <TableRow
+                key={device._id}
+                className="h-16 bg-gray-50 hover:bg-gray-100 border"
+              >
+                <TableCell className="text-gray-700">
+                  {device.image && (
+                    <img
+                      src={`${storageLocation}${device.image}`}
+                      className="w-32 h-12"
+                    />
+                  )}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  {device.deviceName}
+                </TableCell>
+                <TableCell className="text-gray-700 ">
+                  {device.deviceSerialNumber}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  <CustomTooltip content="Details">
+                    <Button variant="outline" size="icon">
+                      <Link
+                        to={`/devices/${device._id}`}
+                        state={{ data: device }}
+                        key={device._id}
+                      >
+                        <FileText />
+                      </Link>
+                    </Button>
+                  </CustomTooltip>
+                  <CustomTooltip content="Edit">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleEditDevice(device)}
+                    >
+                      <FilePenLine />
+                    </Button>
+                  </CustomTooltip>
+                  <CustomTooltip content="Delete">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleDeleteDevice(device)}
+                    >
+                      <Trash2 />
+                    </Button>
+                  </CustomTooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

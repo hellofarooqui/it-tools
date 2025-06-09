@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const DeviceSchema = new mongoose.Schema({
+  deviceType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DeviceType',
+    required: true,
+  },
   deviceName: {
     type: String,
     required: true,
