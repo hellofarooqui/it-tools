@@ -47,7 +47,11 @@ const Login = () => {
         //window.alert("Login Successful")
         console.log(response.data.token)
         loginUser(response.data.token)
-        toast("Login Successful")
+        toast("Login Successful",{
+          style:{
+            color: "green",
+          }
+        })
         setUser(defaultUser)
         navigate("/")
       }

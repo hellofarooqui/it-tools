@@ -1,15 +1,16 @@
 import { useSidebar } from './../../context/SidebarContext';
-import { ChevronLeft, ChevronRight, Home, Settings, Users, FileText, BarChart2,PcCase,ArchiveRestore,Ticket } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Settings, Globe, Users, FileText, BarChart2,PcCase,ArchiveRestore,Ticket } from 'lucide-react';
 import { cn } from './../../lib/utils';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 
 const sidebarItems = [
-  { icon: Home, title: 'Dashboard', path: '/' },
-  { icon: Ticket, title: 'Support Tickets', path: '/support' },
-  { icon: ArchiveRestore, title: 'RMA', path: '/rma' },
-  { icon: PcCase, title: 'Devices', path: '/devices' },
-  { icon: Settings, title: 'Settings', path: '/settings' },
+  { icon: Home, title: "Dashboard", path: "/" },
+  { icon: Ticket, title: "Support Tickets", path: "/support" },
+  { icon: ArchiveRestore, title: "RMA", path: "/rma" },
+  { icon: PcCase, title: "Devices", path: "/devices" },
+  { icon: Globe, title: "Internet", path: "/internet" },
+  { icon: Settings, title: "Settings", path: "/settings" },
 ];
 
 export function Sidebar() {

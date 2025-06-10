@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 //const isAuthenticated = () => !!localStorage.getItem('token');
 
 const PrivateRoute = () => {
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
   const { token, authError, authLoading, isAuthenticated } = useAuthContext()
 
 
@@ -24,9 +24,10 @@ const PrivateRoute = () => {
   }
 
 
-  if (authError) {
-    console.log("Auth Error")
-    toast("Authentication Error")
+  if (authError == "Invalid Token") {
+    console.log("Auth Error");
+    toast("Session Expired, Please Login Again");
+    navigate("/login");
   }
 
 
