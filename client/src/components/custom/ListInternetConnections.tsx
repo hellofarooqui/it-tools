@@ -11,7 +11,7 @@ const ListInternetConnections = ({
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
         {connections.map((connection) => ( <MainInternetCard key={connection._id} connection={connection} />))}
       </div>
     </div>

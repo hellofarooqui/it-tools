@@ -20,6 +20,7 @@ import PrivateRoute from "./components/custom/PrivateRoute";
 import Settings from "./pages/Settings/Settings";
 import NewDeviceType from "./pages/Settings/NewDeviceType";
 import Internet from "./pages/Internet/Internet";
+import NewInternet from "./pages/Internet/NewInternet";
 
 // Example page components
 
@@ -46,6 +47,8 @@ function App() {
               element={<NewDeviceType />}
             />
             <Route path="internet" element={<Internet />} />
+            <Route path="internet/new" element={<NewInternet />} />
+
             <Route path="support" element={<ListTickets />} />
             <Route path="support/new" element={<NewSupportTicket />} />
 

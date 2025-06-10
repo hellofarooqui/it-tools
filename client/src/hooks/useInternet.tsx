@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import { useAuthContext } from '../context/AuthContext'
 
 
 const serverUrl = import.meta.env.VITE_SERVER_URL
@@ -7,6 +8,8 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
 const API_URL = `${serverUrl}/api/wan`
 
 const useInternet = () => {
+
+    const {token} = useAuthContext()
 
     const fetchInternetConnections = async () => {
         try {
@@ -20,7 +23,24 @@ const useInternet = () => {
             throw error
         }
     }
-  return {fetchInternetConnections}
+
+    const addNewInternet = async  (data) => {
+        try{
+            const response = await axios.post(`${API_URL}/new`, data , {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            if(response.status !== 201){
+                throw new Error("unable to add new internet")
+            }
+            return response.data
+        }
+        catch(error){
+            throw error
+        }
+    }
+  return {fetchInternetConnections , addNewInternet}
 }
 
 export default useInternet
