@@ -9,12 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { Button } from "../ui/button";
 
 const ListDeviceTypes = () => {
   const { getAllDeviceTypes } = useDevices();
   const [deviceTypes, setDeviceTypes] = useState([]);
+  const [showDeviceTypeDetails, setShowDeviceTypeDetails] = useState(false);
+  const [deviceTypeDetailsCard, setDeviceTypeDetailsCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const handleDeviceDetailsButton = (deviceType) => {
+    setShowDeviceTypeDetails(!showDeviceTypeDetails);
+    setDeviceTypeDetailsCard(deviceType)
+  };
 
   const fetchDeviceTypes = async () => {
     try {
@@ -45,23 +53,33 @@ const ListDeviceTypes = () => {
     return <p>{error}</p>;
   }
   return (
-    <div>
-      <Table className="border rounded-[20px] overflow-hidden">
-        <TableHeader className="bg-gray-800">
-          <TableRow>
-            <TableHead className="text-white pl-6">Name</TableHead>
-            <TableHead className="text-white">Description</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {deviceTypes.map((type) => (
-            <TableRow id={type._id}>
-              <TableCell className="pl-6">{type.name}</TableCell>
-              <TableCell>{type.description}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-x-4 gap-y-4">
+      {deviceTypes.map((type) => (
+        <div
+          className="flex flex-col justify-between gap-y-2 bg-white p-6 rounded-[12px] shadow-sm hover:shadow-lg hover:scale-101 border group transition-all ease-in-out duration-300"
+          id={type._id}
+        >
+          <p className="text-xl font-semibold">{type.name}</p>
+          <p className="text-sm line-clamp-2 text-gray-500">
+            {type.description}
+          </p>
+          <Button
+            onClick={()=>handleDeviceDetailsButton(type)}
+            className="bg-gray-700 mt-4 font-bold transition-all ease-in-out duration-300"
+          >
+            Details
+          </Button>
+        </div>
+      ))}
+      {showDeviceTypeDetails && (
+        <div className="absolute w-screen h-screen bg-gray-800/50 top-0 left-0 flex justify-center items-center">
+          <div className="bg-white p-8 rounded-md w-[400px] flex flex-col gap-y-6">
+            <p className="text-2xl font-bold">{deviceTypeDetailsCard.name}</p>
+            <p className="text-lg  text-gray-700">{deviceTypeDetailsCard.description}</p>
+            <Button onClick={()=>setShowDeviceTypeDetails(false)} className="text-lg font-bold">Close</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

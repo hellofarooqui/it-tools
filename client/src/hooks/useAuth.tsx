@@ -35,7 +35,7 @@ const useAuth = () => {
     }
 
     const getUserDetailsWithToken = async (token) => {
-        console.log("Getting user details with token", token)
+        //console.log("Getting user details with token", token)
         try {
             const response = await axios.get(`${serverUrl}/api/auth/user`, {
                 headers: {
@@ -45,7 +45,7 @@ const useAuth = () => {
             if(!response.status==200){
                 throw new Error("Invalid token")
             }
-            console.log(response)
+            //console.log(response)
             return response.data
         }
         catch (error) {

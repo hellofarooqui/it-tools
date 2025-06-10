@@ -18,6 +18,7 @@ const storageLocation = "http://localhost:3000";
 
 interface Device {
   _id: string;
+  deviceType: string,
   deviceName: string;
   deviceSerialNumber: string;
   image: string;
@@ -36,7 +37,7 @@ const Devices = () => {
       try {
         const response = await getAllDevices();
         if (response) {
-          console.log(response);
+          //console.log(response);
           setDevices(response);
           setLoading(false);
           setError("");
@@ -126,12 +127,7 @@ const Devices = () => {
                 className="h-16 bg-gray-50 hover:bg-gray-100 border"
               >
                 <TableCell className="text-gray-700">
-                  {device.image && (
-                    <img
-                      src={`${storageLocation}${device.image}`}
-                      className="w-32 h-12"
-                    />
-                  )}
+                  {device.deviceType.name}
                 </TableCell>
                 <TableCell className="text-gray-700">
                   {device.deviceName}

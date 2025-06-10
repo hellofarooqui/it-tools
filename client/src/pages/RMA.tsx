@@ -33,7 +33,7 @@ const RMA = () => {
     const fetchRMA = async () => {
       const response = await getAllRMAs();
       if (response) {
-        console.log(response)
+        //console.log(response)
         const filteredRMA = response.filter(
           (rma) => (rma.status != "Completed" && rma.status != "Rejected")
         );

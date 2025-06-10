@@ -17,7 +17,7 @@ const useDashboard = () => {
         }
       );
       if (response) {
-        console.log(response);
+        //console.log(response);
         return response.data;
       }
     } catch (error) {
@@ -29,7 +29,7 @@ const useDashboard = () => {
     try {
       const response = await axios.get(`${serverUrl}/api/rma/active`);
       if (response) {
-        console.log(response);
+        //console.log(response);
         return response.data;
       }
     } catch (error) {
@@ -40,7 +40,7 @@ const useDashboard = () => {
   const getDeviceCount = async () => {
     try {
       const response = await axios.get(`${serverUrl}/api/devices?q=count`);
-      console.log(response.data.deviceCount);
+      //console.log(response.data.deviceCount);
       return response.data;
     } catch (error) {
       throw new Error();

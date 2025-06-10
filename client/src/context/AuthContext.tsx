@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const userDetails = await getUserDetailsWithToken(token);
           if (userDetails) {
-            console.log(userDetails);
+            //console.log(userDetails);
             setUser(userDetails);
             setAuthLoading(false);
           }

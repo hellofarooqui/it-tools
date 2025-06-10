@@ -15,7 +15,7 @@ const Settings = () => {
       </div>
 
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Device Types</h2>
           <Button onClick={()=>navigate("device-type/new")}>Add New</Button>
         </div>

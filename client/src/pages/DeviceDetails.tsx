@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import useDevices from "../hooks/useDevices";
 import { Button } from "../components/ui/button";
 
-
 interface Device {
   _id: string | null;
+  deviceType: string;
   deviceName: string | null;
   deviceSerialNumber: string | null;
   image: string | null;
@@ -25,7 +25,7 @@ const DeviceDetails = () => {
       try {
         const response = await getDeviceDetails(deviceId);
         if (response) {
-          console.log(response);
+          //console.log(response);
           setDevice(response);
           setLoading(false);
           setError("");
@@ -50,7 +50,7 @@ const DeviceDetails = () => {
         navigate(-1);
         setLoading(false);
         setError("");
-        } else {
+      } else {
         console.error("Error deleting device");
         setError("Error deleting device");
       }
@@ -75,40 +75,50 @@ const DeviceDetails = () => {
     );
   }
   return (
-    <div>
-      <div className="w-full flex justify-between items-center">
+    <div className="">
+      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-2xl">Device Details</h2>
         <div className="flex gap-x-2">
-            <Button variant="outline" onClick={()=>navigate("edit")}>Edit</Button>
-            <Button  onClick={()=>handleDeviceDelete(device)}>Delete</Button>
+          <Button variant="outline" onClick={() => navigate("edit")}>
+            Edit
+          </Button>
+          <Button onClick={() => handleDeviceDelete(device)}>Delete</Button>
         </div>
       </div>
-      <div className="flex justify-between items-center gap-x-4">
-        <div className="flex-1 bg-white shadow-md rounded-lg p-4 mt-4 flex flex-col gap-y-8">
+      <div className="p-8">
+
+     
+      <div className=" bg-white shadow-md  p-6 rounded-lg flex justify-between items-center gap-x-4">
+        <div className="flex-1 text-gray-600  mt-4 flex flex-col gap-y-6">
           <div className="">
-            <h3 className="font-bold text-lg">Device Name</h3>
-            <p>{device.deviceName}</p>
+            <h3 className="font-bold">Device Type</h3>
+            <p className="text-sm">{device.deviceType.name}</p>
+          </div>
+          <div className="">
+            <h3 className="font-bold">Device Name</h3>
+            <p className="text-sm">{device.deviceName}</p>
           </div>
           <div>
-            <h3 className="font-bold text-lg">Device Serial Number</h3>
-            <p>{device.deviceSerialNumber}</p>
+            <h3 className="font-bold">Device Serial Number</h3>
+            <p className="text-sm">{device.deviceSerialNumber}</p>
           </div>
           <div>
-            <h3 className="font-bold text-lg">Notes</h3>
-            <p>{device.notes ? device.notes : "NA"}</p>
+            <h3 className="font-bold">Notes</h3>
+            <p className="text-sm">{device.notes ? device.notes : "NA"}</p>
           </div>
         </div>
         <div className="w-[30%] h-36 object-contain flex justify-center items-start border rounded-md">
-          <img src={device.image} alt={`${device.deviceName} Image`} />
+          {device.image && <img src={device.image} alt={`${device.deviceName} Image`} />}
         </div>
       </div>
 
-      <div className="mt-8 mb-2">
-        <h2 className="font-bold text-2xl">Device Tickets</h2>
+      <div className="mt-8 mb-2 p-8">
+        <h2 className="font-bold text-xl">Device Tickets</h2>
         <div>
-          <p>No tickets yet</p>
+          <p className="text-gray-600">No tickets yet</p>
         </div>
       </div>
+       </div>
     </div>
   );
 };

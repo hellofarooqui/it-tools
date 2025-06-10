@@ -55,14 +55,14 @@ const Dashboard = () => {
       try {
         const tickets = await getActiveTickets();
         if (tickets) {
-          console.log("Active Tickets length", tickets.length);
-          console.log("Is Array", Array.isArray(tickets));
+          //console.log("Active Tickets length", tickets.length);
+          //console.log("Is Array", Array.isArray(tickets));
 
           setDashboard((prev) => ({ ...prev, activeTickets: tickets.length }));
         }
         const rmas = await getActiveRMA();
         if (rmas) {
-          console.log(rmas);
+          //console.log(rmas);
           setDashboard((prev) => ({ ...prev, activeRMA: rmas.length }));
         }
         const devices = await getDeviceCount();
@@ -75,7 +75,7 @@ const Dashboard = () => {
       } catch (error) {
         setError("Something went wrong");
       } finally {
-        console.log("Active Tickets Length", dashboard.activeTickets);
+        //console.log("Active Tickets Length", dashboard.activeTickets);
         setLoading(false);
       }
     };

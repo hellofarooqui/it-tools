@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button";
 import useDevices from "../../hooks/useDevices";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface NewDeviceType {
   name: String;
@@ -15,6 +16,7 @@ const defaultNewDevice: NewDeviceType = {
 };
 
 const NewDeviceType = () => {
+  const navigate = useNavigate()
   const [newDeviceType, setNewDeviceType] =
     useState<NewDeviceType>(defaultNewDevice);
   const [loading, setLoading] = useState(false);
@@ -33,6 +35,7 @@ const NewDeviceType = () => {
 
         setTimeout(() => {
           setNewDeviceType(defaultNewDevice);
+          navigate(-1)
         }, 1000);
       }
     } catch (error) {
