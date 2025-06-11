@@ -40,7 +40,56 @@ const useInternet = () => {
             throw error
         }
     }
-  return {fetchInternetConnections , addNewInternet}
+
+    const fetchInternetConnectionById = async (internetId) => {
+      try {
+        const response = await axios.get(`${API_URL}/${internetId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch internet connection");
+        }
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching internet connection:", error);
+        throw error;
+      }
+    };
+    const updateInternetConnection = async (internetId, data) => {
+        try {
+            const response = await axios.put(`${API_URL}/update/${internetId}`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (response.status !== 200) {
+                throw new Error('Failed to update internet connection')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error updating internet connection:', error)
+            throw error
+        }
+    }
+    const deleteInternetConnection = async (internetId) => {
+        try {
+            const response = await axios.delete(`${API_URL}/${internetId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (response.status !== 200) {
+                throw new Error('Failed to delete internet connection')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error deleting internet connection:', error)
+            throw error
+        }
+    }
+  return {fetchInternetConnections , addNewInternet, fetchInternetConnectionById, updateInternetConnection, deleteInternetConnection}
 }
 
 export default useInternet

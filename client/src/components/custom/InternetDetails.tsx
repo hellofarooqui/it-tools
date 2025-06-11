@@ -1,12 +1,14 @@
 import React from "react";
 import type { InternetType } from "../../pages/Internet/Internet";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 const InternetDetails = ({
   connection,
   onClose,
 }: {
   connection: InternetType;
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="absolute bg-gray-700/30 z-20 top-0 left-0 w-screen h-screen flex justify-center items-center">
       <div className="bg-white rounded-[15px] p-8 grid grid-cols-[150px_auto] gap-x-4 gap-y-4 text-gray-600">
@@ -56,7 +58,7 @@ const InternetDetails = ({
         <p>{connection.supportPhone}</p>
 
         <div className="col-span-2 flex justify-center gap-x-4">
-        <Button variant="outline" className=" mt-4 px-8" onClick={onClose}>
+        <Button variant="outline" className=" mt-4 px-8" onClick={()=>navigate("edit/" + connection._id)}>
           Edit
         </Button>
         <Button className=" mt-4 px-8" onClick={onClose}>

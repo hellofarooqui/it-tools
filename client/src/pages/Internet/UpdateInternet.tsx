@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import useInternet from "../../hooks/useInternet";
 import toast from "react-hot-toast";
@@ -22,19 +22,37 @@ const defaultNewInternet: NewInternetType = {
   supportPhone: null,
 };
 
-const connectionTypes = ["fiber", "dsl", "cable", "satellite", "wireless"];
+const UpdateInternet= () => {
+  const params = useParams()
+  const { internetId } = params;
 
-const NewInternet = () => {
   const [newInternet, setNewInternet] = useState<NewInternetType>(defaultNewInternet);
-  const { addNewInternet} = useInternet()
+  const { fetchInternetConnectionById, updateInternetConnection } = useInternet();
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const loadInternetConnection = async () => {
+      try {
+        console.log("internetId", internetId);
+        const data = await fetchInternetConnectionById(internetId);
+        setNewInternet(data);
+      } catch (error) {
+        console.error("Failed to load internet connection:", error);
+        toast.error("Failed to load internet connection");
+      }
+    };
+    loadInternetConnection();
+  }, [
+
+  ]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const data = await addNewInternet(newInternet)
+            const data = await updateInternetConnection( internetId,newInternet)
             if(data){
-                toast("Successfully added")
+                toast("Successfully Updated")
                 navigate("/internet")
             }
         }
@@ -47,10 +65,13 @@ const NewInternet = () => {
     const handleReset = (e) => {
 
     }
+
+
+  
   return (
     <div>
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-2xl">New Internet</h2>
+        <h2 className="font-bold text-xl">Updating {(newInternet.name)}</h2>
       </div>
 
       <div className="p-8">
@@ -169,32 +190,7 @@ const NewInternet = () => {
             <label className="text-sm text-end font-medium text-gray-700">
               Connection Type
             </label>
-            <select
-              value={newInternet.connectionType || ""}
-              onChange={(e) =>
-                setNewInternet({
-                  ...newInternet,
-                  connectionType: e.target.value,
-                })
-              }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-            >
-              <option value="" disabled>
-                Select Connection Type
-              </option>
-              {connectionTypes.map((type) => (
-                <option
-                  key={type}
-                  value={type}
-                  onClick={() =>
-                    setNewInternet({ ...newInternet, connectionType: type })
-                  }
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </option>
-              ))}
-            </select>
-            {/* <input
+            <input
               type="text"
               value={newInternet.connectionType || ""}
               onChange={(e) =>
@@ -204,7 +200,7 @@ const NewInternet = () => {
                 })
               }
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-            /> */}
+            />
             <label className="text-sm text-end font-medium text-gray-700">
               Account Username
             </label>
@@ -289,4 +285,4 @@ const NewInternet = () => {
   );
 };
 
-export default NewInternet;
+export default UpdateInternet;
