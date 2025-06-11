@@ -79,7 +79,7 @@ const UpdateInternet= () => {
           <form
             onSubmit={handleSubmit}
             onReset={handleReset}
-            className="grid grid-cols-[150px_auto] items-center gap-x-4 gap-y-4"
+            className="grid grid-cols-[150px_auto] items-center gap-x-4 gap-y-4 text-slate-400"
           >
             <label className="text-sm text-end font-medium text-gray-700">
               Name
@@ -90,7 +90,8 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, name: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800 "
+              
             />
 
             <label className="text-sm  text-end  font-medium text-gray-700">
@@ -101,7 +102,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, description: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800 resize-none"
               rows={3}
             />
 
@@ -115,7 +116,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, ipAddress: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
 
             <label className="text-sm text-end font-medium text-gray-700">
@@ -127,7 +128,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, subnetMask: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Gateway
@@ -138,7 +139,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, gateway: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Account Number
@@ -152,7 +153,7 @@ const UpdateInternet= () => {
                   accountNumber: e.target.value,
                 })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Account Name
@@ -163,7 +164,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, accountName: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Provider
@@ -174,7 +175,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, provider: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Bandwidth
@@ -185,7 +186,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, bandwidth: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Connection Type
@@ -199,7 +200,7 @@ const UpdateInternet= () => {
                   connectionType: e.target.value,
                 })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Account Username
@@ -213,7 +214,7 @@ const UpdateInternet= () => {
                   accountUsername: e.target.value,
                 })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
             <label className="text-sm text-end font-medium text-gray-700">
               Account Password
@@ -227,7 +228,7 @@ const UpdateInternet= () => {
                   accountPassword: e.target.value,
                 })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
 
             <label className="text-sm text-end font-medium text-gray-700">
@@ -242,7 +243,7 @@ const UpdateInternet= () => {
                   supportContact: e.target.value,
                 })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
 
             <label className="text-sm text-end font-medium text-gray-700">
@@ -254,7 +255,7 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, supportEmail: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
 
             <label className="text-sm text-end font-medium text-gray-700">
@@ -266,12 +267,12 @@ const UpdateInternet= () => {
               onChange={(e) =>
                 setNewInternet({ ...newInternet, supportPhone: e.target.value })
               }
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 focus:text-slate-800"
             />
 
             {/* Add more fields as needed */}
             <div className="col-span-2 flex gap-x-4 justify-end">
-              <Button variant="outline" type="reset" className="">
+              <Button onClick={()=>navigate(-1)} variant="outline" type="reset" className="">
                 Cancel
               </Button>
               <Button type="submit" className="">

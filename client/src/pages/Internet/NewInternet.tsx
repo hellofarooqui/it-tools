@@ -25,28 +25,47 @@ const defaultNewInternet: NewInternetType = {
 const connectionTypes = ["fiber", "dsl", "cable", "satellite", "wireless"];
 
 const NewInternet = () => {
-  const [newInternet, setNewInternet] = useState<NewInternetType>(defaultNewInternet);
-  const { addNewInternet} = useInternet()
-  const navigate = useNavigate()
+  const [newInternet, setNewInternet] =
+    useState<NewInternetType>(defaultNewInternet);
+    const [errors,setErrors]=useState("")
+  const { addNewInternet } = useInternet();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try{
-            const data = await addNewInternet(newInternet)
-            if(data){
-                toast("Successfully added")
-                navigate("/internet")
-            }
-        }
-        catch(error){
-            toast(error)
-        }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !newInternet.name //||
+      // !newInternet.description ||
+      // !newInternet.ipAddress ||
+      // !newInternet.subnetMask ||
+      // !newInternet.gateway ||
+      // !newInternet.accountNumber ||
+      // !newInternet.accountName ||
+      // !newInternet.provider ||
+      // !newInternet.bandwidth ||
+      // !newInternet.connectionType ||
+      // !newInternet.supportContact ||
+      // !newInternet.supportEmail ||
+      // !newInternet.supportPhone
+    ){
+      setErrors("Please fill all the fields");
+      toast("Please fill all the fields");
+      return;
     }
+      try {
+        const data = await addNewInternet(newInternet);
+        if (data) {
+          toast("Successfully added");
+          navigate("/internet");
+        }
+      } catch (error) {
+        console.log("Error adding new internet connection:", error);
+        toast(error.response.statusText);
+        return
+      }
+  };
 
-    const handleReset = (e) => {
-
-    }
+  const handleReset = (e) => {};
   return (
     <div>
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
@@ -275,7 +294,12 @@ const NewInternet = () => {
 
             {/* Add more fields as needed */}
             <div className="col-span-2 flex gap-x-4 justify-end">
-              <Button variant="outline" type="reset" className="">
+              <Button
+                onClick={() => navigate(-1)}
+                variant="outline"
+                type="reset"
+                className=""
+              >
                 Cancel
               </Button>
               <Button type="submit" className="">

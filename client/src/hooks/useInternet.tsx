@@ -37,6 +37,7 @@ const useInternet = () => {
             return response.data
         }
         catch(error){
+            //console.log("Error adding new internet connection:", error)
             throw error
         }
     }
