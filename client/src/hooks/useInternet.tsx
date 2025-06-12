@@ -76,7 +76,7 @@ const useInternet = () => {
     }
     const deleteInternetConnection = async (internetId) => {
         try {
-            const response = await axios.delete(`${API_URL}/${internetId}`, {
+            const response = await axios.delete(`${API_URL}/delete/${internetId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

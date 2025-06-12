@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import useInternet from "../../hooks/useInternet";
 import toast from "react-hot-toast";
+import { Trash2 } from "lucide-react";
 
 const defaultNewInternet: NewInternetType = {
   name: null,
@@ -27,7 +28,7 @@ const UpdateInternet= () => {
   const { internetId } = params;
 
   const [newInternet, setNewInternet] = useState<NewInternetType>(defaultNewInternet);
-  const { fetchInternetConnectionById, updateInternetConnection } = useInternet();
+  const { fetchInternetConnectionById, updateInternetConnection,deleteInternetConnection } = useInternet();
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -66,12 +67,28 @@ const UpdateInternet= () => {
 
     }
 
+    const handleDelete = async () => {
+      if (window.confirm("Are you sure you want to delete this internet connection?")) {
+        try {
+          const deleted = await deleteInternetConnection(internetId);
+          if (deleted) {
+            toast.success("Internet connection deleted successfully");
+            navigate("/internet");
+          }
+        } catch (error) {
+          console.error("Failed to delete internet connection:", error);
+          toast.error("Failed to delete internet connection");
+        }
+      }
+    };
+
 
   
   return (
     <div>
       <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
         <h2 className="font-bold text-xl">Updating {(newInternet.name)}</h2>
+        <Button onClick={handleDelete}><Trash2/> Delete</Button>
       </div>
 
       <div className="p-8">

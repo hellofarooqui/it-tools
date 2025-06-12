@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = (userToken) => {
     setToken(userToken);
+    setAuthError(null);
   };
 
   return (

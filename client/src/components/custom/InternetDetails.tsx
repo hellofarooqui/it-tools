@@ -70,7 +70,7 @@ const InternetDetails = ({
         {connection.bandwidth && (
           <div>
             <p className="font-semibold">Bandwidth</p>
-            <p>{connection.bandwidth || "-NA-"}</p>
+            <p>{connection.bandwidth || "-NA-"} Mbps</p>
           </div>
         )}
         <div className="flex gap-x-10  items-center ">
