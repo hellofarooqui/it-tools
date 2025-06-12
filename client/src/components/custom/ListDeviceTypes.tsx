@@ -53,7 +53,7 @@ const ListDeviceTypes = () => {
     return <p>{error}</p>;
   }
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-x-4 gap-y-4">
+    <div className="p-4 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-x-4 gap-y-4">
       {deviceTypes.map((type) => (
         <div
           className="flex flex-col justify-between gap-y-2 bg-white p-6 rounded-[12px] shadow-sm hover:shadow-lg hover:scale-101 border group transition-all ease-in-out duration-300"

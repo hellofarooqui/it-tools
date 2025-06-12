@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "../components/ui/button";
-import useRMA from "./../hooks/useRMA";
+
 import { useNavigate } from "react-router-dom";
-import { rmaData } from "./../data/dummydata";
+import useRMA from "../../hooks/useRMA";
+import { Button } from "../../components/ui/button";
 
 // rmaNumber
 // deviceName

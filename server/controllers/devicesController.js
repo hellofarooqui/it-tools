@@ -2,6 +2,7 @@ import Device from "../models/Device.js";
 
 export const getAllDevices = async (req, res) => {
     try {
+        
         const q = req.query.q
         if(q == "count"){
             const deviceCount = await Device.estimatedDocumentCount();
@@ -21,8 +22,9 @@ export const getDeviceById = async (req, res) => {
         if (!device) {
             return res.status(404).json({ error: "Device not found" });
         }
-        res.status(200).json(device);
+        return res.status(200).json(device);
     } catch (error) {
+        console.log("Get Device By ID");
         console.error("Error fetching device:", error);
         res.status(500).json({ error: "Internal server error" });
     }   
@@ -73,6 +75,10 @@ export const deleteDevice = async (req, res) => {
 export const searchDevices = async (req, res) => {
     try {
         const { query } = req.query;
+        console.log("Search query:", query);
+        if (!query) {
+            return res.status(400).json({ error: "Query parameter is required" });
+        }
         const devices = await Device.find({
             $or: [
                 { deviceName: { $regex: query, $options: "i" } },

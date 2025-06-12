@@ -10,6 +10,11 @@ const DeviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  vendor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Vendor',
+    required: true,
+  },
   deviceSerialNumber: {
     type: String,
     required: true,
@@ -20,6 +25,17 @@ const DeviceSchema = new mongoose.Schema({
   },
   image:{
     type: String,
+  },
+  supportTickets: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SupportTicket',
+    },
+  ],
+  status:{
+    type: String,
+    enum: ['ACTIVE', 'INACTIVE', 'MAINTENANCE'],
+    default: 'ACTIVE',
   },
   addedOn:{
     type: Date,

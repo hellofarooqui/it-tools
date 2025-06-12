@@ -8,6 +8,7 @@ import rmaRouter from './routes/rmaRouter.js';
 import devicesRouter from './routes/devicesRouter.js';
 import supportTicketRouter from './routes/supportTicketRouter.js';
 import wanRouter from './routes/wanRouter.js';
+import vendorRouter from './routes/vendorRouter.js';
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use("/api/rma", rmaRouter);
 app.use("/api/devices", devicesRouter);
 app.use("/api/support", supportTicketRouter);
 app.use('/api/wan', wanRouter)
+app.use('/api/vendor', vendorRouter);
 
 
 app.get('/', (req, res) => {

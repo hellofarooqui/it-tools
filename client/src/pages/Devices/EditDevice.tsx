@@ -1,7 +1,9 @@
 import React, { use, useEffect } from 'react'
-import useDevices from '../hooks/useDevices'
+
 import { Form, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Button } from '../components/ui/button'
+
+import useDevices from '../../hooks/useDevices'
+import { Button } from '../../components/ui/button'
 
 
 const EditDevice = () => {

@@ -5,20 +5,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./../components/ui/table";
+} from "../../components/ui/table.js";
 
-import { Button } from "../components/ui/button";
-import { FilePenLine, FileText, Loader2, Trash2 } from "lucide-react";
-import useDevices from "../hooks/useDevices.js";
+import { Button } from "../../components/ui/button.js";
+import { FilePenLine, FileText, Loader2, Plus, Trash2 } from "lucide-react";
+import useDevices from "../../hooks/useDevices.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CustomTooltip from "../components/custom/CustomToolTip.js";
+import CustomTooltip from "../../components/custom/CustomToolTip.js";
 
 const storageLocation = "http://localhost:3000";
 
 interface Device {
   _id: string;
-  deviceType: string,
+  deviceType: string;
   deviceName: string;
   deviceSerialNumber: string;
   image: string;
@@ -107,9 +107,15 @@ const Devices = () => {
       <div className="p-4">
         <div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
           <h2 className="font-bold text-xl">All Devices</h2>
-          <Button variant="outline" onClick={() => navigate("new")}>
-            Create New
-          </Button>
+          <div className="flex gap-x-2">
+            <Button variant="outline" onClick={() => navigate("new")}>
+              Import Devices
+            </Button>
+            <Button onClick={() => navigate("new")}>
+              <Plus />
+              Add
+            </Button>
+          </div>
         </div>
         <Table>
           <TableHeader>

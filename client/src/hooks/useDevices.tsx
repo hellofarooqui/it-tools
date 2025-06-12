@@ -41,6 +41,21 @@ const useDevices = () => {
         }
     }
 
+    const searchDevices = async (query) => {
+        try {
+            const response = await axios.get(`${apiUrl}/search`, {
+                params: { query: query }
+            })
+            if(response.status !== 200) {
+                throw new Error('Failed to search devices')
+            }
+            return response.data
+        } catch (error) {
+            console.error('Error searching devices:', error)
+            throw error
+        }
+    }
+
     const getDeviceDetails = async (deviceId) => {
         try {
             const response = await axios.get(`${apiUrl}/${deviceId}`)
@@ -113,6 +128,7 @@ const useDevices = () => {
   return {
     addDevice,
     getAllDevices,
+    searchDevices,
     getDeviceDetails,
     updateDevice,
     deleteDevice,

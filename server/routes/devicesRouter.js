@@ -12,12 +12,13 @@ router.put('/type/:deviceTypeId', updateDeviceType);
 router.delete('/type/:deviceTypeId', deleteDeviceType);
 router.get('/type/:deviceTypeId', getDeviceTypeById);
 
+router.get("/search", searchDevices);
 router.get('/', getAllDevices);
 router.get('/:deviceId', getDeviceById);
 router.post('/new', deviceImageUpload ,createDevice);
 router.put('/update/:deviceId', updateDevice);
 router.delete('/delete/:deviceId', deleteDevice);
-router.get('/search/:query', searchDevices);
+
 
 
 

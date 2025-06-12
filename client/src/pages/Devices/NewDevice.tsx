@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useDevices from "../hooks/useDevices";
+
 import { Form, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
+
 import { Loader2 } from "lucide-react";
+import useDevices from "../../hooks/useDevices";
+import { Button } from "../../components/ui/button";
 
 const defaultDevice = {
   deviceType: "",

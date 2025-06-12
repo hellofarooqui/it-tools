@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../components/ui/button";
+
 import { Loader2 } from "lucide-react";
 
-import { rmaData } from "../data/dummydata.js";
-import RMACard from "../components/custom/RMACard.js";
+
+
 import { useNavigate } from "react-router-dom";
-import { set } from "react-hook-form";
-import useRMA from "../hooks/useRMA.js";
+import { Button } from "../../components/ui/button";
+import useRMA from "../../hooks/useRMA";
+import RMACard from "../../components/custom/RMACard";
 
 const RMA = () => {
   const navigate = useNavigate();

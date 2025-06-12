@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import useRMA from '../hooks/useRMA'
-import { Button } from '../components/ui/button'
+import useRMA from '../../hooks/useRMA'
+import { Button } from '../../components/ui/button'
+
 
 const RMAEdit = () => {
     const params = useParams()
