@@ -6,13 +6,13 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 
 export const userRegister =  async (req, res) => {
-  const { email, password } = req.body;
+  const { name,email, password } = req.body;
   try {
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ error: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await User.create({ email, password: hashedPassword });
+    const newUser = await User.create({ name,email, password: hashedPassword });
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     console.log(err)

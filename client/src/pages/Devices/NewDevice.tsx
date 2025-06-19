@@ -5,9 +5,11 @@ import { Form, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import useDevices from "../../hooks/useDevices";
 import { Button } from "../../components/ui/button";
+import useVendor from "../../hooks/useVendor";
 
 const defaultDevice = {
   deviceType: "",
+  vendor:"",
   deviceName: "",
   deviceSerialNumber: "",
   notes: "",
@@ -20,17 +22,24 @@ const NewDevice = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deviceTypes, setDeviceTypes] = useState(null);
+  const [allVendors,setAllVendors] = useState([]);
   const [imagePreview, setImagePreview] = React.useState("");
 
   const { addDevice, getAllDeviceTypes } = useDevices();
+  const { getAllVendorsList } = useVendor();
   const navigate = useNavigate();
 
   const fetchDeviceTypes = async () => {
     try {
-      const data = await getAllDeviceTypes();
-      if (data) {
-        setDeviceTypes(data);
+      const types = await getAllDeviceTypes();
+      if (types) {
+        setDeviceTypes(types);
       }
+      const vendors = await getAllVendorsList();
+      if (vendors) {
+        setAllVendors(vendors);
+      }
+      setError("");
     } catch (error) {
       setError("Error in fetching device types");
     } finally {
@@ -126,6 +135,21 @@ const NewDevice = () => {
               {deviceTypes &&
                 deviceTypes.map((type) => (
                   <option value={type._id}>{type.name}</option>
+                ))}
+            </select>
+            <label htmlFor="vendor">Vendor</label>
+            <select
+              id="vendor"
+              name="vendor"
+              onChange={(e) =>
+                setDevice({ ...device, vendor: e.target.value })
+              }
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-2"
+            >
+              <option className="text-gray-600">Select Vendor</option>
+              {allVendors &&
+                allVendors.map((vendor) => (
+                  <option value={vendor._id}>{vendor.name}</option>
                 ))}
             </select>
 

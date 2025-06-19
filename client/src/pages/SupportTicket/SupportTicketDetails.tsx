@@ -4,31 +4,38 @@ import useSupportTicket from "../../hooks/useSupportTicket";
 import { Button } from "../../components/ui/button";
 import { ChevronDown, Plus, X } from "lucide-react";
 import CommentCard from "../../components/custom/CommentCard";
+import { useAuthContext } from "../../context/AuthContext";
 
-interface CommentType{
-    user: string,
-    comment: string
+interface CommentType {
+  user: string;
+  comment: string;
 }
 
-const defaultComment:CommentType = {
-    user:"698769843698364",
-    comment:""
-}
+const defaultComment: CommentType = {
+  user: "",
+  comment: "",
+};
 
 const SupportTicketDetails = () => {
   const { ticketNumber } = useParams();
+  const {user} = useAuthContext()
   const navigate = useNavigate();
 
   const [ticket, setTicket] = useState(null);
-  const [newComment,setNewComment] = useState<CommentType>(defaultComment)
+  const [newComment, setNewComment] = useState<CommentType>(defaultComment);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(false);
   const [statusMenu, setStatusMenu] = useState(false);
+  const statusMenuRef = React.useRef<HTMLDivElement>(null);
   const [newStatus, setNewStatus] = useState("");
-  const [showNewCommentBox,setShowNewCommentBox] = useState(false)
+  const [showNewCommentBox, setShowNewCommentBox] = useState(false);
 
-  const { getSupportTicketByNumber, updateSupportTicket,addCommentToSupportTicket } = useSupportTicket();
+  const {
+    getSupportTicketByNumber,
+    updateSupportTicket,
+    addCommentToSupportTicket,
+  } = useSupportTicket();
 
   useEffect(() => {
     const fetchTicketDetails = async () => {
@@ -46,6 +53,24 @@ const SupportTicketDetails = () => {
     };
 
     fetchTicketDetails();
+    setNewComment({...newComment, user: user });
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        statusMenuRef.current &&
+        !statusMenuRef.current.contains(event.target as Node)
+      ) {
+        setStatusMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleStatusChange = (status: string) => {
@@ -75,31 +100,33 @@ const SupportTicketDetails = () => {
   };
 
   const handleCommentBoxChange = (e) => {
-    setNewComment({...newComment, comment: e.target.value})
-  }
+    setNewComment({...newComment, comment: e.target.value });
+  };
   const handleResetComment = () => {
-    setShowNewCommentBox(false)
-    setNewComment(defaultComment)
-  }
+    setShowNewCommentBox(false);
+    setNewComment(defaultComment);
+  };
 
   const handleCommentSubmit = async (e) => {
-    e.preventDefault()
-    try{
-        const response = await addCommentToSupportTicket(ticket!._id, newComment)
-        if(response){
-            console.log(ticket.comments)
-            const updatedComments = [...ticket.comments, newComment]
-            setTicket({...ticket, comments: updatedComments})
-            setNewComment(defaultComment)
-            setShowNewCommentBox(false)
-        }
+    e.preventDefault();
+    
+    
+    try {
+      //setNewComment({ ...newComment, user: user._id });
+      console.log("User id", user._id);
+      const response = await addCommentToSupportTicket(ticket!._id, newComment);
+      if (response) {
+        console.log(ticket.comments);
+        const updatedComments = [...ticket.comments, newComment];
+        setTicket({ ...ticket, comments: updatedComments });
+        setNewComment(defaultComment);
+        setShowNewCommentBox(false);
+      }
+    } catch (error) {
+      window.alert("Comment not added, something went wrong");
+      console.log(error);
     }
-    catch(error){
-        window.alert("Comment not added, something went wrong")
-        console.log(error)
-    }
-
-  }
+  };
 
   if (loading) {
     return (
@@ -133,7 +160,10 @@ const SupportTicketDetails = () => {
               <ChevronDown className="group-hover:opacity-100 opacity-0 transition-all duration-300" />
             </Button>
             {statusMenu && (
-              <div className="absolute top-full left-0 bg-white shadow-md rounded-md">
+              <div
+                ref={statusMenuRef}
+                className="absolute top-full left-0 bg-white shadow-md rounded-md"
+              >
                 <ul className="flex flex-col gap-y-2">
                   <li
                     onClick={() => handleStatusChange("Open")}
@@ -166,30 +196,42 @@ const SupportTicketDetails = () => {
         <div>
           <div className="flex justify-between items-center">
             <h4 className=" font-semibold mb-2">Comments</h4>
-            <button onClick={()=>setShowNewCommentBox(prev => !prev)} className="flex items-center gap-x-2 font-bold text-sm text-gray-600 cursor-pointer p-2 rounded-md hover:bg-slate-100/30">
-              {showNewCommentBox ? <X/> :<Plus className="text-sm"/>} Add Comment
+            <button
+              onClick={() => setShowNewCommentBox((prev) => !prev)}
+              className="flex items-center gap-x-2 font-bold text-sm text-gray-600 cursor-pointer p-2 rounded-md hover:bg-slate-100/30"
+            >
+              {showNewCommentBox ? <X /> : <Plus className="text-sm" />} Add
+              Comment
             </button>
           </div>
-          {showNewCommentBox && <div>
-            <form onSubmit={handleCommentSubmit} onReset={handleResetComment}>
-              <textarea
-                name="new_comment"
-                placeholder="Type here"
-                className="w-full p-4 resize-none bg-white border rounded-md"
-                rows={3}
-                onChange={handleCommentBoxChange}
-              />
-              <div className="flex justify-end gap-x-2 mt-2 mb-4">
-                <Button type="reset" variant="outline">Cancel</Button>
-                <Button type="submit">Submit</Button>
-              </div>
-            </form>
-          </div>}
+          {showNewCommentBox && (
+            <div>
+              <form onSubmit={handleCommentSubmit} onReset={handleResetComment}>
+                <textarea
+                  name="new_comment"
+                  placeholder="Type here"
+                  className="w-full p-4 resize-none bg-white border rounded-md"
+                  rows={3}
+                  onChange={handleCommentBoxChange}
+                />
+                <div className="flex justify-end gap-x-2 mt-2 mb-4">
+                  <Button type="reset" variant="outline">
+                    Cancel
+                  </Button>
+                  <Button type="submit">Submit</Button>
+                </div>
+              </form>
+            </div>
+          )}
           <div className="flex flex-col gap-y-2">
             {!ticket.comments.length > 0 ? (
-              <p className="bg-white p-4  border border-gray-300 rounded-sm">No comments</p>
+              <p className="bg-white p-4  border border-gray-300 rounded-sm">
+                No comments
+              </p>
             ) : (
-              ticket.comments.map((comment) => <CommentCard comment={comment} />)
+              ticket.comments.map((comment) => (
+                <CommentCard key={comment._id} comment={comment} />
+              ))
             )}
           </div>
         </div>

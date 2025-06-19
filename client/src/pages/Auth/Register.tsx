@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 // import {toast} from 'sonner'
 
 interface UserType {
+  name: string;
   email: string;
   password: string;
 }
 
 const defaultUser: User = {
+  name:"",
   email: "",
   password: "",
 };
@@ -50,7 +52,7 @@ const Register = () => {
   return (
     <div className="flex h-screen w-screen justify-center items-center bg-gray-100">
       <div className=" border-2 border-gray-200 shadow-md rounded-[18px] overflow-hidden bg-white flex  ">
-        <div className="bg-gray-800 w-[400px] h-[400px] flex justify-center items-center">
+        <div className="bg-gray-800 w-[400px] h-[500px] flex justify-center items-center">
           <h1 className="text-4xl font-bold text-center text-white">
             IT TOOLS
           </h1>
@@ -61,6 +63,16 @@ const Register = () => {
             onSubmit={handleRegistrationSubmit}
             className="flex flex-col gap-y-2 mt-4"
           >
+            <div className="flex flex-col gap-y-1">
+              <label htmlFor="email">Full Name</label>
+              <input
+                onChange={handleInputChange}
+                name="name"
+                className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md"
+                type="text"
+                id="name"
+              />
+            </div>
             <div className="flex flex-col gap-y-1">
               <label htmlFor="email">Email</label>
               <input
@@ -78,7 +90,6 @@ const Register = () => {
                 name="password"
                 className="p-2 border-2 border-gray-300 hover:bg-gray-100 rounded-md"
                 type="password"
-                
                 id="password"
               />
             </div>

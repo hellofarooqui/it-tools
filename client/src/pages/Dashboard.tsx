@@ -53,12 +53,16 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tickets = await getActiveTickets();
-        if (tickets) {
+        const activeTicketsCount = await getActiveTickets();
+        if (activeTicketsCount) {
+          console.log("Active Tickets Count:", activeTicketsCount);
           //console.log("Active Tickets length", tickets.length);
           //console.log("Is Array", Array.isArray(tickets));
 
-          setDashboard((prev) => ({ ...prev, activeTickets: tickets.length }));
+          setDashboard((prev) => ({
+            ...prev,
+            activeTickets: activeTicketsCount,
+          }));
         }
         const rmas = await getActiveRMA();
         if (rmas) {

@@ -12,7 +12,7 @@ const useDashboard = () => {
         `${serverUrl}/api/support`,
         {
           params: {
-            status: ["Open", "In Progress"],
+            status: ["Open", "In Progress"].join(","),
           },
         }
       );
@@ -37,6 +37,26 @@ const useDashboard = () => {
     }
   };
 
+  const getClosedTickets = async () => {
+    try {
+      const response = await axios.get(
+        `${serverUrl}/api/support`,
+        {
+          params: {
+            status: "Closed",
+          },
+        }
+      );
+      if (response) {
+        //console.log(response);
+        return response.data;
+      }
+    } catch (error) {
+      throw new Error();
+    }
+  }
+
+
   const getDeviceCount = async () => {
     try {
       const response = await axios.get(`${serverUrl}/api/devices?q=count`);
@@ -47,7 +67,7 @@ const useDashboard = () => {
     }
   };
 
-  return { getActiveTickets, getActiveRMA, getDeviceCount };
+  return { getActiveTickets, getActiveRMA, getDeviceCount, getClosedTickets  };
 };
 
 export default useDashboard;

@@ -7,6 +7,19 @@ const API_URL = 'http://localhost:3000/api/vendor';
 const useVendor = () => {
 
     const getAllVendors = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/list`);
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch vendors");
+        }
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching vendors:", error);
+        throw error;
+      }
+    };
+
+    const getAllVendorsList = async () => {
         try {
             const response = await axios.get(`${API_URL}/list`);
             if (response.status !== 200) {
@@ -67,7 +80,7 @@ const useVendor = () => {
             throw error;
         }
     }
-  return { createVendor, getAllVendors, getVendorById, updateVendor, deleteVendor }
+  return { createVendor, getAllVendors,getAllVendorsList, getVendorById, updateVendor, deleteVendor }
 }
 
 export default useVendor

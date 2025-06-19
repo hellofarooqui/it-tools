@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Home, Settings, Globe, Users, FileText, BarC
 import { cn } from './../../lib/utils';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
 
 const sidebarItems = [
   { icon: Home, title: "Dashboard", path: "/" },
@@ -15,6 +16,8 @@ const sidebarItems = [
 
 export function Sidebar() {
   const { collapsed, toggleSidebar } = useSidebar();
+  const {user} = useAuthContext()
+  //console.log(user," User from Sidebar");
   const location = useLocation();
 
   return (
@@ -61,6 +64,9 @@ export function Sidebar() {
           ))}
         </ul>
       </nav>
+      <div>
+        <p>{user.name}</p>
+      </div>
     </div>
   );
 }

@@ -19,6 +19,7 @@ const defaultTicket: SupportTicket = {
 const NewSupportTicket = () => {
   const navigate = useNavigate();
   const [ticket, setTicket] = useState<SupportTicket>(defaultTicket);
+  const [selectedDevice,setSelectedDevice] = useState("");
   const [deviceSearchQuery,setDeviceSearchQuery] = useState("");
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -34,7 +35,8 @@ const NewSupportTicket = () => {
   const handleDeviceInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTicket({...ticket, device: e.target.value });
+    //setTicket({...ticket, device: e.target.value });
+    setSelectedDevice(e.target.value);
     setDeviceSearchQuery(e.target.value);
   };
 
@@ -53,7 +55,8 @@ const NewSupportTicket = () => {
   };
 
   const handleSelectedDevice = (device) => {
-    setTicket({ ...ticket, device: device.deviceName });
+    setSelectedDevice(device.deviceName+" Serial:"+ device.deviceSerialNumber);
+    setTicket({ ...ticket, device: device._id });
     setDeviceSearchQuery(""); // Clear the search query after selection
     setFilteredDevices([]); // Clear the filtered devices list
   }
@@ -132,7 +135,7 @@ const NewSupportTicket = () => {
               <input
                 type="text"
                 id="device"
-                value={ticket.device}
+                value={selectedDevice}
                 onChange={handleDeviceInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
                 name="device"
