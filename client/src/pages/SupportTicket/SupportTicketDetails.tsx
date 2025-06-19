@@ -22,7 +22,7 @@ const SupportTicketDetails = () => {
   const navigate = useNavigate();
 
   const [ticket, setTicket] = useState(null);
-  const [newComment, setNewComment] = useState<CommentType>(defaultComment);
+  const [newComment, setNewComment] = useState<CommentType>({user: user._id, comment: ""});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(false);
@@ -37,23 +37,25 @@ const SupportTicketDetails = () => {
     addCommentToSupportTicket,
   } = useSupportTicket();
 
-  useEffect(() => {
-    const fetchTicketDetails = async () => {
-      try {
-        const response = await getSupportTicketByNumber(ticketNumber);
-        if (response) {
-          console.log(response);
-          setTicket(response);
-          setLoading(false);
-          setError("");
-        }
-      } catch (error) {
-        setError("Something went wrong");
+  const fetchTicketDetails = async () => {
+    try {
+      const response = await getSupportTicketByNumber(ticketNumber);
+      if (response) {
+        console.log(response);
+        setTicket(response);
+        setLoading(false);
+        setError("");
       }
-    };
+    } catch (error) {
+      setError("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+
 
     fetchTicketDetails();
-    setNewComment({...newComment, user: user });
+    //setNewComment({...newComment, user: user._id });
   }, []);
 
   useEffect(() => {
@@ -116,9 +118,10 @@ const SupportTicketDetails = () => {
       console.log("User id", user._id);
       const response = await addCommentToSupportTicket(ticket!._id, newComment);
       if (response) {
-        console.log(ticket.comments);
-        const updatedComments = [...ticket.comments, newComment];
-        setTicket({ ...ticket, comments: updatedComments });
+        // console.log(response);
+        // const updatedComments = [...ticket.comments, {user:user, ...newComment}];
+        // setTicket({ ...ticket, comments: updatedComments });
+        fetchTicketDetails(); // Refresh ticket details to include new comment
         setNewComment(defaultComment);
         setShowNewCommentBox(false);
       }
