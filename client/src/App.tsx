@@ -24,6 +24,7 @@ import NewInternet from "./pages/Internet/NewInternet";
 import UpdateInternet from "./pages/Internet/UpdateInternet";
 import ImportDevices from "./pages/Devices/ImportDevices";
 import NewVendor from "./pages/Vendors/NewVendor";
+import SearchPage from "./pages/Search/SearchPage";
 
 // Example page components
 
@@ -34,6 +35,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<RootLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/rma" element={<RMA />} />
             <Route path="/rma/new" element={<NewRMA />} />
             <Route path="/rma/:rmanumber" element={<RMADetails />} />
@@ -50,7 +52,7 @@ function App() {
               path="settings/device-type/new"
               element={<NewDeviceType />}
             />
-            <Route path="settings/vendors/new" element={<NewVendor/>}/>
+            <Route path="settings/vendors/new" element={<NewVendor />} />
             <Route path="internet" element={<Internet />} />
             <Route path="internet/new" element={<NewInternet />} />
             <Route
@@ -71,7 +73,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-     
     </BrowserRouter>
   );
 }
