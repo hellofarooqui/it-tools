@@ -5,6 +5,7 @@ import { Button } from "../../components/ui/button";
 import { ChevronDown, Plus, X } from "lucide-react";
 import CommentCard from "../../components/custom/CommentCard";
 import { useAuthContext } from "../../context/AuthContext";
+import dateformat from "dateformat";
 
 interface CommentType {
   user: string;
@@ -191,14 +192,41 @@ const SupportTicketDetails = () => {
             )}
           </div>
         </div>
-        <div className="bg-white p-4  border border-gray-300 rounded-sm">
-          <h4 className=" font-semibold mb-2">Description</h4>
-          <p className="text-sm text-gray-700">{ticket.description}</p>
+        <div className="bg-white  border border-gray-300 rounded-sm">
+          <h4 className=" font-semibold text-lg mb-2 p-4 py-2 bg-gray-100 border-b">
+            Description
+          </h4>
+          <div className="p-4">
+            <p className=" text-gray-800">{ticket.description}</p>
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-300 rounded-sm">
+          <h2 className=" font-semibold text-lg mb-2 p-4 py-2 bg-gray-100 border-b">
+            Device Details
+          </h2>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-4 p-4">
+            <p>
+              <span className="font-semibold">Name:</span>{" "}
+              {ticket.device.deviceName}
+            </p>
+            <p>
+              <span className="font-semibold">Type:</span> {ticket.device.deviceType.name}
+            </p>
+            <p>
+              <span className="font-semibold">Vendor:</span>{" "}
+              {ticket.vendor_details.name} {}
+            </p>
+            <p>
+              <span className="font-semibold">Serial Number:</span>{" "}
+              {ticket.device.deviceSerialNumber}
+            </p>
+          </div>
         </div>
 
         <div>
           <div className="flex justify-between items-center">
-            <h4 className=" font-semibold mb-2">Comments</h4>
+            <h4 className=" text-xl font-semibold mb-2">Comments</h4>
             <button
               onClick={() => setShowNewCommentBox((prev) => !prev)}
               className="flex items-center gap-x-2 font-bold text-sm text-gray-600 cursor-pointer p-2 rounded-md hover:bg-slate-100/30"

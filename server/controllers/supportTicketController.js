@@ -75,14 +75,17 @@ export const getSupportTicketByNumber = async (req, res) => {
     const ticket = await SupportTicket.findOne({
       ticket_number: ticketNumber,
     })
-      .populate(["device", "vendor_details"])
-      .populate({
-        path: "comments",
-        populate: {
-          path: "user",
-          select: "name email", // Adjust fields as needed
+      .populate(["vendor_details"])
+      .populate([
+        {
+          path: "comments",
+          populate: {
+            path: "user",
+            select: "name email", // Adjust fields as needed
+          },
         },
-      });
+        { path: "device", populate: { path: "deviceType" } },
+      ]);
 
     if (!ticket) {
       return res.status(404).json({ error: "Support ticket not found" });
