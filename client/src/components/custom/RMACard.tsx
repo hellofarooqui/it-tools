@@ -35,10 +35,10 @@ const RMACard = ({ rma }: { rma: RMACardProps }) => {
           <Badge className="bg-gray-600">{rma.status}</Badge>
         </CardHeader>
         <CardContent>
-          <p className='text-sm truncate line-clamp-1'>{rma.reason}</p>
+          <p className='text-sm truncate line-clamp-1 mb-8'>{rma.reason}</p>
           <div className='flex justify-between items-center mt-2'>
-            <p className='text-slate-600 text-sm'><span className='font-semibold'>Device: </span>{rma.deviceName}</p>
-            <p className='text-slate-600 text-sm'><span className='font-semibold'>Serial Number: </span> {rma.deviceSerialNumber}</p>
+            <p className='text-slate-600 text-sm'><span className='block font-semibold'>Device </span>{rma.deviceName}</p>
+            <p className='text-slate-600 text-sm'><span className='block font-semibold'>Serial Number </span> {rma.deviceSerialNumber}</p>
 
           </div>
         </CardContent>

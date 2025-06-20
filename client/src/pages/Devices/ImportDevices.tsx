@@ -1,12 +1,21 @@
-import { AlertCircle, CheckCircle, Download, FileText, Import, Upload } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle,
+  Download,
+  FileText,
+  Import,
+  Upload,
+} from "lucide-react";
 import React, { useState } from "react";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import useDevices from "../../hooks/useDevices";
 import { Button } from "../../components/ui/button";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ImportDevices = () => {
-
+  const navigate = useNavigate();
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -153,7 +162,7 @@ const ImportDevices = () => {
     }
 
     setDevices(mappedData);
-   
+
     setLoading(false);
   };
 
@@ -174,9 +183,23 @@ const ImportDevices = () => {
     navigator.clipboard.writeText(JSON.stringify(devices, null, 2));
   };
 
-  const handleUploadDevices = () => {
-    addBulkDevices(devices);
-  }
+  const handleCancel = () => {
+    setDevices([]);
+  };
+
+  const handleUploadDevices = async () => {
+    try {
+      const response = await addBulkDevices(devices);
+
+      if (response.success) {
+        toast("Successfully imported");
+        navigate(-1);
+      }
+    } catch (error) {
+      toast("Error in importing devices");
+      return;
+    }
+  };
 
   return (
     <div>
@@ -185,8 +208,6 @@ const ImportDevices = () => {
       </div>
 
       <div className="max-w-6xl mx-auto mt-4 p-6 bg-white">
-        
-
         {/* Upload Section */}
         <div className="mb-8">
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
@@ -306,7 +327,9 @@ const ImportDevices = () => {
               </div>
             </div>
             <div className="flex justify-end gap-x-4">
-              <Button variant="outline">Cancel</Button>
+              <Button onClick={handleCancel} variant="outline">
+                Cancel
+              </Button>
               <Button onClick={handleUploadDevices}>Upload</Button>
             </div>
 

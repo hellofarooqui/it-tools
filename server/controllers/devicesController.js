@@ -73,11 +73,13 @@ export const importDevices = async (req,res) => {
         deviceSerialNumber: device.deviceSerialnumber
       });
       await deviceAdded.save()
+      return res.status(201).json({success: true})
     })
  
   }
   catch(error){
     console.log(error)
+    return res.status(404)
   }
 
 }

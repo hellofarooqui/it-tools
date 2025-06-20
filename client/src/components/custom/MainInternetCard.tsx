@@ -16,7 +16,7 @@ const MainInternetCard = ({ connection }: { connection: InternetType }) => {
         </p>
       </div>
       <div className="px-6 py-4">
-        <p className="text-gray-700 line-clamp-1">
+        <p className="text-gray-700 line-clamp-1 h-32">
           {connection.description || "No description available."}
         </p>
       </div>

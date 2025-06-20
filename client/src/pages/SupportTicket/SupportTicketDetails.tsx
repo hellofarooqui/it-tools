@@ -208,18 +208,18 @@ const SupportTicketDetails = () => {
           <div className="grid grid-cols-2 gap-x-4 gap-y-4 p-4">
             <p>
               <span className="font-semibold">Name:</span>{" "}
-              {ticket.device.deviceName}
+              {ticket.device?.deviceName}
             </p>
             <p>
-              <span className="font-semibold">Type:</span> {ticket.device.deviceType.name}
+              <span className="font-semibold">Type:</span> {ticket.device?.deviceType.name}
             </p>
             <p>
               <span className="font-semibold">Vendor:</span>{" "}
-              {ticket.vendor_details.name} {}
+              {ticket.vendor_details?.name} {}
             </p>
             <p>
               <span className="font-semibold">Serial Number:</span>{" "}
-              {ticket.device.deviceSerialNumber}
+              {ticket.device?.deviceSerialNumber}
             </p>
           </div>
         </div>

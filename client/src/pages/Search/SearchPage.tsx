@@ -19,6 +19,7 @@ const SearchPage = () => {
     const [searchresult,setSearchResult] = useState(defaultSearchResult)
     const searchTerm = searchParams.get('term');
     const [searchValue,setSearchValue] = useState(searchTerm || "");
+    const [searchInputField,setSearchInputField] = useState(searchTerm)
     const { getSearchResults} = useSearch()
     //console.log(searchParams.get('term')); // This will log the search term from the URL
 
@@ -36,20 +37,22 @@ const SearchPage = () => {
 
     const handleSearch = (e) => {
       e.preventDefault();
-      const searchQuery = e.target.search.value.trim();
-      if (searchQuery) {
-        setSearchValue(searchQuery);
-        e.target.search.value = ""; // Clear the search input after submission
-      } else {
+      if(!searchInputField){
         alert("Please enter a search term");
+        return;
       }
+      setSearchValue(searchInputField)
+      
     };
 
     useEffect(() => {
       const fetchSearchResults = async () => {
-        if (searchTerm) {
+        if(!searchValue){
+          setSearchResult(defaultSearchResult);
+        }
+        if (searchValue) {
           try {
-            const results = await getSearchResults(searchTerm);
+            const results = await getSearchResults(searchValue);
             console.log("Search Results:", results);
             setSearchResult(results);
           } catch (error) {
@@ -74,8 +77,9 @@ const SearchPage = () => {
             type="text"
             name="search"
             placeholder="Search device, ticket..."
-            defaultValue={searchTerm || ""}
+            defaultValue={searchInputField || ""}
             className="flex-1 placeholder-gray-400 focus:outline-none"
+            onChange={(e) => setSearchInputField(e.target.value)}
           />
           <button className="text-gray-600" type="submit">
             <Search />
@@ -102,7 +106,12 @@ const SearchPage = () => {
                   <TableCell>{device.deviceName}</TableCell>
                   <TableCell>{device.deviceSerialNumber}</TableCell>
                   <TableCell>
-                    <Link className='bg-slate-200 border rounded-md px-2' to={`/devices/${device._id}`}>Details</Link>
+                    <Link
+                      className="bg-slate-200 border rounded-md px-2"
+                      to={`/devices/${device._id}`}
+                    >
+                      Details
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

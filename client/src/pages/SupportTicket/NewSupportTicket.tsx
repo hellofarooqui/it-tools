@@ -71,7 +71,7 @@ const NewSupportTicket = () => {
           throw new Error("Network response was not ok");
         }
     
-        console.log("Fetched devices:", response);  
+        //console.log("Fetched devices:", response);  
         setFilteredDevices(response);
       } catch (error) {
         console.error("Error fetching devices:", error);
@@ -144,7 +144,7 @@ const NewSupportTicket = () => {
                 <div>
                   <ul className="border rounded-md">
                     {filteredDevices.map((device) => (
-                      <li className="p-2 cursor-pointer hover:bg-slate-100" onClick={() => handleSelectedDevice(device)}>
+                      <li key={device._id} className="p-2 cursor-pointer hover:bg-slate-100" onClick={() => handleSelectedDevice(device)}>
                         {device.deviceName} Serial: {device.deviceSerialNumber}
                       </li>
                     ))}
