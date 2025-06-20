@@ -13,6 +13,7 @@ import useSupportTicket from "../../hooks/useSupportTicket";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTooltip from "../../components/custom/CustomToolTip";
 import { FilePenLine, FileText, Trash2 } from "lucide-react";
+import SearchMain from "../../components/custom/SearchMain";
 
 interface Ticket {
   _id: string;
@@ -67,13 +68,16 @@ const ListTickets = () => {
       <div>
         <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
           <h1 className="text-2xl font-bold">Support Tickets</h1>
-          <Button
-            variant="outline"
-            onClick={() => navigate("new")}
-            className=""
-          >
-            New Ticket
-          </Button>
+          <div className="flex items-center gap-4">
+            <SearchMain/>
+            <Button
+              variant="outline"
+              onClick={() => navigate("new")}
+              className=""
+            >
+              New Ticket
+            </Button>
+          </div>
         </div>
         <div className="p-8 ">
           <div className="flex bg-white rounded-t-md overflow-hidden shadow-md p-4 w-full justify-between items-center">
@@ -142,7 +146,9 @@ const ListTickets = () => {
                         {ticket.ticket_number}
                       </TableCell>
                       <TableCell>
-                        {ticket.vendor_details? ticket.vendor_details.name : "NA"}
+                        {ticket.vendor_details
+                          ? ticket.vendor_details.name
+                          : "NA"}
                       </TableCell>
                       <TableCell>{ticket.title}</TableCell>
                       <TableCell>{ticket.status}</TableCell>

@@ -95,7 +95,7 @@ const DeviceDetails = () => {
               <div className="bg-white border shadow-md rounded-lg overflow-hidden">
                 <h2 className="font-bold py-2 pl-4 bg-white border-b">Notes</h2>
                 <div className="p-6 ">
-                  <p className="text-gray-600">No notes available</p>
+                  <p className="text-gray-600">{device.notes ? device.notes : "No notes"}</p>
                 </div>
               </div>
 

@@ -1,4 +1,6 @@
 import Device from "../models/Device.js";
+import DeviceType from "../models/DeviceType.js";
+import Vendor from "../models/Vendor.js";
 
 export const getAllDevices = async (req, res) => {
   try {
@@ -48,6 +50,37 @@ export const createDevice = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const importDevices = async (req,res) => {
+  console.log("Type of req body",typeof(req.body))
+  try{
+    const data = req.body
+    data.forEach(async (device) => {
+      console.log("Device", device )
+      const deviceType = await DeviceType.findOne({name: device.deviceType})
+      if(!deviceType ){
+        return res.status(404)
+      }
+
+      const foundVendor = await Vendor.findOne({ name: device.vendor });
+      if (!foundVendor) {
+        return res.status(404);
+      }
+      const deviceAdded = new Device({
+        ...device,
+        deviceType: deviceType._id,
+        vendor: foundVendor._id,
+        deviceSerialNumber: device.deviceSerialnumber
+      });
+      await deviceAdded.save()
+    })
+ 
+  }
+  catch(error){
+    console.log(error)
+  }
+
+}
 export const updateDevice = async (req, res) => {
   try {
     const { deviceId } = req.params;

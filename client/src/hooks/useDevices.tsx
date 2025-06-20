@@ -28,6 +28,21 @@ const useDevices = () => {
         }
     } 
 
+    const addBulkDevices = async (devicesData) => {
+        console.log(devicesData)
+        try{
+            const response = await axios.post(`${apiUrl}/new/import`, devicesData);
+            if (response.status !== 201) {
+              throw new Error("Failed to create device");
+            }
+            return response.data;
+        }
+        catch(error){
+            console.log(error)
+            throw error;
+        }
+    }
+
     const getAllDevices = async () => {
         try {
             const response = await axios.get(apiUrl)
@@ -127,6 +142,7 @@ const useDevices = () => {
     
   return {
     addDevice,
+    addBulkDevices,
     getAllDevices,
     searchDevices,
     getDeviceDetails,

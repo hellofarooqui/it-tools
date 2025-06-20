@@ -108,7 +108,7 @@ const Devices = () => {
         <div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
           <h2 className="font-bold text-xl">All Devices</h2>
           <div className="flex gap-x-2">
-            <Button variant="outline" onClick={() => navigate("new")}>
+            <Button variant="outline" onClick={() => navigate("import")}>
               Import Devices
             </Button>
             <Button onClick={() => navigate("new")}>

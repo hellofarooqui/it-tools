@@ -1,7 +1,16 @@
 import express from 'express';
 import {deviceImageUpload} from '../middleware/uploadImage.js';
-import { getAllDevices,getDeviceById,createDevice,updateDevice,deleteDevice,searchDevices } from '../controllers/devicesController.js';
+import {
+  getAllDevices,
+  getDeviceById,
+  createDevice,
+  importDevices,
+  updateDevice,
+  deleteDevice,
+  searchDevices,
+} from "../controllers/devicesController.js";
 import { addDeviceType, getAllDeviceTypes, updateDeviceType, deleteDeviceType, getDeviceTypeById } from '../controllers/deviceTypeController.js';
+import formatData from '../middleware/formatData.js';
 
 const router = express.Router();
 
@@ -16,6 +25,7 @@ router.get("/search", searchDevices);
 router.get('/', getAllDevices);
 router.get('/:deviceId', getDeviceById);
 router.post('/new', deviceImageUpload ,createDevice);
+router.post('/new/import', importDevices )
 router.put('/update/:deviceId', updateDevice);
 router.delete('/delete/:deviceId', deleteDevice);
 

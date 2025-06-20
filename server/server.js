@@ -9,6 +9,7 @@ import devicesRouter from './routes/devicesRouter.js';
 import supportTicketRouter from './routes/supportTicketRouter.js';
 import wanRouter from './routes/wanRouter.js';
 import vendorRouter from './routes/vendorRouter.js';
+import searchRouter from './routes/searchRouter.js';
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/devices", devicesRouter);
 app.use("/api/support", supportTicketRouter);
 app.use('/api/wan', wanRouter)
 app.use('/api/vendor', vendorRouter);
+app.use('/api/search', searchRouter);
 
 
 app.get('/', (req, res) => {
