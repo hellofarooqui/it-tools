@@ -65,8 +65,9 @@ export function Sidebar() {
         </ul>
       </nav>
       <div className='flex gap-x-4 p-4 bg-slate-800'>
-        <User/>
-        <p>{user.name}</p>
+        <User size={20}/>
+        {!collapsed && <span className="">{user.name}</span>}
+      
       </div>
     </div>
   );

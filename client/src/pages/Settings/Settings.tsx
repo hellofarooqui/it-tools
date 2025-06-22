@@ -26,7 +26,7 @@ const Settings = () => {
             className="bg-slate-100 text-slate-700"
             onClick={() => navigate("device-type/new")}
           >
-            New Device
+            Add New
           </Button>
         </div>
         <ListDeviceTypes />
@@ -39,7 +39,7 @@ const Settings = () => {
             className="bg-slate-100 text-slate-700"
             onClick={() => navigate("vendors/new")}
           >
-            New Vendor
+            Add New
           </Button>
         </div>
         <ListVendors/>

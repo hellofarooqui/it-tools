@@ -55,7 +55,27 @@ const useAuth = () => {
         }
     }
 
-    return { registerUser, signIn, logoutUser, getUserDetailsWithToken }
+    const getUserProfile = async () => {
+         try {
+            const response = await axios.get(`${serverUrl}/api/auth/me`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if(!response.status==200){
+                throw new Error("Invalid token")
+            }
+            //console.log(response)
+            return response.data
+        }
+        catch (error) {
+            console.log("Error", error)
+            throw new Error("User details not found")
+            
+        }
+    }
+
+    return { registerUser, signIn, logoutUser, getUserDetailsWithToken, getUserProfile }
 }
 
 export default useAuth;

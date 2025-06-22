@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button";
 import useSupportTicket from "../../hooks/useSupportTicket";
 import { useNavigate } from "react-router-dom";
 import useDevices from "../../hooks/useDevices";
+import { useHeader } from "../../context/HeaderContext";
 
 interface SupportTicket {
   ticket_number: string;
@@ -23,6 +24,8 @@ const NewSupportTicket = () => {
   const [deviceSearchQuery,setDeviceSearchQuery] = useState("");
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [loading, setLoading] = React.useState(true);
+
+  const {header,setHeader} = useHeader()
 
   const { createSupportTicket } = useSupportTicket();
   const { searchDevices } = useDevices()
@@ -59,7 +62,12 @@ const NewSupportTicket = () => {
     setTicket({ ...ticket, device: device._id });
     setDeviceSearchQuery(""); // Clear the search query after selection
     setFilteredDevices([]); // Clear the filtered devices list
+  
   }
+
+  useEffect(()=>{
+    setHeader({...header,title:"New Support Ticket"})
+  },[])
 
   
   useEffect(() => {
@@ -88,11 +96,7 @@ const NewSupportTicket = () => {
 
   return (
     <div className="">
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">
-          New Support Ticket
-        </h2>
-      </div>
+      
       <div className="p-8">
         <div className=" bg-white p-8 rounded-md shadow">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

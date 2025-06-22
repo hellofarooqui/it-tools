@@ -1,7 +1,8 @@
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import useVendor from '../../hooks/useVendor';
 import { useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { useHeader } from '../../context/HeaderContext';
 
 interface VendorType {
   name: string,
@@ -29,6 +30,7 @@ const NewVendor = () => {
   const [error, setError] = useState("");
   const { createVendor } = useVendor();
   const navigate = useNavigate();
+  const {header,setHeader} = useHeader()
 
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
   //   const { name, value } = e.target;
@@ -75,12 +77,14 @@ const NewVendor = () => {
     );
   }
 
+  useEffect(()=>{
+    setHeader({...header,title:"New Vendor"})
+  },[])
+
 
   return (
     <div className="">
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">New Vendor</h2>
-      </div>
+      
       <div className="p-8">
         <div className="bg-white p-6 border rounded-lg shadow-md w-[720px]">
           <form

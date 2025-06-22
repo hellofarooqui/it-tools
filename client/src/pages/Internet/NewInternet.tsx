@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import useInternet from "../../hooks/useInternet";
 import toast from "react-hot-toast";
+import { useHeader } from "../../context/HeaderContext";
 
 const defaultNewInternet: NewInternetType = {
   name: null,
@@ -27,9 +28,10 @@ const connectionTypes = ["fiber", "dsl", "cable", "satellite", "wireless"];
 const NewInternet = () => {
   const [newInternet, setNewInternet] =
     useState<NewInternetType>(defaultNewInternet);
-    const [errors,setErrors]=useState("")
+  const [errors, setErrors] = useState("");
   const { addNewInternet } = useInternet();
   const navigate = useNavigate();
+  const {header,setHeader} = useHeader()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,30 +49,31 @@ const NewInternet = () => {
       // !newInternet.supportContact ||
       // !newInternet.supportEmail ||
       // !newInternet.supportPhone
-    ){
+    ) {
       setErrors("Please fill all the fields");
       toast("Please fill all the fields");
       return;
     }
-      try {
-        const data = await addNewInternet(newInternet);
-        if (data) {
-          toast("Successfully added");
-          navigate("/internet");
-        }
-      } catch (error) {
-        console.log("Error adding new internet connection:", error);
-        toast(error.response.statusText);
-        return
+    try {
+      const data = await addNewInternet(newInternet);
+      if (data) {
+        toast("Successfully added");
+        navigate("/internet");
       }
+    } catch (error) {
+      console.log("Error adding new internet connection:", error);
+      toast(error.response.statusText);
+      return;
+    }
   };
 
   const handleReset = (e) => {};
+  useEffect(()=>{
+    setHeader({...header,title:"New Internet"})
+  },[])
   return (
     <div>
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-2xl">New Internet</h2>
-      </div>
+      
 
       <div className="p-8">
         <div className="w-[800px] bg-white p-6 rounded-[10px] shadow-sm">

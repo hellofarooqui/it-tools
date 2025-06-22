@@ -46,9 +46,9 @@ export const userProfile = async (req, res) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decoded.id).select('-password');
-    res.json(user);
+    return res.status(200).json(user);
   } catch {
-    res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Invalid token' });
   }
 }
 

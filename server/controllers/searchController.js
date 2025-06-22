@@ -28,7 +28,14 @@ export const getSearchResults = async (req, res) => {
         // Example of how you might structure the results
         // results.push({ id: 1, name: 'Example Result', description: 'This is an example.' });
 
-        res.status(200).json({ devices });
+        const tickets = await SupportTicket.find({
+          $or: [
+            { ticket_number: { $regex : term, $options: "i"} },
+            { title : { $regex : term , $options: "i"}}
+          ]
+        })
+
+        res.status(200).json({ devices, tickets });
     } catch (error) {
         console.error('Error in getSearchResults:', error);
         res.status(500).json({ error: 'Internal server error' });

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import useRMA from "../../hooks/useRMA";
 import { Button } from "../../components/ui/button";
+import { useHeader } from "../../context/HeaderContext";
 
 // rmaNumber
 // deviceName
@@ -30,6 +31,7 @@ const NewRMA = () => {
   const [rma, setRMA] = React.useState<RMA>(defaultRMA);
   const { createRMA } = useRMA();
   const navigate = useNavigate();
+  const {header,setHeader} = useHeader()
 
   const handleRmaFormSubmit = async (e) => {
     e.preventDefault();
@@ -45,11 +47,13 @@ const NewRMA = () => {
     }
   };
 
+  useEffect(()=>{
+    setHeader({...header,title:"New RMA"})
+  },[])
+
   return (
     <div>
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">Add New RMA</h2>
-      </div>
+      
 
 <div className="p-8">
       <div className="bg-white px-4 py-8 rounded-lg shadow-md w-[720px]">
