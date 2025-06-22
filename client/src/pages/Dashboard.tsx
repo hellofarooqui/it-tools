@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import useAuth from "../hooks/useAuth";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useHeader } from "../context/HeaderContext";
 
 interface Dashboard {
   activeTickets: number;
@@ -19,6 +20,8 @@ let defaultDashboard: Dashboard = {
 };
 
 const Dashboard = () => {
+  const { header, setHeader } = useHeader();
+  
   const navigate = useNavigate();
   const showAvatarDropdownRef = useRef(null)
   const [dashboard, setDashboard] = useState<Dashboard>(defaultDashboard);
@@ -29,6 +32,10 @@ const Dashboard = () => {
   const { getActiveTickets, getActiveRMA, getDeviceCount } = useDashboard();
   //const {logoutUser} = useAuth()
   const {logoutUser} = useAuthContext()
+
+  useEffect(()=>{
+    setHeader({...header,title:"Dashboard"});
+  },[])
 
   useEffect(() => {
     function handleClickOutside(event) {

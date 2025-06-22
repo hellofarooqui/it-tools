@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomTooltip from "../../components/custom/CustomToolTip";
 import { FilePenLine, FileText, Trash2 } from "lucide-react";
 import SearchMain from "../../components/custom/SearchMain";
+import { useHeader } from "../../context/HeaderContext";
 
 interface Ticket {
   _id: string;
@@ -27,6 +28,7 @@ interface Ticket {
 }
 
 const ListTickets = () => {
+  const {header,setHeader} = useHeader()
   const [tickets, setTickets] = React.useState<Ticket[]>([]);
   const [filteredTickets,setFilteredTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = React.useState(true);
@@ -35,6 +37,10 @@ const ListTickets = () => {
   const navigate = useNavigate();
 
   const { getAllSupportTicketsList, deleteSupportTicket } = useSupportTicket();
+
+  useEffect(() => {
+    setHeader({ ...header, title: "Support Tickets" });
+  }, []);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -66,19 +72,7 @@ const ListTickets = () => {
   return (
     <div>
       <div>
-        <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-          <h1 className="text-2xl font-bold">Support Tickets</h1>
-          <div className="flex items-center gap-4">
-            <SearchMain/>
-            <Button
-              variant="outline"
-              onClick={() => navigate("new")}
-              className=""
-            >
-              New Ticket
-            </Button>
-          </div>
-        </div>
+        
         <div className="p-8 ">
           <div className="flex bg-white rounded-t-md overflow-hidden shadow-md p-4 w-full justify-between items-center">
             <div className="flex  bg-gray-100 rounded-sm overflow-hidden p-1">
@@ -112,7 +106,13 @@ const ListTickets = () => {
               </button>
             </div>
             <div>
-              <p>Ticket Filters</p>
+              <Button
+                
+                onClick={() => navigate("new")}
+                className=""
+              >
+                New Ticket
+              </Button>
             </div>
           </div>
           <div className="shadow-sm rounded-b-md overflow-hidden">

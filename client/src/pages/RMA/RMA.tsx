@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import useRMA from "../../hooks/useRMA";
 import RMACard from "../../components/custom/RMACard";
+import { useHeader } from "../../context/HeaderContext";
 
 const RMA = () => {
+  const {header,setHeader} = useHeader()
   const navigate = useNavigate();
   const [allRMA, setAllRMA] = React.useState([]);
   const [filteredRMA, setFilteredRMA] = useState([]);
@@ -29,6 +31,10 @@ const RMA = () => {
   //     )
   //   );
   // }, [filter]);
+
+  useEffect(()=>{
+    setHeader({...header, title: "RMA"})
+  },[])
 
   useEffect(() => {
     const fetchRMA = async () => {
@@ -83,50 +89,49 @@ const RMA = () => {
 
   return (
     <div className="">
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-2xl">RMA</h2>
-        <Button onClick={() => navigate("new")}>Create New</Button>
-      </div>
+      
 
-<div className="p-8">
-      <div className="flex bg-white rounded-md overflow-hidden shadow-md p-4 w-full justify-between items-center">
-        <div className="flex  bg-gray-100 rounded-sm overflow-hidden p-1">
-          <button
-            onClick={() => handleChangeFilter("Open")}
-            className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
-              filter == "Open" ? "bg-white text-gray-700 font-semibold" : ""
-            }`}
-          >
-            Open
-          </button>
-          <button
-            onClick={() => handleChangeFilter("Rejected")}
-            className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
-              filter == "Rejected" ? "bg-white text-gray-700 font-semibold" : ""
-            }`}
-          >
-            Rejected
-          </button>
-          <button
-            onClick={() => handleChangeFilter("Completed")}
-            className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
-              filter == "Completed"
-                ? "bg-white text-gray-700 font-semibold"
-                : ""
-            }`}
-          >
-            Completed
-          </button>
+      <div className="p-8">
+        <div className="flex bg-white rounded-md overflow-hidden shadow-md p-4 w-full justify-between items-center">
+          <div className="flex  bg-gray-100 rounded-sm overflow-hidden p-1">
+            <button
+              onClick={() => handleChangeFilter("Open")}
+              className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
+                filter == "Open" ? "bg-white text-gray-700 font-semibold" : ""
+              }`}
+            >
+              Open
+            </button>
+            <button
+              onClick={() => handleChangeFilter("Rejected")}
+              className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
+                filter == "Rejected"
+                  ? "bg-white text-gray-700 font-semibold"
+                  : ""
+              }`}
+            >
+              Rejected
+            </button>
+            <button
+              onClick={() => handleChangeFilter("Completed")}
+              className={`rounded-sm px-4 py-1 text-gray-600 cursor-pointer ${
+                filter == "Completed"
+                  ? "bg-white text-gray-700 font-semibold"
+                  : ""
+              }`}
+            >
+              Completed
+            </button>
+          </div>
+          <div>
+            <Button onClick={() => navigate("new")}>Create New</Button>
+          </div>
         </div>
-        <div>
-          <p>Ticket Filters</p>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {filteredRMA &&
-          filteredRMA.map((rma) => <RMACard key={rma._id} rma={rma} />)}
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          {filteredRMA &&
+            filteredRMA.map((rma) => <RMACard key={rma._id} rma={rma} />)}
+        </div>
       </div>
     </div>
   );

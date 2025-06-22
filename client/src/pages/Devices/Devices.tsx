@@ -25,12 +25,17 @@ interface Device {
 }
 
 const Devices = () => {
+   const {header,setHeader} = useHeader()
   const [devices, setDevices] = useState<Device[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const { getAllDevices, deleteDevice } = useDevices();
+
+  useEffect(()=>{
+    setHeader({...header, title:"Devices"})
+  },[])
 
   useEffect(() => {
     const fetchDevices = async () => {
