@@ -18,7 +18,7 @@ const SearchMain = () => {
     };
 
   return (
-    <div className="rounded-md border  p-2 bg-gray-100 has-[input:focus]:bg-gray-200  group">
+    <div className="rounded-md border flex items-center p-2 bg-gray-100 has-[input:focus]:bg-gray-200  group">
       <form onSubmit={handleSearchSubmit} className="flex items-center">
         <input
           className="placeholder-gray-400 focus:outline-none"
@@ -26,7 +26,7 @@ const SearchMain = () => {
           placeholder="Search device, ticket..."
         />
         <button type="submit">
-          <Search className="text-gray-400 group-hover:text-gray-700" />
+          <Search className="text-gray-400 group-hover:text-gray-700 h-6 w-6" />
         </button>
       </form>
     </div>

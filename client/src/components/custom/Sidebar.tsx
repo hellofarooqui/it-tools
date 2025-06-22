@@ -1,5 +1,5 @@
 import { useSidebar } from './../../context/SidebarContext';
-import { ChevronLeft, ChevronRight, Home, Settings, Globe, Users, FileText, BarChart2,PcCase,ArchiveRestore,Ticket, PencilRuler } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Settings, Globe, Users, FileText, BarChart2,PcCase,ArchiveRestore,Ticket, PencilRuler, User } from 'lucide-react';
 import { cn } from './../../lib/utils';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
@@ -36,13 +36,13 @@ export function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="text-white hover:bg-slate-800"
+          className="text-white bg-slate-900 hover:bg-slate-800 hover:text-white z-20 rounded-full"
         >
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </Button>
       </div>
 
-      <nav className="flex-1 px-2">
+      <nav className="flex-1 px-2 mt-6">
         <ul className="space-y-2">
           {sidebarItems.map((item) => (
             <li key={item.path}>
@@ -64,7 +64,8 @@ export function Sidebar() {
           ))}
         </ul>
       </nav>
-      <div>
+      <div className='flex gap-x-4 p-4 bg-slate-800'>
+        <User/>
         <p>{user.name}</p>
       </div>
     </div>

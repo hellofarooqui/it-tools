@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useDevices from "../../hooks/useDevices";
-import { Loader2 } from "lucide-react";
+import { Info, Loader2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ const ListDeviceTypes = () => {
 
   const handleDeviceDetailsButton = (deviceType) => {
     setShowDeviceTypeDetails(!showDeviceTypeDetails);
-    setDeviceTypeDetailsCard(deviceType)
+    setDeviceTypeDetailsCard(deviceType);
   };
 
   const fetchDeviceTypes = async () => {
@@ -56,27 +56,38 @@ const ListDeviceTypes = () => {
     <div className="p-4 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-x-4 gap-y-4">
       {deviceTypes.map((type) => (
         <div
-          className="flex flex-col justify-between gap-y-2 bg-white p-6 rounded-[12px] shadow-sm hover:shadow-lg hover:scale-101 border group transition-all ease-in-out duration-300"
+          className="flex justify-between items-center  gap-x-2 bg-white p-4 rounded-[12px] shadow-sm hover:shadow-lg hover:scale-101 border group transition-all ease-in-out duration-300"
           id={type._id}
         >
-          <p className="text-xl font-semibold">{type.name}</p>
-          <p className="text-sm line-clamp-2 text-gray-500">
-            {type.description}
-          </p>
+          <div className="flex flex-col justify-start gap-y-1">
+            <p className="text-xl font-semibold">{type.name}</p>
+            <p className="text-sm line-clamp-1 text-gray-500">
+              {type.description}
+            </p>
+          </div>
+
           <Button
-            onClick={()=>handleDeviceDetailsButton(type)}
-            className="bg-gray-700 mt-4 font-bold transition-all ease-in-out duration-300"
+          variant="outline"
+            onClick={() => handleDeviceDetailsButton(type)}
+            className="hidden group-hover:block font-bold transition-all ease-in-out duration-300"
           >
-            Details
+            <Info />
           </Button>
         </div>
       ))}
       {showDeviceTypeDetails && (
         <div className="absolute w-screen h-screen bg-gray-800/50 top-0 left-0 flex justify-center items-center">
-          <div className="bg-white p-8 rounded-md w-[400px] flex flex-col gap-y-6">
+          <div className="bg-white p-6 rounded-md w-[400px] flex flex-col gap-y-2">
             <p className="text-2xl font-bold">{deviceTypeDetailsCard.name}</p>
-            <p className="text-lg  text-gray-700">{deviceTypeDetailsCard.description}</p>
-            <Button onClick={()=>setShowDeviceTypeDetails(false)} className="text-lg font-bold">Close</Button>
+            <p className="text-gray-700">
+              {deviceTypeDetailsCard.description}
+            </p>
+            <Button
+              onClick={() => setShowDeviceTypeDetails(false)}
+              className="text-lg  bg-slate-700 font-bold mt-4"
+            >
+              Close
+            </Button>
           </div>
         </div>
       )}

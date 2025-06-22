@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import useDevices from "../../hooks/useDevices";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useHeader } from "../../context/HeaderContext";
 
 interface NewDeviceType {
   name: String;
@@ -16,7 +17,8 @@ const defaultNewDevice: NewDeviceType = {
 };
 
 const NewDeviceType = () => {
-  const navigate = useNavigate()
+  const {header,setHeader} = useHeader()
+  const navigate = useNavigate();
   const [newDeviceType, setNewDeviceType] =
     useState<NewDeviceType>(defaultNewDevice);
   const [loading, setLoading] = useState(false);
@@ -35,7 +37,7 @@ const NewDeviceType = () => {
 
         setTimeout(() => {
           setNewDeviceType(defaultNewDevice);
-          navigate(-1)
+          navigate(-1);
         }, 1000);
       }
     } catch (error) {
@@ -46,13 +48,15 @@ const NewDeviceType = () => {
     }
   };
 
+  useEffect(() => {
+    setHeader({...header,title:"New Device Type"})
+  }, []);
+
   return (
     <div>
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">New Device Type</h2>
-      </div>
+      
       <div className="p-6">
-        <div className="bg-white rounded-md shadow-sm p-8 w-[1000px]">
+        <div className="bg-white rounded-md shadow-sm p-8 w-full max-w-[800px]">
           <form
             onSubmit={handleFormSubmit}
             className="grid grid-cols-[150px_auto] gap-y-6 gap-x-4 items-center"

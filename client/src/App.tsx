@@ -25,6 +25,7 @@ import UpdateInternet from "./pages/Internet/UpdateInternet";
 import ImportDevices from "./pages/Devices/ImportDevices";
 import NewVendor from "./pages/Vendors/NewVendor";
 import SearchPage from "./pages/Search/SearchPage";
+import Profile from "./pages/Auth/Profile";
 
 // Example page components
 
@@ -68,6 +69,8 @@ function App() {
               element={<SupportTicketDetails />}
             />
             <Route path="support/:ticketNumber/edit" element={<EditTicket />} />
+
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

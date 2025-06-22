@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import useDevices from "../../hooks/useDevices";
 import { Button } from "../../components/ui/button";
 import useVendor from "../../hooks/useVendor";
+import { useHeader } from "../../context/HeaderContext";
 
 const defaultDevice = {
   deviceType: "",
@@ -28,6 +29,12 @@ const NewDevice = () => {
   const { addDevice, getAllDeviceTypes } = useDevices();
   const { getAllVendorsList } = useVendor();
   const navigate = useNavigate();
+
+  const {header,setHeader} = useHeader()
+
+  useEffect(()=>{
+    setHeader({...header,title:"New Device"})
+  },[])
 
   const fetchDeviceTypes = async () => {
     try {
@@ -111,10 +118,6 @@ const NewDevice = () => {
 
   return (
     <div>
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-slate-800 text-2xl">New Device</h2>
-      </div>
-
       <div className="p-8">
         <div className="bg-white px-6 py-6 rounded-lg shadow-md w-[720px]">
           <form

@@ -13,7 +13,8 @@ import useDevices from "../../hooks/useDevices.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CustomTooltip from "../../components/custom/CustomToolTip.js";
-
+import { useHeader } from "../../context/HeaderContext.js";
+import HeadingBar from './../../components/custom/HeadingBar.js'
 const storageLocation = "http://localhost:3000";
 
 interface Device {
@@ -103,9 +104,7 @@ const Devices = () => {
 
   return (
     <div className="">
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-2xl">Devices</h2>
-      </div>
+      
 
       {/* Add your device management components here */}
 
