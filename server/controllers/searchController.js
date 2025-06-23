@@ -1,4 +1,5 @@
 import Device from "../models/Device.js";
+import SupportTicket from '../models/SupportTicket.js'
 
 export const getSearchResults = async (req, res) => {
     try {

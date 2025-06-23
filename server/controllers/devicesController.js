@@ -18,8 +18,9 @@ export const getAllDevices = async (req, res) => {
 };
 export const getDeviceById = async (req, res) => {
   try {
+    console.log("Being called")
     const { deviceId } = req.params;
-    const device = await Device.findById(deviceId).populate(["deviceType"]);
+    const device = await Device.findById(deviceId).populate(["deviceType", "supportTickets"]);
     if (!device) {
       return res.status(404).json({ error: "Device not found" });
     }

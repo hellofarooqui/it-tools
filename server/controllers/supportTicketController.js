@@ -126,8 +126,13 @@ export const createSupportTicket = async (req, res) => {
     //   ticket_number // Example ticket number generation
     // });
 
-    await newTicket.save();
-    res.status(201).json(newTicket);
+    const ticketCreated = await newTicket.save();
+    if (ticketCreated) {
+      const updatedDeviceWithTicket = await Device.findByIdAndUpdate(req.body.device, {$push : {supportTickets : ticketCreated._id}}, {
+        new: true,
+      });
+      return res.status(201).json(ticketCreated);
+    }
   } catch (error) {
     console.error("Error creating support ticket:", error);
     res.status(500).json({ error: "Internal server error" });

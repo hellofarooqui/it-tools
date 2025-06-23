@@ -1,36 +1,36 @@
-import React, { use, useEffect, useState } from 'react'
-import useVendor from '../../hooks/useVendor';
-import { useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
-import { useHeader } from '../../context/HeaderContext';
+import React, { use, useEffect, useState } from "react";
+import useVendor from "../../hooks/useVendor";
+import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import { useHeader } from "../../context/HeaderContext";
 
 interface VendorType {
-  name: string,
-  description: string,
-  contactEmail: string,
-  contactPhone: string,
-  address: string,
-  status: string,
-  logo: string
+  name: string;
+  description: string;
+  contactEmail: string;
+  contactPhone: string;
+  address: string;
+  status: string;
+  logo: string;
 }
 
 const defaultVendor: VendorType = {
-  name: '',
-  description: '',
-  contactEmail: '',
-  contactPhone: '',
-  address: '',
-  status: 'ACTIVE',
-  logo: ''
-}
+  name: "",
+  description: "",
+  contactEmail: "",
+  contactPhone: "",
+  address: "",
+  status: "ACTIVE",
+  logo: "",
+};
 
 const NewVendor = () => {
-  const [vendor,setVendor]=useState(defaultVendor);
+  const [vendor, setVendor] = useState(defaultVendor);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { createVendor } = useVendor();
   const navigate = useNavigate();
-  const {header,setHeader} = useHeader()
+  const { header, setHeader } = useHeader();
 
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
   //   const { name, value } = e.target;
@@ -39,7 +39,7 @@ const NewVendor = () => {
 
   const handleReset = () => {
     setVendor(defaultVendor); // Reset the form to default values
-    navigate('/settings'); // Redirect to the vendors list
+    navigate("/settings"); // Redirect to the vendors list
     setError(""); // Clear any error messages
     setLoading(false); // Reset loading state
     console.log("Form reset and redirected to settings");
@@ -53,7 +53,7 @@ const NewVendor = () => {
       if (response) {
         console.log("Vendor created successfully:", response);
         setVendor(defaultVendor); // Reset the form
-        navigate('/settings'); // Redirect to the vendors list
+        navigate("/settings"); // Redirect to the vendors list
       } else {
         console.error("Error creating vendor");
         setError("Error creating vendor");
@@ -65,11 +65,18 @@ const NewVendor = () => {
       setLoading(false);
     }
   };
-  if (loading) { 
-    return (<Loader2 className='animate-spin text-slate-700 w-8 h-8 mx-auto mt-20' />)
+
+  useEffect(() => {
+    setHeader({ ...header, title: "New Vendor" });
+  }, []);
+
+  if (loading) {
+    return (
+      <Loader2 className="animate-spin text-slate-700 w-8 h-8 mx-auto mt-20" />
+    );
   }
   if (error) {
-    setError("Something went wrong, please try again later.");  
+    setError("Something went wrong, please try again later.");
     return (
       <div className="flex justify-center items-center h-screen">
         <h2 className="font-bold text-2xl text-red-600">{error}</h2>
@@ -77,14 +84,8 @@ const NewVendor = () => {
     );
   }
 
-  useEffect(()=>{
-    setHeader({...header,title:"New Vendor"})
-  },[])
-
-
   return (
     <div className="">
-      
       <div className="p-8">
         <div className="bg-white p-6 border rounded-lg shadow-md w-[720px]">
           <form
@@ -217,6 +218,6 @@ const NewVendor = () => {
       </div>
     </div>
   );
-}
+};
 
-export default NewVendor
+export default NewVendor;

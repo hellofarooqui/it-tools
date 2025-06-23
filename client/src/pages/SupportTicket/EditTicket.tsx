@@ -2,6 +2,7 @@ import React, { use, useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import useSupportTicket from "../../hooks/useSupportTicket";
 import { useNavigate, useParams } from "react-router-dom";
+import { useHeader } from "../../context/HeaderContext";
 
 interface SupportTicket {
   _id : string,
@@ -17,6 +18,7 @@ const defaultTicket: SupportTicket = {
   description: "",
 };
 const EditTicket = () => {
+  const {header,setHeader} = useHeader()
   const params = useParams()
     const navigate = useNavigate();
     const [ticket, setTicket] =  useState<SupportTicket>(defaultTicket);
@@ -24,6 +26,10 @@ const EditTicket = () => {
     const [error,setError]=useState("")
 
     const {updateSupportTicket,getSupportTicketByNumber} = useSupportTicket();
+
+    useEffect(()=>{
+      setHeader({...header,title:"Update Ticket"})
+    },[])
 
     useEffect(()=>{
       const fetchTicket = async ()=>{
@@ -63,12 +69,9 @@ const EditTicket = () => {
     }
 
   return (
-    <div className="">
-     <div>
-        <h2 className="text-lg font-semibold">New Support Ticket</h2>
-
-     </div>
-     <div className="mt-4 bg-white p-4 rounded-md shadow">
+    <div className="p-6">
+     
+     <div className=" bg-white p-4 rounded-md shadow">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label htmlFor="ticket_number">Ticket Number</label>

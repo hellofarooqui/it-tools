@@ -1,8 +1,17 @@
-import { Search } from 'lucide-react';
-import React, { use, useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom';
-import useSearch from '../../hooks/useSearch';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Loader2, Search } from "lucide-react";
+import React, { use, useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import useSearch from "../../hooks/useSearch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../components/ui/table";
+import ListTickets from "../SupportTicket/ListTickets";
+import { useHeader } from "../../context/HeaderContext";
 
 interface SearchResult {
   devices: [string];
@@ -15,60 +24,70 @@ const defaultSearchResult: SearchResult = {
 };
 
 const SearchPage = () => {
-    const [searchParams] = useSearchParams();
-    const [searchresult,setSearchResult] = useState(defaultSearchResult)
-    const searchTerm = searchParams.get('term');
-    const [searchValue,setSearchValue] = useState(searchTerm || "");
-    const [searchInputField,setSearchInputField] = useState(searchTerm)
-    const { getSearchResults} = useSearch()
-    //console.log(searchParams.get('term')); // This will log the search term from the URL
+  const {header,setHeader} = useHeader()
+  const [searchParams] = useSearchParams();
+  const [loading,setLoading] = useState(true)
+  const [error,setError] = useState("")
+  const [searchresult, setSearchResult] = useState(defaultSearchResult);
+  const searchTerm = searchParams.get("term");
+  const [searchValue, setSearchValue] = useState(searchTerm || "");
+  const [searchInputField, setSearchInputField] = useState(searchTerm);
+  const { getSearchResults } = useSearch();
+  //console.log(searchParams.get('term')); // This will log the search term from the URL
 
-    // const handleSearch = (e)=>{
-    //   e.preventDefault();
-    //   const searchQuery = e.target.search.value.trim();
-    //   if (searchQuery) {
-    //     try{
-    //       const response = await getSearchResults(searchQuery);
-    //       console.log("Search Results:", response);
-    //       setSearchResult(response);
-    //     }
-        
-    // }
+  // const handleSearch = (e)=>{
+  //   e.preventDefault();
+  //   const searchQuery = e.target.search.value.trim();
+  //   if (searchQuery) {
+  //     try{
+  //       const response = await getSearchResults(searchQuery);
+  //       console.log("Search Results:", response);
+  //       setSearchResult(response);
+  //     }
 
-    const handleSearch = (e) => {
-      e.preventDefault();
-      if(!searchInputField){
-        alert("Please enter a search term");
-        return;
+  // }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!searchInputField) {
+      alert("Please enter a search term");
+      return;
+    }
+    setSearchValue(searchInputField);
+  };
+
+  useEffect(()=>{
+    setHeader({...header,title:"Search Results"})
+  },[])
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (!searchValue) {
+        setSearchResult(defaultSearchResult);
+        setLoading(false)
       }
-      setSearchValue(searchInputField)
-      
+      if (searchValue) {
+        try {
+          const results = await getSearchResults(searchValue);
+          console.log("Search Results:", results);
+          setSearchResult(results);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        }
+        finally{
+          setLoading(false)
+        }
+      }
     };
+    fetchSearchResults();
+  }, [searchValue]);
 
-    useEffect(() => {
-      const fetchSearchResults = async () => {
-        if(!searchValue){
-          setSearchResult(defaultSearchResult);
-        }
-        if (searchValue) {
-          try {
-            const results = await getSearchResults(searchValue);
-            console.log("Search Results:", results);
-            setSearchResult(results);
-          } catch (error) {
-            console.error("Error fetching search results:", error);
-          }
-        }
-      };
-      fetchSearchResults();
-    }, [searchValue]);
+  if(loading){
+    return (<div><Loader2 className="animate-spin" /></div>)
+  }
   return (
     <div>
-      <div className="w-full bg-gray-300 p-4">
-        <h2 className="font-xl font-semibold">Seatch results</h2>
-      </div>
-
-      <div className="w-full p-8 border-b-2 bg-white flex justify-center items-center">
+      
+      <div className="w-full p-8 border-b-2 flex justify-center items-center">
         <form
           onSubmit={handleSearch}
           className="w-[80%] flex border-2 border-gray-300 rounded-full  p-4 "
@@ -117,10 +136,18 @@ const SearchPage = () => {
               ))}
             </TableBody>
           </Table>
+
+          {searchresult.tickets.length > 0 && (
+            <div>
+              {searchresult.tickets.map((ticket) => (
+                <div>{ticket.title}</div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
   );
-}
+};
 
-export default SearchPage
+export default SearchPage;

@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 
 import useDevices from "../../hooks/useDevices";
 import { Button } from "../../components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "../../components/ui/table";
+import { useHeader } from "../../context/HeaderContext";
 
 interface Device {
   _id: string | null;
@@ -15,6 +16,7 @@ interface Device {
 }
 
 const DeviceDetails = () => {
+  const {header,setHeader} = useHeader()
   const params = useParams();
   const deviceId = params.deviceId;
 
@@ -23,12 +25,16 @@ const DeviceDetails = () => {
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
   const { getDeviceDetails, deleteDevice } = useDevices();
+
+  useEffect(()=>{
+    setHeader({...header, title:"Device Details"})
+  },[])
   useEffect(() => {
     const fetchDevice = async () => {
       try {
         const response = await getDeviceDetails(deviceId);
         if (response) {
-          //console.log(response);
+          console.log(response);
           setDevice(response);
           setLoading(false);
           setError("");
@@ -104,7 +110,12 @@ const DeviceDetails = () => {
                   Support Tickets
                 </h2>
                 <div className="p-6 ">
-                  <p className="text-gray-600">No tickets yet</p>
+                  {device.supportTickets.length > 0 ? <div className="flex flex-col gap-y-4">
+                    {device.supportTickets.map(ticket => <div className="flex flex-col">
+                      <Link to={`/support/${ticket.ticket_number}`}><p className="text-slate-400 underline font-semibold">{ticket.ticket_number}</p></Link>
+                      <p className="text-slate-500 line-clamp-1">{ticket.description}</p>
+                    </div>)}
+                  </div> : "No Ticket Found"}
                 </div>
               </div>
             </div>

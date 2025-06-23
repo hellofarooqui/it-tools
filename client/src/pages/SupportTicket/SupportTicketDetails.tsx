@@ -6,6 +6,7 @@ import { ChevronDown, Plus, X } from "lucide-react";
 import CommentCard from "../../components/custom/CommentCard";
 import { useAuthContext } from "../../context/AuthContext";
 import dateformat from "dateformat";
+import { useHeader } from "../../context/HeaderContext";
 
 interface CommentType {
   user: string;
@@ -18,12 +19,16 @@ const defaultComment: CommentType = {
 };
 
 const SupportTicketDetails = () => {
+  const {header,setHeader} = useHeader()
   const { ticketNumber } = useParams();
-  const {user} = useAuthContext()
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   const [ticket, setTicket] = useState(null);
-  const [newComment, setNewComment] = useState<CommentType>({user: user._id, comment: ""});
+  const [newComment, setNewComment] = useState<CommentType>({
+    user: user._id,
+    comment: "",
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(false);
@@ -52,9 +57,11 @@ const SupportTicketDetails = () => {
     }
   };
 
+  useEffect(()=>{
+    setHeader({...header,title:"Ticket Details"})
+  },[])
+
   useEffect(() => {
-
-
     fetchTicketDetails();
     //setNewComment({...newComment, user: user._id });
   }, []);
@@ -103,7 +110,7 @@ const SupportTicketDetails = () => {
   };
 
   const handleCommentBoxChange = (e) => {
-    setNewComment({...newComment, comment: e.target.value });
+    setNewComment({ ...newComment, comment: e.target.value });
   };
   const handleResetComment = () => {
     setShowNewCommentBox(false);
@@ -112,12 +119,12 @@ const SupportTicketDetails = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    
-    
+
     try {
       //setNewComment({ ...newComment, user: user._id });
       console.log("User id", user._id);
-      const response = await addCommentToSupportTicket(ticket!._id, newComment);
+      //setNewComment({...newComment, user: user._id})
+      const response = await addCommentToSupportTicket(ticket!._id, {...newComment, user: user._id});
       if (response) {
         // console.log(response);
         // const updatedComments = [...ticket.comments, {user:user, ...newComment}];
@@ -192,7 +199,7 @@ const SupportTicketDetails = () => {
             )}
           </div>
         </div>
-        <div className="bg-white  border border-gray-300 rounded-sm">
+        <div className="bg-white  border border-gray-300 rounded-sm overflow-hidden">
           <h4 className=" font-semibold text-lg mb-2 p-4 py-2 bg-gray-100 border-b">
             Description
           </h4>
@@ -201,7 +208,7 @@ const SupportTicketDetails = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-300 rounded-sm">
+        <div className="bg-white border border-gray-300 rounded-sm overflow-hidden">
           <h2 className=" font-semibold text-lg mb-2 p-4 py-2 bg-gray-100 border-b">
             Device Details
           </h2>
@@ -211,7 +218,8 @@ const SupportTicketDetails = () => {
               {ticket.device?.deviceName}
             </p>
             <p>
-              <span className="font-semibold">Type:</span> {ticket.device?.deviceType.name}
+              <span className="font-semibold">Type:</span>{" "}
+              {ticket.device?.deviceType.name}
             </p>
             <p>
               <span className="font-semibold">Vendor:</span>{" "}
@@ -262,7 +270,7 @@ const SupportTicketDetails = () => {
             ) : (
               ticket.comments.map((comment) => (
                 <CommentCard key={comment._id} comment={comment} />
-              ))
+              )).reverse()
             )}
           </div>
         </div>

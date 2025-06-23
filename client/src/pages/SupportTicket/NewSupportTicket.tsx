@@ -18,14 +18,13 @@ const defaultTicket: SupportTicket = {
   description: "",
 };
 const NewSupportTicket = () => {
+  const {header,setHeader} = useHeader()
   const navigate = useNavigate();
   const [ticket, setTicket] = useState<SupportTicket>(defaultTicket);
   const [selectedDevice,setSelectedDevice] = useState("");
   const [deviceSearchQuery,setDeviceSearchQuery] = useState("");
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [loading, setLoading] = React.useState(true);
-
-  const {header,setHeader} = useHeader()
 
   const { createSupportTicket } = useSupportTicket();
   const { searchDevices } = useDevices()
