@@ -14,8 +14,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CustomTooltip from "../../components/custom/CustomToolTip.js";
 import { useHeader } from "../../context/HeaderContext.js";
-import HeadingBar from './../../components/custom/HeadingBar.js'
-const storageLocation = "http://localhost:3000";
+
+import HeadingBar from "./../../components/custom/HeadingBar.js";
+const storageLocation =
+  "/home/farooqui/development/it-tools/server/uploads/devices";
 
 interface Device {
   _id: string;
@@ -25,26 +27,45 @@ interface Device {
   image: string;
 }
 
+const filters = [
+  { name: "ALL", value: "" },
+  { name: "ACTIVE", value: "ACTIVE" },
+  { name: "ASSIGNED", value: "ASSIGNED" },
+  { name: "MAINTENANCE", value: "MAINTENANCE" },
+];
+
 const Devices = () => {
-   const {header,setHeader} = useHeader()
+  const { header, setHeader } = useHeader();
   const [devices, setDevices] = useState<Device[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [perPage, setPerPage] = useState(10);
   const navigate = useNavigate();
+
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalDevices: 0,
+    devicesPerPage: 10,
+    hasNextPage: false,
+    hasPrevPage: false,
+  });
 
   const { getAllDevices, deleteDevice } = useDevices();
 
-  useEffect(()=>{
-    setHeader({...header, title:"Devices"})
-  },[])
+  useEffect(() => {
+    setHeader({ ...header, title: "Devices" });
+  }, []);
 
   useEffect(() => {
     const fetchDevices = async () => {
       try {
-        const response = await getAllDevices();
+        const response = await getAllDevices(selectedFilter, pagination);
         if (response) {
-          //console.log(response);
+          console.log(response);
           setDevices(response);
+          setPagination({ ...pagination, ...response.pagination });
           setLoading(false);
           setError("");
         } else {
@@ -57,7 +78,7 @@ const Devices = () => {
       }
     };
     fetchDevices();
-  }, []);
+  }, [selectedFilter]);
 
   const handleEditDevice = (device: Device) => {
     console.log("edit device");
@@ -104,14 +125,36 @@ const Devices = () => {
 
   return (
     <div className="">
-      
-
       {/* Add your device management components here */}
 
       <div className="p-4">
-        <div className="w-full bg-white flex justify-between items-center px-4 py-2 mb-4 rounded-md shadow-sm">
-          <h2 className="font-bold text-xl">All Devices</h2>
-          <div className="flex gap-x-2">
+        <div className="w-full bg-white flex gap-x-4 justify-between items-center px-4 py-2 rounded-md shadow-sm">
+          <div className="flex gap-x-4">
+            <select
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+              className="border rounded-md overflow-hidden p-2 text-sm"
+            >
+              {filters.map((filter, index) => (
+                <option key={index} value={filter.value}>
+                  {filter.name}
+                </option>
+              ))}
+            </select>
+            <div className="">
+              <select
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={perPage}
+                onChange={(e) => setPerPage(e.target.value)}
+              >
+                <option value={5}>5 per page</option>
+                <option value={10}>10 per page</option>
+                <option value={20}>20 per page</option>
+                <option value={50}>50 per page</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex justify-end gap-x-2">
             <Button variant="outline" onClick={() => navigate("import")}>
               Import Devices
             </Button>
@@ -121,17 +164,21 @@ const Devices = () => {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className="p-6 ">
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-800 hover:bg-gray-700">
               <TableHead className="text-white">Device</TableHead>
               <TableHead className="text-white">Name</TableHead>
               <TableHead className="text-white">Serial Number</TableHead>
+              <TableHead className="text-white">Status</TableHead>
               <TableHead className="text-white">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {devices.map((device) => (
+            {devices.devices.map((device) => (
               <TableRow
                 key={device._id}
                 className="h-16 bg-gray-50 hover:bg-gray-100 border"
@@ -144,6 +191,9 @@ const Devices = () => {
                 </TableCell>
                 <TableCell className="text-gray-700 ">
                   {device.deviceSerialNumber}
+                </TableCell>
+                <TableCell className="text-gray-700 ">
+                  {device.status}
                 </TableCell>
                 <TableCell className="text-gray-700">
                   <CustomTooltip content="Details">
@@ -180,6 +230,21 @@ const Devices = () => {
             ))}
           </TableBody>
         </Table>
+        <div className="flex items-center gap-x-2 mt-4">
+          <p>Pages</p>
+          <div className="flex gap-x-2 ">
+            {pagination.totalPages &&
+              [...Array(pagination.totalPages)].map((__dirname, index) => (
+                <p
+                  onClick={() => setPagination({ ...pagination, currentPage:index+1 })}
+                  key={index}
+                  className="p-1 px-2 border rounded-md cursor-pointer"
+                >
+                  {index + 1}
+                </p>
+              ))}{" "}
+          </div>
+        </div>
       </div>
     </div>
   );

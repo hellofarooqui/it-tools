@@ -1,30 +1,82 @@
 import Device from "../models/Device.js";
 import DeviceType from "../models/DeviceType.js";
+import User from "../models/User.js";
 import Vendor from "../models/Vendor.js";
+
+export const getDeviceCount = async (req, res) => {
+  const deviceCount = await Device.estimatedDocumentCount();
+  console.log("Execute for count");
+  return res.status(200).json({ deviceCount });
+};
 
 export const getAllDevices = async (req, res) => {
   try {
-    const q = req.query.q;
-    if (q == "count") {
-      const deviceCount = await Device.estimatedDocumentCount();
-      return res.status(200).json({ deviceCount });
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const q = req.query.q || "";
+
+    console.log("SearchParams", q);
+    console.log("Page:", page, "Limit:", limit, "Skip:", skip);
+
+    // Build query object
+    let query = {};
+    if (q) {
+      query.status = q;
     }
-    const devices = await Device.find().populate(["deviceType"]);
-    res.status(200).json(devices);
+
+    // Get total count based on the query
+    const totalDevices = await Device.countDocuments(query);
+    console.log("Total devices found:", totalDevices);
+
+    // Get devices with the same query
+    const devices = await Device.find(query)
+      .populate(["deviceType"])
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    // Calculate pagination info
+    const totalPages = Math.ceil(totalDevices / limit);
+    const hasNextPage = page < totalPages;
+    const hasPrevPage = page > 1;
+
+    console.log("Returning devices:", devices.length);
+
+    return res.status(200).json({
+      devices,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalDevices,
+        devicesPerPage: limit,
+        hasNextPage,
+        hasPrevPage,
+      },
+    });
   } catch (error) {
     console.error("Error fetching devices:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 export const getDeviceById = async (req, res) => {
   try {
-    console.log("Being called")
+    console.log("Being called");
     const { deviceId } = req.params;
-    const device = await Device.findById(deviceId).populate(["deviceType", "supportTickets"]);
+    const device = await Device.findById(deviceId).populate([
+      "deviceType",
+      "supportTickets",
+    ]);
     if (!device) {
       return res.status(404).json({ error: "Device not found" });
     }
-    return res.status(200).json(device);
+
+    const deviceStatusEnums = Device.schema.path("status").enumValues;
+    const response = { ...device, deviceStatusEnums };
+    return res
+      .status(200)
+      .json({ data: device, deviceStatusEnums: deviceStatusEnums });
   } catch (error) {
     console.log("Get Device By ID");
     console.error("Error fetching device:", error);
@@ -42,7 +94,7 @@ export const createDevice = async (req, res) => {
       deviceSerialNumber,
       notes,
       image,
-      vendor
+      vendor,
     });
     await newDevice.save();
     res.status(201).json(newDevice);
@@ -52,15 +104,15 @@ export const createDevice = async (req, res) => {
   }
 };
 
-export const importDevices = async (req,res) => {
-  console.log("Type of req body",typeof(req.body))
-  try{
-    const data = req.body
+export const importDevices = async (req, res) => {
+  console.log("Type of req body", typeof req.body);
+  try {
+    const data = req.body;
     data.forEach(async (device) => {
-      console.log("Device", device )
-      const deviceType = await DeviceType.findOne({name: device.deviceType})
-      if(!deviceType ){
-        return res.status(404)
+      console.log("Device", device);
+      const deviceType = await DeviceType.findOne({ name: device.deviceType });
+      if (!deviceType) {
+        return res.status(404);
       }
 
       const foundVendor = await Vendor.findOne({ name: device.vendor });
@@ -71,26 +123,24 @@ export const importDevices = async (req,res) => {
         ...device,
         deviceType: deviceType._id,
         vendor: foundVendor._id,
-        deviceSerialNumber: device.deviceSerialnumber
+        deviceSerialNumber: device.deviceSerialnumber,
       });
-      await deviceAdded.save()
-      return res.status(201).json({success: true})
-    })
- 
+      await deviceAdded.save();
+      return res.status(201).json({ success: true });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404);
   }
-  catch(error){
-    console.log(error)
-    return res.status(404)
-  }
-
-}
+};
 export const updateDevice = async (req, res) => {
   try {
     const { deviceId } = req.params;
-    const { deviceName, deviceSerialNumber, notes, image } = req.body;
+    const { deviceName, deviceSerialNumber, notes, image, status } = req.body;
+    console.log("Req Body", req.body);
     const updatedDevice = await Device.findByIdAndUpdate(
       deviceId,
-      { deviceName, deviceSerialNumber, notes, image },
+      { deviceName, deviceSerialNumber, notes, image, status },
       { new: true }
     );
     if (!updatedDevice) {

@@ -43,9 +43,16 @@ const useDevices = () => {
         }
     }
 
-    const getAllDevices = async () => {
+    const getAllDevices = async (filter,pagination) => {
+      
         try {
-            const response = await axios.get(apiUrl)
+            const response = await axios.get(apiUrl, {
+              params: {
+                q: filter || "",
+                limit: pagination.devicesPerPage,
+                page: pagination.currentPage,
+              },
+            });
             if(response.status !== 200) {
                 throw new Error('Failed to fetch devices')
             }

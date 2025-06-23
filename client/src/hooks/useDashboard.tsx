@@ -59,7 +59,7 @@ const useDashboard = () => {
 
   const getDeviceCount = async () => {
     try {
-      const response = await axios.get(`${serverUrl}/api/devices?q=count`);
+      const response = await axios.get(`${serverUrl}/api/devices/count`);
       //console.log(response.data.deviceCount);
       return response.data;
     } catch (error) {

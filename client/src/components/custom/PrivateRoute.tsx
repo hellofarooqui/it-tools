@@ -17,7 +17,7 @@ const PrivateRoute = () => {
   }
 
   if (authLoading) {
-    console.log("Auth Loading")
+    //console.log("Auth Loading")
     return (<div className='w-screen h-screen flex justify-center items-center'>
       <Loader2 className='animate-spin' />
     </div>)

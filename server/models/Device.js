@@ -1,4 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+
+// const assignedToSchema = new mongoose.Schema({
+//   type: {
+//     type: String,
+//     required: true,
+//     enum : ['Project' , 'User']
+//   }
+// }, {discriminatorKey : 'type'})
+
+// const AssignedTo = mongoose.model("AssignedTo",assignedToSchema)
 
 const DeviceSchema = new mongoose.Schema({
   deviceType: {
@@ -34,8 +44,22 @@ const DeviceSchema = new mongoose.Schema({
   ],
   status:{
     type: String,
-    enum: ['ACTIVE', 'INACTIVE', 'MAINTENANCE'],
+    enum: ['ACTIVE', 'ASSIGNED', 'MAINTENANCE'],
     default: 'ACTIVE',
+  },
+  assignedTo : {
+    type: {
+      modelType: {
+        type: String, 
+        enum: ['User', 'Project'],
+        required: true
+      },
+      data: {
+        type : Schema.Types.Mixed,
+        required: true
+
+      }
+    }
   },
   addedOn:{
     type: Date,

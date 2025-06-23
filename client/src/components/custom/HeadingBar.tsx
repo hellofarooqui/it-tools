@@ -17,7 +17,7 @@ const HeadingBar = () => {
 
 
     useEffect(()=>{
-        console.log("Header", header)
+        //console.log("Header", header)
     },[header])
 
     const handleRedirection = (path) => {

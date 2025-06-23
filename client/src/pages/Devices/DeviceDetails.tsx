@@ -34,8 +34,8 @@ const DeviceDetails = () => {
       try {
         const response = await getDeviceDetails(deviceId);
         if (response) {
-          console.log(response);
-          setDevice(response);
+          console.log("Response data",response.data);
+          setDevice(response.data);
           setLoading(false);
           setError("");
         } else {
@@ -84,9 +84,9 @@ const DeviceDetails = () => {
     );
   }
   return (
-    <div className="">
-      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm">
-        <h2 className="font-bold text-2xl">{device.deviceName}</h2>
+    <div className="p-6">
+      <div className="w-full bg-white flex justify-between items-center p-4 shadow-sm rounded-md">
+        <h2 className="font-semibold text-xl">{device.deviceName}</h2>
         <div className="flex gap-x-2">
           <Button variant="outline" onClick={() => navigate("edit")}>
             Edit
@@ -94,7 +94,7 @@ const DeviceDetails = () => {
           <Button onClick={() => handleDeviceDelete(device)}>Delete</Button>
         </div>
       </div>
-      <div className="p-8">
+      <div className="">
         <div className=" ">
           <div className="grid grid-cols-[auto_350px] gap-x-8 text-gray-600  mt-4 ">
             <div className="flex flex-col gap-y-8 border-r pr-8 h-full overflow-y-auto">
@@ -122,13 +122,11 @@ const DeviceDetails = () => {
             <div className="bg-white border shadow-md rounded-lg overflow-hidden">
               <h4 className="font-bold p-2 pl-4 bg-slate-100">Device</h4>
               <div className="flex flex-col ">
-                <div className="w-full h-36 object-contain flex justify-center items-start border">
-                  {device.image && (
-                    <img
-                      src={device.image}
-                      alt={`${device.deviceName} Image`}
-                    />
-                  )}
+                <div className="w-full h-36 object-contain flex justify-center items-start border p-4">
+                  {device.image && 
+                      <img className="w-full h-full object-contain" src={`http://localhost:3000${device.image}`} alt={`${device.deviceName} Image`} />
+                    }
+                 
                 </div>
                 <Table className="border">
                   <TableBody>

@@ -10,6 +10,7 @@ import supportTicketRouter from './routes/supportTicketRouter.js';
 import wanRouter from './routes/wanRouter.js';
 import vendorRouter from './routes/vendorRouter.js';
 import searchRouter from './routes/searchRouter.js';
+import projectRouter from "./routes/projectRouter.js";
 
 dotenv.config();
 
@@ -29,8 +30,15 @@ const __dirname = path.dirname(__filename);
 // Serve static files from uploads directory
 // Since your images are stored as "/uploads/devices/filename.jpg", 
 // the uploads folder should be at the root level relative to your server
-const uploadsPath = path.join(__dirname, '../uploads');
+const uploadsPath = path.join(__dirname, 'uploads');
 console.log('Serving static files from:', uploadsPath); // Debug log
+
+app.use("/uploads", (req, res, next) => {
+  console.log("Requested file:", req.url);
+  console.log("Full path would be:", path.join(uploadsPath, req.url));
+  next();
+});
+
 
 // This will serve files from the uploads directory at the /uploads route
 // So /uploads/devices/image.jpg will be accessible as http://localhost:3000/uploads/devices/image.jpg
@@ -49,6 +57,7 @@ app.use("/api/support", supportTicketRouter);
 app.use('/api/wan', wanRouter)
 app.use('/api/vendor', vendorRouter);
 app.use('/api/search', searchRouter);
+app.use('api/projects', projectRouter)
 
 
 app.get('/', (req, res) => {
