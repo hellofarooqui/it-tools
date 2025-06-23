@@ -1,5 +1,6 @@
 import Device from "../models/Device.js";
 import DeviceType from "../models/DeviceType.js";
+import Project from "../models/Projects.js";
 import User from "../models/User.js";
 import Vendor from "../models/Vendor.js";
 
@@ -72,11 +73,14 @@ export const getDeviceById = async (req, res) => {
       return res.status(404).json({ error: "Device not found" });
     }
 
+    const projects = await Project.find().select({ projectName: 1})
+    const users = await User.find().select({fullName:1})
+
     const deviceStatusEnums = Device.schema.path("status").enumValues;
     const response = { ...device, deviceStatusEnums };
     return res
       .status(200)
-      .json({ data: device, deviceStatusEnums: deviceStatusEnums });
+      .json({ data: device, deviceStatusEnums: deviceStatusEnums, projects, users });
   } catch (error) {
     console.log("Get Device By ID");
     console.error("Error fetching device:", error);

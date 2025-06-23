@@ -84,6 +84,7 @@ const useDevices = () => {
             if(response.status !== 200) {
                 throw new Error('Failed to fetch device details')
             }   
+            console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error fetching device details:', error)

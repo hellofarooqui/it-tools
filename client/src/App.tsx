@@ -26,6 +26,7 @@ import ImportDevices from "./pages/Devices/ImportDevices";
 import NewVendor from "./pages/Vendors/NewVendor";
 import SearchPage from "./pages/Search/SearchPage";
 import Profile from "./pages/Auth/Profile";
+import NewProject from "./pages/Settings/NewProject";
 
 // Example page components
 
@@ -54,6 +55,8 @@ function App() {
               element={<NewDeviceType />}
             />
             <Route path="settings/vendors/new" element={<NewVendor />} />
+            <Route path="settings/projects/new" element={<NewProject />} />
+
             <Route path="internet" element={<Internet />} />
             <Route path="internet/new" element={<NewInternet />} />
             <Route

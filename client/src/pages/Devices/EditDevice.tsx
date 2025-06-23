@@ -122,96 +122,108 @@ const EditDevice = () => {
             onSubmit={handleUpdateDeviceSubmit}
             className="grid grid-cols-[150px_auto] gap-x-4 gap-y-4"
           >
-            
-              <label
-                className="font-semibold text-slate-700"
-                htmlFor="deviceName"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="deviceName"
-                name="deviceName"
-                placeholder="Enter device name"
-                required
-                value={device.deviceName}
-                onChange={(e) =>
-                  setDevice({ ...device, deviceName: e.target.value })
-                }
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-              />
-            
-           
-              <label
-                className="font-semibold text-slate-700"
-                htmlFor="deviceSerialNumber"
-              >
-                Serial Number
-              </label>
-              <input
-                type="text"
-                id="deviceSerialNumber"
-                name="deviceSerialNumber"
-                placeholder="Enter device serial number"
-                required
-                value={device.deviceSerialNumber}
-                onChange={(e) =>
-                  setDevice({ ...device, deviceSerialNumber: e.target.value })
-                }
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-              />
-            
-        
-              <label className="font-semibold text-slate-700" htmlFor="notes">
-                Notes
-              </label>
-              <textarea
-                id="notes"
-                name="notes"
-                placeholder="Enter notes"
-                value={device.notes}
-                onChange={(e) =>
-                  setDevice({ ...device, notes: e.target.value })
-                }
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none"
-                rows={4}
-              />
-            
-            
-              <label htmlFor="status">Status</label>
-              <select
-                id="status"
-                value={device.status}
-                name="status"
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-                onChange={(e)=>setDevice({...device, status : e.target.value})}
-              >
-                {deviceStatus.map((status,index) => (
-                  <option key={index} value={status}>{status}</option>
-                ))}
-              </select>
-            
-            
-              <label className="font-semibold text-slate-700" htmlFor="image">
-                Image
-              </label>
-              <input
-                type="file"
-                id="image"
-                name="deviceImage"
-                accept="image/*"
-                onChange={handleFileInputChange}
-                className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-              />
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="mt-2 w-32 h-16 border rounded-md p-2 object-contain"
+            <label
+              className="font-semibold text-slate-700"
+              htmlFor="deviceName"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="deviceName"
+              name="deviceName"
+              placeholder="Enter device name"
+              required
+              value={device.deviceName}
+              onChange={(e) =>
+                setDevice({ ...device, deviceName: e.target.value })
+              }
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+            />
+
+            <label
+              className="font-semibold text-slate-700"
+              htmlFor="deviceSerialNumber"
+            >
+              Serial Number
+            </label>
+            <input
+              type="text"
+              id="deviceSerialNumber"
+              name="deviceSerialNumber"
+              placeholder="Enter device serial number"
+              required
+              value={device.deviceSerialNumber}
+              onChange={(e) =>
+                setDevice({ ...device, deviceSerialNumber: e.target.value })
+              }
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+            />
+
+            <label className="font-semibold text-slate-700" htmlFor="notes">
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              placeholder="Enter notes"
+              value={device.notes}
+              onChange={(e) => setDevice({ ...device, notes: e.target.value })}
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none"
+              rows={4}
+            />
+
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              value={device.status}
+              name="status"
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              onChange={(e) => setDevice({ ...device, status: e.target.value })}
+            >
+              {deviceStatus.map((status, index) => (
+                <option key={index} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+            {device.status == "ASSIGNED" && <label>Assigned to</label>}
+            {device.status == "ASSIGNED" && (
+              <div>
+                <input
+                  list="assignees"
+                  id="assignedTo"
+                  className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+                  onChange={(e)=>setDevice({...device, assignedTo: e.target.value})}
                 />
-              )}
-            
+                <datalist id="assignees" className='w-full'>
+                  <option value="Person 1" />
+                  <option value="Person 2" />
+                  <option value="Person 3" />
+                  <option value="Person 4" />
+                </datalist>
+              </div>
+            )}
+
+            <label className="font-semibold text-slate-700" htmlFor="image">
+              Image
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="deviceImage"
+              accept="image/*"
+              onChange={handleFileInputChange}
+              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+            />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="mt-2 w-32 h-16 border rounded-md p-2 object-contain"
+              />
+            )}
+
             <div className="col-span-2 flex justify-end gap-x-4">
               <Button variant="outline" onClick={() => navigate(-1)}>
                 Cancel

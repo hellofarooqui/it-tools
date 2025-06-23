@@ -8,7 +8,7 @@ import {
 } from "../../components/ui/table.js";
 
 import { Button } from "../../components/ui/button.js";
-import { FilePenLine, FileText, Loader2, Plus, Trash2 } from "lucide-react";
+import { FilePenLine, FileText, FunnelPlus, Loader2, Plus, Rows3, Trash2 } from "lucide-react";
 import useDevices from "../../hooks/useDevices.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -78,7 +78,7 @@ const Devices = () => {
       }
     };
     fetchDevices();
-  }, [selectedFilter]);
+  }, [selectedFilter, pagination.currentPage, pagination.devicesPerPage]);
 
   const handleEditDevice = (device: Device) => {
     console.log("edit device");
@@ -129,29 +129,39 @@ const Devices = () => {
 
       <div className="p-4">
         <div className="w-full bg-white flex gap-x-4 justify-between items-center px-4 py-2 rounded-md shadow-sm">
-          <div className="flex gap-x-4">
-            <select
-              value={selectedFilter}
-              onChange={(e) => setSelectedFilter(e.target.value)}
-              className="border rounded-md overflow-hidden p-2 text-sm"
-            >
-              {filters.map((filter, index) => (
-                <option key={index} value={filter.value}>
-                  {filter.name}
-                </option>
-              ))}
-            </select>
-            <div className="">
+          <div className="flex items-center gap-x-8">
+            <div className="flex items-center gap-x-1">
+              <FunnelPlus size={16} />
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                value={perPage}
-                onChange={(e) => setPerPage(e.target.value)}
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+                className="border rounded-md overflow-hidden p-2 text-sm"
               >
-                <option value={5}>5 per page</option>
-                <option value={10}>10 per page</option>
-                <option value={20}>20 per page</option>
-                <option value={50}>50 per page</option>
+                {filters.map((filter, index) => (
+                  <option key={index} value={filter.value}>
+                    {filter.name}
+                  </option>
+                ))}
               </select>
+            </div>
+            <div className="flex items-center gap-x-1 w-64">
+              <Rows3 size={16} />
+              <select
+                className="block appearance-none bg-white border border-gray-300  rounded-md shadow-sm text-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={pagination.devicesPerPage}
+                onChange={(e) =>
+                  setPagination({
+                    ...pagination,
+                    devicesPerPage: e.target.value,
+                  })
+                }
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+              <p>Per page</p>
             </div>
           </div>
           <div className="flex justify-end gap-x-2">
@@ -166,23 +176,27 @@ const Devices = () => {
         </div>
       </div>
 
-      <div className="p-6 ">
+      <div className="px-6 ">
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-800 hover:bg-gray-700">
-              <TableHead className="text-white">Device</TableHead>
-              <TableHead className="text-white">Name</TableHead>
-              <TableHead className="text-white">Serial Number</TableHead>
-              <TableHead className="text-white">Status</TableHead>
-              <TableHead className="text-white">Actions</TableHead>
+              <TableHead className="w-[10%] text-white pl-4">S.No</TableHead>
+              <TableHead className="w-[10%] text-white">Device</TableHead>
+              <TableHead className="w-[40%] text-white">Name</TableHead>
+              <TableHead className="w-[15%] text-white">Serial Number</TableHead>
+              <TableHead className="w-[10%] text-white">Status</TableHead>
+              <TableHead className="w-[15%] text-white">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {devices.devices.map((device) => (
+            {devices.devices.map((device,index) => (
               <TableRow
                 key={device._id}
                 className="h-16 bg-gray-50 hover:bg-gray-100 border"
               >
+                <TableCell className="text-gray-700 pl-6">
+                  {(pagination.currentPage -1 )*10 + index+1}
+                </TableCell>
                 <TableCell className="text-gray-700">
                   {device.deviceType.name}
                 </TableCell>
@@ -236,9 +250,15 @@ const Devices = () => {
             {pagination.totalPages &&
               [...Array(pagination.totalPages)].map((__dirname, index) => (
                 <p
-                  onClick={() => setPagination({ ...pagination, currentPage:index+1 })}
+                  onClick={() =>
+                    setPagination({ ...pagination, currentPage: index + 1 })
+                  }
                   key={index}
-                  className="p-1 px-2 border rounded-md cursor-pointer"
+                  className={`p-1 px-[10px] border rounded-md cursor-pointer ${
+                    pagination.currentPage == index + 1
+                      ? "bg-slate-600 text-white"
+                      : ""
+                  } `}
                 >
                   {index + 1}
                 </p>

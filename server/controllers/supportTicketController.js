@@ -36,7 +36,7 @@ export const getAllSupportTickets = async (req, res) => {
       });
       if (ticketsCount) {
         console.log("Tickets Count", ticketsCount);
-        return res.json(tickets);
+        return res.json(ticketsCount);
       }
       console.log("No tickets found with the given status");
       return res.status(201).json(0)

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ListDeviceTypes from "../../components/custom/ListDeviceTypes";
 import ListVendors from "../../components/custom/ListVendors";
 import { useHeader } from "../../context/HeaderContext";
+import ListProjects from "../../components/custom/ListProjects";
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -18,6 +19,18 @@ const Settings = () => {
 
   return (
     <div className="">
+      <div className="bg-white m-4 rounded-[15px] shadow-md border overflow-hidden">
+        <div className="flex justify-between items-center mb-4 bg-slate-700 p-2 px-4">
+          <h2 className="text-xl font-bold text-white">Projects</h2>
+          <Button
+            className="bg-slate-100 text-slate-700"
+            onClick={() => navigate("projects/new")}
+          >
+            Add New
+          </Button>
+        </div>
+        <ListProjects />
+      </div>
 
       <div className="bg-white m-4 rounded-[15px] shadow-md border overflow-hidden">
         <div className="flex justify-between items-center mb-4 bg-slate-700 p-2 px-4">
@@ -42,7 +55,7 @@ const Settings = () => {
             Add New
           </Button>
         </div>
-        <ListVendors/>
+        <ListVendors />
       </div>
     </div>
   );
