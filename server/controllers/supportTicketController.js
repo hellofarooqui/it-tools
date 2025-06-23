@@ -31,14 +31,15 @@ export const getAllSupportTickets = async (req, res) => {
       //console.log("Req query", req.query);
       let statusArray = req.query.status.split(",");
       console.log("Status Array", statusArray);
-      const tickets = await SupportTicket.countDocuments({
+      const ticketsCount = await SupportTicket.countDocuments({
         status: { $in: statusArray },
       });
-      if (tickets) {
-        console.log("Tickets Count", tickets);
+      if (ticketsCount) {
+        console.log("Tickets Count", ticketsCount);
         return res.json(tickets);
       }
       console.log("No tickets found with the given status");
+      return res.status(201).json(0)
     }
     const tickets = await SupportTicket.find();
     return res.json(tickets);

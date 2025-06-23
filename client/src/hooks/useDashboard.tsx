@@ -17,7 +17,7 @@ const useDashboard = () => {
         }
       );
       if (response) {
-        //console.log(response);
+        console.log("Active Tickets",response.data);
         return response.data;
       }
     } catch (error) {
@@ -29,7 +29,7 @@ const useDashboard = () => {
     try {
       const response = await axios.get(`${serverUrl}/api/rma/active`);
       if (response) {
-        //console.log(response);
+        console.log("Active RMA",response.data);
         return response.data;
       }
     } catch (error) {
@@ -60,7 +60,7 @@ const useDashboard = () => {
   const getDeviceCount = async () => {
     try {
       const response = await axios.get(`${serverUrl}/api/devices/count`);
-      //console.log(response.data.deviceCount);
+      console.log("Device Count",response.data.deviceCount);
       return response.data;
     } catch (error) {
       throw new Error();
