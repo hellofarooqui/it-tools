@@ -12,7 +12,7 @@ const PrivateRoute = () => {
 
   
   if(!token){
-    console.log("No token")
+    //console.log("No token")
     return <Navigate to="/login" />
   }
 
@@ -25,7 +25,7 @@ const PrivateRoute = () => {
 
 
   if (authError == "Invalid Token") {
-    console.log("Auth Error");
+    //console.log("Auth Error");
     toast("Session Expired, Please Login Again");
     navigate("/login");
   }

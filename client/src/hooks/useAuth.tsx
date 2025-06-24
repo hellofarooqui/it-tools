@@ -20,13 +20,13 @@ const useAuth = () => {
 
             const response = await axios.post(`${serverUrl}/api/auth/login`, userData)
             if (response) {
-                console.log(response.data.token)
+                //console.log(response.data.token)
                 localStorage.setItem("token", response.data.token)
                 return response
             }
         }
         catch (error) {
-            console.log(error)
+            //console.log(error)
             throw new Error()
         }
     }
@@ -35,7 +35,7 @@ const useAuth = () => {
     }
 
     const getUserDetailsWithToken = async (token) => {
-        //console.log("Getting user details with token", token)
+        ////console.log("Getting user details with token", token)
         try {
             const response = await axios.get(`${serverUrl}/api/auth/user`, {
                 headers: {
@@ -45,11 +45,11 @@ const useAuth = () => {
             if(!response.status==200){
                 throw new Error("Invalid token")
             }
-            //console.log(response)
+            ////console.log(response)
             return response.data
         }
         catch (error) {
-            console.log("Error", error)
+            //console.log("Error", error)
             throw new Error("User details not found")
             
         }
@@ -65,17 +65,38 @@ const useAuth = () => {
             if(!response.status==200){
                 throw new Error("Invalid token")
             }
-            //console.log(response)
+            ////console.log(response)
             return response.data
         }
         catch (error) {
-            console.log("Error", error)
+            //console.log("Error", error)
             throw new Error("User details not found")
             
         }
     }
 
-    return { registerUser, signIn, logoutUser, getUserDetailsWithToken, getUserProfile }
+    const getAllUsersList = async () => {
+        try {
+          const response = await axios.get(`${serverUrl}/api/auth/all`, );
+          if (!response.status == 200) {
+            throw new Error("Invalid token");
+          }
+          ////console.log(response)
+          return response.data;
+        } catch (error) {
+          //console.log("Error", error);
+          throw new Error("Users not found");
+        }
+    }
+
+    return {
+      registerUser,
+      signIn,
+      logoutUser,
+      getUserDetailsWithToken,
+      getUserProfile,
+      getAllUsersList,
+    };
 }
 
 export default useAuth;

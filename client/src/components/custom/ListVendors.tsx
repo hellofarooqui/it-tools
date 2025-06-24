@@ -14,7 +14,7 @@ const ListVendors = () => {
     try {
       const response = await getAllVendors();
       if (response) {
-        console.log(response);
+        //console.log(response);
         setVendors(response);
         setLoading(false);
         setError("");

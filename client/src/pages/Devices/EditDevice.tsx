@@ -5,6 +5,13 @@ import { Form, useLocation, useNavigate, useParams } from 'react-router-dom'
 import useDevices from '../../hooks/useDevices'
 import { Button } from '../../components/ui/button'
 import { useHeader } from '../../context/HeaderContext'
+import useProject from '../../hooks/useProject'
+import useAuth from '../../hooks/useAuth'
+
+interface AssignedToType{
+  users: [],
+  projects: []
+}
 
 
 const EditDevice = () => {
@@ -13,19 +20,48 @@ const EditDevice = () => {
     const [error, setError] = React.useState("")
     const [device, setDevice] = React.useState(null)
     const [deviceStatus,setDeviceStatus]=useState([])
+    const [assignedTo,setAssignedTo] = useState({})
+    const [assigneeType,setAssigneeType] = useState("user")
 
     const [imageUpdated,setImageUpdated] = React.useState(false)    
 
     const [imagePreview, setImagePreview] = React.useState("")
 
     const { getDeviceDetails,updateDevice } = useDevices()
+    const { getAllProjects } = useProject();
+    const { getAllUsersList } = useAuth();
     const params = useParams()
     const deviceId = params.deviceId
-    //console.log("deviceId", deviceId)
+    ////console.log("deviceId", deviceId)
     const navigate = useNavigate()
+
+    const fetchAssigneeList = async () => {
+      try{
+        const projectsData = await getAllProjects()
+        const usersData = await getAllUsersList()
+        if(projectsData){
+          //console.log("Projects Data", projectsData)
+          setAssignedTo((prev)=>({...prev, projects: projectsData}))
+        }
+        if(usersData){
+          //console.log("Users Data", usersData);
+          
+          setAssignedTo((prev) => ({ ...prev, users: usersData }));
+        }
+      }
+      catch(error){
+        //console.log("Error",error)
+      }
+      finally{
+        //console.log("AssignedTo",assignedTo)
+      }
+    }
 
     useEffect(()=>{
         setHeader({...header, title: "Update Device"})
+    },[])
+    useEffect(()=>{
+      fetchAssigneeList()
     },[])
       useEffect(() => {
         const fetchDevice = async () => {
@@ -73,10 +109,10 @@ const EditDevice = () => {
             for(const key in device) {
                 submitData.append(key, device[key])
             }
-            console.log("submitData",submitData)
+            //console.log("submitData",submitData)
             try {
                 const response = await updateDevice(device._id,submitData)
-                console.log(response)
+                //console.log(response)
                 if (response) {
                     //setDevice(defaultDevice)
                     navigate(-1)
@@ -88,10 +124,10 @@ const EditDevice = () => {
         }
 
         try {
-            console.log("data",device)
+            //console.log("data",device)
           
             const response = await updateDevice(device._id,device)
-            console.log(response)
+            //console.log(response)
             if (response) {
                 //setDevice(defaultDevice)
                 navigate(-1)
@@ -140,7 +176,6 @@ const EditDevice = () => {
               }
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
             />
-
             <label
               className="font-semibold text-slate-700"
               htmlFor="deviceSerialNumber"
@@ -159,7 +194,6 @@ const EditDevice = () => {
               }
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
             />
-
             <label className="font-semibold text-slate-700" htmlFor="notes">
               Notes
             </label>
@@ -172,13 +206,12 @@ const EditDevice = () => {
               className="flex-1 border border-slate-300 rounded-sm px-2 py-1 resize-none"
               rows={4}
             />
-
             <label htmlFor="status">Status</label>
             <select
               id="status"
               value={device.status}
               name="status"
-              className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
+              className="appearance-none flex-1 border border-slate-300 rounded-sm px-2 py-1"
               onChange={(e) => setDevice({ ...device, status: e.target.value })}
             >
               {deviceStatus.map((status, index) => (
@@ -187,24 +220,47 @@ const EditDevice = () => {
                 </option>
               ))}
             </select>
+            {device.status == "ASSIGNED" && <label>Assignee</label>}
+            {device.status == "ASSIGNED" && (
+              <select
+                onChange={(e) => setAssigneeType(e.target.value)}
+                className="appearance-none flex-1 border border-slate-300 rounded-sm px-2 py-1"
+                onChangeCapture={(e)=>setDevice({...device, assigneeType:e.target.value })}
+              >
+                <option value="user">User</option>
+                <option value="project">Project</option>
+              </select>
+            )}
             {device.status == "ASSIGNED" && <label>Assigned to</label>}
             {device.status == "ASSIGNED" && (
               <div>
-                <input
-                  list="assignees"
+                <select
                   id="assignedTo"
-                  className="flex-1 border border-slate-300 rounded-sm px-2 py-1"
-                  onChange={(e)=>setDevice({...device, assignedTo: e.target.value})}
-                />
-                <datalist id="assignees" className='w-full'>
-                  <option value="Person 1" />
-                  <option value="Person 2" />
-                  <option value="Person 3" />
-                  <option value="Person 4" />
-                </datalist>
+                  name="assignedTo"
+                  className="appearance-none flex-1 border border-slate-300 rounded-sm px-2 py-1"
+                  onChange={(e) =>
+                    setDevice({ ...device, assignedTo: e.target.value })
+                  }
+                >
+                  {(assigneeType == "user" && assignedTo.users) && (
+                    <>
+                      <option>Select User</option>
+                      {assignedTo.users.map((user) => (
+                        <option key={user._id} value={user._id}>{user.name}</option>
+                      ))}
+                    </>
+                  )}
+                  {(assigneeType == "project" && assignedTo.projects) && (
+                    <>
+                      <option>Select Project</option>
+                      {assignedTo.projects.map((project) => (
+                        <option key={project._id} value={project._id}>{project.projectName}</option>
+                      ))}
+                    </>
+                  )}
+                </select>
               </div>
             )}
-
             <label className="font-semibold text-slate-700" htmlFor="image">
               Image
             </label>
@@ -223,7 +279,6 @@ const EditDevice = () => {
                 className="mt-2 w-32 h-16 border rounded-md p-2 object-contain"
               />
             )}
-
             <div className="col-span-2 flex justify-end gap-x-4">
               <Button variant="outline" onClick={() => navigate(-1)}>
                 Cancel

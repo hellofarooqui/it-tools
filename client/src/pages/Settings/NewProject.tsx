@@ -31,7 +31,7 @@ const NewProject = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const response = await addNewProject(header)
+            const response = await addNewProject(project)
             if(!response){
                 toast("There is some error")
                 return

@@ -20,7 +20,7 @@ const useSupportTicket = () => {
   const getAllSupportTicketsList = async () => {
     try {
       const response = await axios.get(`${API_URL}/list`);
-      console.log("Response:", response);
+      //console.log("Response:", response);
       return response.data;
     } catch (error) {
       console.error("Error fetching support tickets:", error);
@@ -40,7 +40,7 @@ const useSupportTicket = () => {
     ticketNumber: string;
   }) => {
     try {
-      //console.log("Number:", ticketNumber)
+      ////console.log("Number:", ticketNumber)
       const response = await axios.get(`${API_URL}/number/${ticketNumber}`);
       return response.data;
     } catch (error) {
@@ -50,7 +50,7 @@ const useSupportTicket = () => {
   };
   const createSupportTicket = async (ticketData: NewSupportTicket) => {
     try {
-      console.log("Ticket Data:", ticketData);
+      //console.log("Ticket Data:", ticketData);
       const response = await axios.post(`${API_URL}/`, ticketData);
       return response.data;
     } catch (error) {
@@ -84,7 +84,7 @@ const useSupportTicket = () => {
     commentData: { user: string; comment: string }
   ) => {
     try {
-        console.log("CommentData",commentData)
+        //console.log("CommentData",commentData)
       const response = await axios.post(
         `${API_URL}/${ticketId}/comments`,
         commentData

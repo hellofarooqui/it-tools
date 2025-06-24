@@ -8,7 +8,7 @@ const apiUrl = `${serverUrl}/api/rma`
 const useRMA = () => {
 
     const createRMA = async (data) => {
-        console.log(data)
+        //console.log(data)
         try {
             const response = await axios.post(`${apiUrl}/new`, data)
             if(response.status !== 201) {
@@ -77,7 +77,7 @@ const useRMA = () => {
             if(response.status !== 200) {
                 throw new Error('Failed to delete RMA')
             }
-            console.log(response.data)
+            //console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error deleting RMA:', error)

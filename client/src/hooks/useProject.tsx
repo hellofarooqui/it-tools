@@ -5,13 +5,19 @@ const API_URL = `${serverUrl}/api/projects`;
 
 const useProject = () => {
   const addNewProject = async (projectData) => {
+    //console.log("Project Data" , projectData)
     const response = await axios.post(API_URL, projectData);
     return response.data;
   };
 
   const getAllProjects = async () => {
     const response = await axios.get(API_URL);
-    return response.data;
+
+    if(response){
+      //console.log("Projects",response.data)
+      return response.data;
+    }
+    
   };
 
   const getProjectDetails = async (projectId) => {

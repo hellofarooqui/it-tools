@@ -63,7 +63,7 @@ const Devices = () => {
       try {
         const response = await getAllDevices(selectedFilter, pagination);
         if (response) {
-          console.log(response);
+          //console.log(response);
           setDevices(response);
           setPagination({ ...pagination, ...response.pagination });
           setLoading(false);

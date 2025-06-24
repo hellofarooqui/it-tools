@@ -57,7 +57,7 @@ app.use("/api/support", supportTicketRouter);
 app.use('/api/wan', wanRouter)
 app.use('/api/vendor', vendorRouter);
 app.use('/api/search', searchRouter);
-app.use('api/projects', projectRouter)
+app.use('/api/projects', projectRouter)
 
 
 app.get('/', (req, res) => {

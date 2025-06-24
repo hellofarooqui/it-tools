@@ -69,18 +69,36 @@ export const getDeviceById = async (req, res) => {
       "deviceType",
       "supportTickets",
     ]);
+
     if (!device) {
       return res.status(404).json({ error: "Device not found" });
     }
 
-    const projects = await Project.find().select({ projectName: 1})
-    const users = await User.find().select({fullName:1})
+    if(device.assignedTo){
+      if (device.assignedTo?.modelType == "User") {
+        const user = await User.findById(device.assignedTo.data);
+        device.assignedTo.data = user;
+      } else {
+        const project = await Project.findById(device.assignedTo.data);
+        device.assignedTo.data = project;
+      }
+    }
+
+   
+
+    const projects = await Project.find().select({ projectName: 1 });
+    const users = await User.find().select({ fullName: 1 });
 
     const deviceStatusEnums = Device.schema.path("status").enumValues;
     const response = { ...device, deviceStatusEnums };
     return res
       .status(200)
-      .json({ data: device, deviceStatusEnums: deviceStatusEnums, projects, users });
+      .json({
+        data: device,
+        deviceStatusEnums: deviceStatusEnums,
+        projects,
+        users,
+      });
   } catch (error) {
     console.log("Get Device By ID");
     console.error("Error fetching device:", error);
@@ -140,11 +158,33 @@ export const importDevices = async (req, res) => {
 export const updateDevice = async (req, res) => {
   try {
     const { deviceId } = req.params;
-    const { deviceName, deviceSerialNumber, notes, image, status } = req.body;
+
+    const {
+      deviceName,
+      deviceSerialNumber,
+      notes,
+      image,
+      status,
+      assigneeType,
+      assignedTo,
+    } = req.body;
     console.log("Req Body", req.body);
+
+    let updatedAssignedTo;
+
+    if (assigneeType == "user") {
+      updatedAssignedTo = { data: assignedTo, modelType: "User" };
+    } else updatedAssignedTo = { data: assignedTo, modelType: "Project" };
     const updatedDevice = await Device.findByIdAndUpdate(
       deviceId,
-      { deviceName, deviceSerialNumber, notes, image, status },
+      {
+        deviceName,
+        deviceSerialNumber,
+        notes,
+        image,
+        status,
+        assignedTo: updatedAssignedTo,
+      },
       { new: true }
     );
     if (!updatedDevice) {

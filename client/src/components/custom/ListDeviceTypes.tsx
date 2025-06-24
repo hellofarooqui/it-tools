@@ -29,7 +29,7 @@ const ListDeviceTypes = () => {
       // Fetch device types from the API
       const response = await getAllDeviceTypes();
       if (response) {
-        console.log("Device Types:", response);
+        //console.log("Device Types:", response);
         setDeviceTypes(response);
       } else {
         console.error("Error fetching device types");
@@ -53,9 +53,10 @@ const ListDeviceTypes = () => {
     return <p>{error}</p>;
   }
   return (
-    <div className="p-4 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-x-4 gap-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
       {deviceTypes.map((type) => (
         <div
+        key={type._id}
           className="flex justify-between items-center  gap-x-2 bg-white p-4 rounded-[12px] shadow-sm hover:shadow-lg hover:scale-101 border group transition-all ease-in-out duration-300"
           id={type._id}
         >
@@ -67,7 +68,7 @@ const ListDeviceTypes = () => {
           </div>
 
           <Button
-          variant="outline"
+            variant="outline"
             onClick={() => handleDeviceDetailsButton(type)}
             className="hidden group-hover:block font-bold transition-all ease-in-out duration-300"
           >
@@ -79,9 +80,7 @@ const ListDeviceTypes = () => {
         <div className="absolute w-screen h-screen bg-gray-800/50 top-0 left-0 flex justify-center items-center">
           <div className="bg-white p-6 rounded-md w-[400px] flex flex-col gap-y-2">
             <p className="text-2xl font-bold">{deviceTypeDetailsCard.name}</p>
-            <p className="text-gray-700">
-              {deviceTypeDetailsCard.description}
-            </p>
+            <p className="text-gray-700">{deviceTypeDetailsCard.description}</p>
             <Button
               onClick={() => setShowDeviceTypeDetails(false)}
               className="text-lg  bg-slate-700 font-bold mt-4"

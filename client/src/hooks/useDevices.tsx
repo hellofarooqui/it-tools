@@ -29,7 +29,7 @@ const useDevices = () => {
     } 
 
     const addBulkDevices = async (devicesData) => {
-        console.log(devicesData)
+        //console.log(devicesData)
         try{
             const response = await axios.post(`${apiUrl}/new/import`, devicesData);
             if (response.status !== 201) {
@@ -38,7 +38,7 @@ const useDevices = () => {
             return response.data;
         }
         catch(error){
-            console.log(error)
+            //console.log(error)
             throw error;
         }
     }
@@ -84,7 +84,7 @@ const useDevices = () => {
             if(response.status !== 200) {
                 throw new Error('Failed to fetch device details')
             }   
-            console.log(response.data)
+            ////console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Error fetching device details:', error)
@@ -94,8 +94,8 @@ const useDevices = () => {
 
     const updateDevice = async (deviceId, data) => {
         try {
-            console.log("data",data)
-            console.log("deviceId",deviceId)
+            //console.log("data",data)
+            //console.log("deviceId",deviceId)
 
 
             const response = await axios.put(`${apiUrl}/update/${deviceId}`, data)
