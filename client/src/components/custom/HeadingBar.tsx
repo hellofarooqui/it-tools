@@ -1,17 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useHeader } from '../../context/HeaderContext';
 import SearchMain from './SearchMain';
-import { Button } from '../ui/button';
-import { LogOut, ReceiptText, Settings, User } from 'lucide-react';
 import { useAuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+// Define the type for header if not already defined
+type HeaderType = {
+  title: string;
+  // add other properties if needed
+};
 
 const HeadingBar = () => {
-    const {header,setHeader} = useHeader()
-    const showAvatarDropdownRef = useRef(null);
-      const { logoutUser } = useAuthContext();
-      const navigate= useNavigate()
+  const { header } = useHeader() as { header: HeaderType };
+  const showAvatarDropdownRef = useRef(null);
+    const { logoutUser } = useAuthContext() as { logoutUser: () => void };
+    const navigate= useNavigate()
 
      const [showAvatarDropdown, setShowAvatarDropdown] = useState(false);
 

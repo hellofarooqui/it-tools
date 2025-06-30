@@ -1,12 +1,18 @@
-import { Button } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "../ui/tooltip"
 
-function CustomTooltip({children, content}) {
+import type { ReactNode } from "react";
+
+type CustomTooltipProps = {
+  children: ReactNode;
+  content: ReactNode;
+};
+
+function CustomTooltip({children, content}: CustomTooltipProps) {
   return (
     <TooltipProvider>
       <Tooltip>

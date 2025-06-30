@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RootLayout } from "./layouts/RootLayout";
 import Dashboard from "./pages/Dashboard";
-import Tickets from "./pages/Tickets";
 import RMA from "./pages/RMA/RMA";
 import Devices from "./pages/Devices/Devices";
 import NewRMA from "./pages/RMA/NewRMA";

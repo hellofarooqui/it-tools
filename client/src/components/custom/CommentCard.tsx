@@ -1,10 +1,6 @@
 import dateformat from "dateformat";
+import type { CommentType } from "../../types/comment";
 
-interface CommentType {
-  user: string;
-  comment: string;
-  createdAt: string;
-}
 const CommentCard = ({ comment }: { comment: CommentType }) => {
   return (
     <div className="flex flex-col bg-white border rounded-md p-4">
