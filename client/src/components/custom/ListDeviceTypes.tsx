@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import useDevices from "../../hooks/useDevices";
 import { Info, Loader2 } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
 import { Button } from "../ui/button";
 
 const ListDeviceTypes = () => {
   const { getAllDeviceTypes } = useDevices();
-  const [deviceTypes, setDeviceTypes] = useState([]);
+  const [deviceTypes, setDeviceTypes] = useState<DeviceType[]>([]);
   const [showDeviceTypeDetails, setShowDeviceTypeDetails] = useState(false);
-  const [deviceTypeDetailsCard, setDeviceTypeDetailsCard] = useState(null);
+  const [deviceTypeDetailsCard, setDeviceTypeDetailsCard] = useState<DeviceType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
-  const handleDeviceDetailsButton = (deviceType) => {
+  interface DeviceType {
+    _id: string;
+    name: string;
+    description: string;
+  }
+
+  const handleDeviceDetailsButton = (deviceType: DeviceType) => {
     setShowDeviceTypeDetails(!showDeviceTypeDetails);
     setDeviceTypeDetailsCard(deviceType);
   };
@@ -76,7 +74,7 @@ const ListDeviceTypes = () => {
           </Button>
         </div>
       ))}
-      {showDeviceTypeDetails && (
+      {showDeviceTypeDetails && deviceTypeDetailsCard && (
         <div className="absolute w-screen h-screen bg-gray-800/50 top-0 left-0 flex justify-center items-center">
           <div className="bg-white p-6 rounded-md w-[400px] flex flex-col gap-y-2">
             <p className="text-2xl font-bold">{deviceTypeDetailsCard.name}</p>

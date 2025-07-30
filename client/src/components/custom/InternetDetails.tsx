@@ -1,4 +1,3 @@
-import React from "react";
 import type { InternetType } from "../../pages/Internet/Internet";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ const InternetDetails = ({
   onClose,
 }: {
   connection: InternetType;
+  onClose: () => void;
 }) => {
   const navigate = useNavigate();
   return (

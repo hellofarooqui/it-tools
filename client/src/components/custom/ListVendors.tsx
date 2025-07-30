@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
-import useDevices from "../../hooks/useDevices";
 import useVendor from "../../hooks/useVendor";
 import { Loader2 } from "lucide-react";
+
+interface Vendor{
+  _id: string;
+  
+}
 
 const ListVendors = () => {
   const [vendors, setVendors] = React.useState([]);

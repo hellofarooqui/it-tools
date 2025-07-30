@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useProject from '../../hooks/useProject'
 import { Loader2 } from 'lucide-react';
+
+interface Project{
+  _id: string;
+  projectName: string;
+  projectDescription: string;
+}
 
 const ListProjects = () => {
 
   const { getAllProjects } = useProject();
-  const [projects,setProjects] = useState([])
+  const [projects,setProjects] = useState<Project[]>([])
   const [loading,setLoading]=useState(true)
   const [error,setError] = useState("")
 

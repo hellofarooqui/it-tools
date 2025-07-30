@@ -1,7 +1,5 @@
-import React from "react";
 //import InternetType from "../../pages/Internet/NewInternet";
 import type { InternetType } from "../../pages/Internet/Internet";
-import Internet from "../../pages/Internet/Internet";
 import MainInternetCard from "./MainInternetCard";
 import { Link } from "react-router-dom";
 
